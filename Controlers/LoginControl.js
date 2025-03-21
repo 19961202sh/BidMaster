@@ -1,0 +1,139 @@
+//insert model
+const User = require("../Model/LoginModel");
+
+
+
+//display
+const getAllUsers = async(req,res,next) =>{
+
+    let Users;
+
+//get all users
+    try{
+        Users = await User.find();
+
+    }catch(err){
+        console.log(err);
+
+    }
+    //not found
+    if(!Users){
+        return res.status(404).json({message:"User not found"});
+
+    }
+
+    //display all users
+    return res.status(200).json({Users});
+
+};
+
+
+//data insert
+const addUsers = async(req,res,next) =>{
+
+    const{username,password} = req.body;
+
+    let users;
+
+    try{
+        users = new User({username, password});
+        await users.save();
+    }catch(err){
+        console.log(err);
+    }
+
+    //not insert users
+    if(!users){
+        return res.status(404).json({message:"unable to add users"});
+
+    }
+
+    return res.status(200).json({users});
+
+};
+
+//get by id
+const getById = async (req,res,next) =>{
+    const id = req.params.id;
+
+    let user;
+    
+    try{
+        user = await User.findById(id);
+    }catch(err){
+        console.log(err);
+
+    }
+
+    //not insert users
+    if(!user){
+        return res.status(404).json({message:"user not found"});
+
+    }
+
+    return res.status(200).json({user});
+};
+
+
+
+const updateUser = async(req,res,next)=>{
+
+    const id = req.params.id;
+    const{username,password} = req.body;
+
+    let users;
+
+    try{
+        users = await User.findByIdAndUpdate(id,
+        
+            { username:username, password:password});
+            users = await users.save();
+    }catch(err){
+        console.log(err);
+    }
+
+     //not insert users
+     if(!users){
+        return res.status(404).json({message:"unable to update user details"});
+
+    }
+
+    return res.status(200).json({users});
+
+};
+
+
+//delete user details
+
+const deleteUser = async(req,res,next)=>{
+
+    const id = req.params.id;
+
+    //create variable
+    let user;
+
+    try{
+        user = await User.findByIdAndDelete(id)
+    }catch(err){
+        console.log(err);
+    }
+
+    if(!user){
+        return res.status(404).json({message:"unable to delete "});
+
+    }
+
+    return res.status(200).json({user});
+
+
+
+};
+
+//update user details
+
+
+exports.getAllUsers = getAllUsers;
+exports.addUsers = addUsers;
+exports.getById = getById;
+exports.updateUser = updateUser;
+exports.deleteUser = deleteUser;
