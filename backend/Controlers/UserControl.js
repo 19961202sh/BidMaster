@@ -1,5 +1,5 @@
 //insert model
-const User = require("../Model/LoginModel");
+const User = require("../Model/UserModel");
 
 
 
@@ -31,12 +31,12 @@ const getAllUsers = async(req,res,next) =>{
 //data insert
 const addUsers = async(req,res,next) =>{
 
-    const{username,password} = req.body;
+    const{name,username,email,phone,password,confirmPassword} = req.body;
 
     let users;
 
     try{
-        users = new User({username, password});
+        users = new User({name,username,email,phone,password,confirmPassword});
         await users.save();
     }catch(err){
         console.log(err);
@@ -76,17 +76,18 @@ const getById = async (req,res,next) =>{
 
 
 
+//update user details
 const updateUser = async(req,res,next)=>{
 
     const id = req.params.id;
-    const{username,password} = req.body;
+    const{name,username,email,phone,password,confirmPassword} = req.body;
 
     let users;
 
     try{
         users = await User.findByIdAndUpdate(id,
         
-            { username:username, password:password});
+            { name:name,username:username, email:email, phone:phone,password:password,confirmPassword:confirmPassword});
             users = await users.save();
     }catch(err){
         console.log(err);
@@ -128,8 +129,6 @@ const deleteUser = async(req,res,next)=>{
 
 
 };
-
-//update user details
 
 
 exports.getAllUsers = getAllUsers;
