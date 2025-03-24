@@ -1,0 +1,128 @@
+/* Navbar Styling */
+.navbar {
+    width: 100vw; /* Full width of screen */
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #724604; /* Dark background */
+    padding: 10px 20px; /* Reduced padding for smaller screens */
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+  }
+  
+  /* Logo Section */
+  .logo img {
+    margin-left: 40px; /* Reduced margin */
+    width: 70px; /* Smaller logo for better fit */
+    height: auto;
+  }
+  
+  /* Navbar Links */
+  .nav-links {
+    display: flex;
+    flex-grow: 1; /* Allows items to expand */
+    justify-content: center; /* Center links horizontally */
+    gap: 10px; /* Reduced gap for smaller screens */
+  }
+  
+  .nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px; /* Slightly smaller font */
+    padding: 8px 10px; /* Reduced padding */
+  }
+  
+  .nav-links a:hover {
+    background-color: #c08607;
+    border-radius: 5px;
+  }
+  
+  /* Search Bar */
+  .search-bar {
+   
+    margin-left: 30px;
+    flex-grow: 0.5; /* Takes some space */
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .search-bar input {
+   
+    padding: 6px; /* Reduced padding */
+    font-size: 15px; /* Smaller font */
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    width: 150px; /* Reduced width */
+  }
+  
+  .search-bar input:focus {
+    border: 2px solid #c08607;
+  }
+  
+  
+  .search-btn {
+    width: 80px;
+    height: 40px;
+    background: #5a3f04;
+    border: none;
+    cursor: pointer;
+    color: white;
+    border-radius: 5px;
+    padding: 8px 12px;
+    margin-left: 10px;
+  }
+  
+  .search-btn:hover {
+   
+    background: #c08607;
+  }
+  
+  /* Logout Button */
+  .logout-btn {
+    width: 80px;
+    height: 30px;
+    background: red;
+    border: none;
+    cursor: pointer;
+    color: white;
+    border-radius: 5px;
+    padding: 8px 12px;
+    margin-left: 10px;
+  }
+  
+  .logout-btn:hover {
+    background: darkred;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .navbar {
+      padding: 10px 15px; /* Adjusted padding */
+      height: auto; /* Allow height to adjust */
+      flex-wrap: wrap; /* Allow wrapping if needed */
+    }
+  
+    .logo img {
+      width: 40px; /* Even smaller logo */
+    }
+  
+    .nav-links {
+      gap: 8px; /* Further reduced gap */
+    }
+  
+    .nav-links a {
+      font-size: 12px; /* Smaller font for mobile */
+      padding: 6px 8px; /* Reduced padding */
+    }
+  
+    .search-bar input {
+      width: 120px; /* Smaller search bar */
+      font-size: 10px; /* Smaller font */
+      padding: 5px;
+    }
+  }
+  

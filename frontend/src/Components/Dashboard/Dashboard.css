@@ -1,0 +1,45 @@
+/* Style the container for the welcome message */
+.dashboard-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Style the welcome box */
+.dashboard-box {
+    background-color: white;
+    padding: 20px 40px;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow */
+    border: 2px solid #dcdcdc;
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+  
+    outline-offset: 4px; /* Space between the outline and the box */
+}
+
+/* Style the text inside the box */
+
+
+h1 {
+    color: #4CAF50;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+/* Style the logout button */
+button {
+    background-color: #382a04;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+button:hover {
+    background-color: #c08607;
+}
