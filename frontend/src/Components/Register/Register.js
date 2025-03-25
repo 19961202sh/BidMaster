@@ -4,6 +4,7 @@ import axios from "axios";
 import Nav from "../Nav/Nav";
 import "./Register.css"; 
 
+
 function Register() {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -46,7 +47,7 @@ function Register() {
   
 
   return (
-    <div>
+    <div >
       <Nav />
       <div className="container">
         <div className="register-box">
@@ -107,6 +108,7 @@ function Register() {
           </form>
         </div>
       </div>
+  
     </div>
   );
 }

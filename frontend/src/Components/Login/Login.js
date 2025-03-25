@@ -5,6 +5,9 @@ import axios from "axios";
 import Nav from "../Nav/Nav";
 import "./Login.css";
 
+
+
+
 function Login() {
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({ username: "", password: "" });
@@ -30,6 +33,7 @@ function Login() {
   };
 
   return (
+   
     <div>
        <Nav></Nav>
       <div className="container">
@@ -44,8 +48,12 @@ function Login() {
             <p>Do not have an account? <Link to="/register">Register</Link></p>
           </form>
         </div>
+     
       </div>
+     
     </div>
+   
+    
   );
 }
 

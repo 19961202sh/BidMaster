@@ -1,18 +1,18 @@
 /* Navbar Styling */
 .navbar {
-    width: 100vw; /* Full width of screen */
-    height: 60px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #724604; /* Dark background */
-    padding: 10px 20px; /* Reduced padding for smaller screens */
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1000;
-  }
-  
+  width: 100%;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #724604;
+  padding: 10px 20px;
+  position: fixed;  /* Fixed position */
+  top: 0;
+  left: 0;
+  z-index: 1000;
+}
+
   /* Logo Section */
   .logo img {
     margin-left: 40px; /* Reduced margin */

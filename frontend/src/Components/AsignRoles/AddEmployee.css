@@ -10,21 +10,25 @@ body {
 }
 
 /* Container */
-.container {
-   
+.form-container {
+    text-align: center;
     width: 100%;
     max-width: 400px;
     padding: 20px;
     margin-top: 30px;
+  
+   
 }
 
 /* Register Box */
-.register-box {
+.addEmp-box {
     background: white;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
-    text-align: center;
+    text-align: left;
+
+    
 }
 
 /* Form Elements */
@@ -60,18 +64,43 @@ button:hover {
     
 }
 
-/* Login Link */
-p {
-    margin-top: 10px;
-    font-size: 14px;
-}
 
-p a {
-    color: #6a11cb;
-    text-decoration: none;
+label {
     font-weight: bold;
+    margin: 10px 0 5px;
+    align-self: flex-start;
+   
+    
 }
 
-p a:hover {
-    text-decoration: underline;
+input,
+textarea,
+select {
+    width: 90%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+textarea {
+    resize: vertical;
+}
+
+/* Buttons */
+button {
+    width: 100%;
+    background: #382a04;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 15px;
+}
+
+button:hover {
+    background: #c08607;
 }
