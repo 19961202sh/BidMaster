@@ -1,11 +1,8 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-
-//insert details
 const addEmpSchema = new Schema({
-
-
+   
     employeeId:{
         type:String,
         required:true  // validate form
@@ -18,7 +15,6 @@ const addEmpSchema = new Schema({
         type:String,
         required:true  
     },
-
     phone:{
         type:String,
         required:true  
@@ -27,23 +23,25 @@ const addEmpSchema = new Schema({
         type:String,
         required:true  
     },
-
+    salary:{
+        type:String,
+        required:true  
+    },
    role:{
         type:String,
         required:true 
     },
-
     department:{
         type:String,
         required:true 
     },
-
     task:{
         type:String,
         required:true 
     },
-
-
+    image: {
+        type: String,  // This will store the image URL or path
+    }
 });
 
 module.exports = mongoose.model(

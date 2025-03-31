@@ -17,7 +17,7 @@ import Footer from "./Components/Footer/Footer";
 import ContactUs from "./Components/ContactUs/ContactUs";
 import UpdateEmployee from "./Components/UpdateEmployee/UpdateEmployee";
 import Terms from "./Components/Terms/Terms";
-
+import EmployeeDetails from "./Components/EmployeeDetails/EmployeeDetails";
 
 
 function App() {
@@ -38,7 +38,7 @@ function App() {
         <Route path="/home" element={<Home/>}/>
         <Route path="/terms" element={<Terms/>}/>
         <Route path="/employeeDashboard/:id" element={<UpdateEmployee/>}/>
-     
+        <Route path="/employeeDetails/:id" element={<EmployeeDetails />} />
 
 
         

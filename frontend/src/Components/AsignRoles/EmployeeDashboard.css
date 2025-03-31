@@ -1,11 +1,14 @@
 /* Container for the entire dashboard */
 .empDashboard-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 40px;
   font-family: Arial, sans-serif;
-  height: 100vh;
+  height: 150vh;
   margin-top: 100px;
+  margin-bottom: 20px;
+  background: url('https://images.unsplash.com/photo-1557683316-973673baf926?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') 
+  center/cover no-repeat;
 }
 
 /* Header section with title */
@@ -16,7 +19,7 @@
 
 .empDashboard h2 {
   font-size: 24px;
-  color: #333;
+  color: #f3eeee;
   margin: 0;
 }
 
@@ -137,36 +140,138 @@
   color: #b02a37;
 }
 
-/* Pagination styling */
-.pagination {
+.pagination-controls {
   display: flex;
   justify-content: center;
-  align-items: center;
   margin-top: 20px;
-  gap: 10px;
+  padding: 10px;
 }
 
-.pagination button {
+.pagination-btn {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.pagination-btn:disabled {
+  background-color: #d3d3d3;
+  cursor: not-allowed;
+}
+
+.downloadEmp-btn {
   background-color: #007bff;
   color: white;
   border: none;
-  padding: 8px 12px;
+  padding: 8px 16px;
   border-radius: 4px;
   cursor: pointer;
   font-size: 14px;
   transition: background-color 0.3s;
 }
 
-.pagination button:disabled {
-  background-color: #ccc;
-  cursor: not-allowed;
-}
-
-.pagination button:hover:not(:disabled) {
+.add-employee-btn:hover {
   background-color: #0056b3;
 }
 
-.pagination span {
-  font-size: 14px;
-  color: #333;
+
+
+
+
+@media print {
+ 
+  .empDashboard-table, .empDashboard-table * {
+    visibility: visible; /* Show only the table */
+  }
+  .empDashboard-table {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
+
+
+
+
+/* Container for the pie chart and department details side by side */
+.pie-chart-and-details {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  
+  padding: 20px;
+}
+
+/* Card for the Pie chart */
+.pie-chart-card {
+  width: 35%;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-right: 20px;
+}
+
+/* Card for the department details */
+.department-details-card {
+  width: 35%;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  padding: 30px;
+  
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+}
+
+
+
+.department-details-card ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.department-details-card li {
+  font-size: 16px;
+  background: #b2cdeb;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 25px 0;
+}
+
+.department-details-card h3 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.department-details-card strong {
+  color: #063566;
+}
+
+/* Styling for the pie chart container */
+.pie-chart-card h3 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.line-chart-card{
+  width: 35%;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-right: 20px;
 }

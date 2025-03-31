@@ -4,11 +4,15 @@ const cors = require("cors");
 const userRoutes = require("./Route/UserRoute");
 const loginRoutes = require("./Route/LoginRoute"); // Import login route
 const empRoutes = require("./Route/EmpRoute");
+const path = require('path');
+
 const app = express();
 
 // Middleware to parse JSON
 app.use(express.json());
 app.use(cors());
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
 
 // Define routes
 app.use("/users", userRoutes); // User registration routes

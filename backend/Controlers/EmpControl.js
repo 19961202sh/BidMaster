@@ -1,4 +1,6 @@
 const Employee = require("../Model/EmpModel");
+const path = require('path');
+const fs = require('fs');
 
 // Add a new employee
 const addEmployee = async (req, res) => {
@@ -90,6 +92,36 @@ const deleteEmpDetails = async(req,res,next)=>{
 
 };
 
-module.exports = { addEmployee,getAllEmployees,getEmployeeById, updateEmployee,deleteEmpDetails };
+
+
+// Image upload handler
+const uploadImage = async (req, res) => {
+  const { id } = req.params;
+
+  if (!req.file) {
+    return res.status(400).json({ message: "No file uploaded" });
+  }
+
+  const imageUrl = `/uploads/${req.file.filename}`;  // Construct the image URL
+
+  try {
+    // Update employee with the new image URL
+    const updatedEmployee = await Employee.findByIdAndUpdate(id, { image: imageUrl }, { new: true });
+
+    if (!updatedEmployee) {
+      return res.status(404).json({ message: "Employee not found" });
+    }
+
+    res.status(200).json({ message: "Image uploaded successfully", employee: updatedEmployee });
+  } catch (error) {
+    res.status(500).json({ message: "Error uploading image", error });
+  }
+};
+
+
+
+
+
+module.exports = { addEmployee,getAllEmployees,getEmployeeById, updateEmployee,deleteEmpDetails,uploadImage};
 
 

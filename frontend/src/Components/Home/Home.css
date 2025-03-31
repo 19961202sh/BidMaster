@@ -8,10 +8,13 @@
 /* Hero Section */
 .hp-hero-section {
     text-align: center;
+    margin-top: 40px;
+   
     padding: 80px 20px;
-    background: url('https://media.istockphoto.com/id/1419211864/photo/lawyer-financial-advisor-in-real-estate-business.jpg?s=1024x1024&w=is&k=20&c=ih699ZgM-DPaAwJm56ST7fOBvwBAkn0Yj7Yn9nT4z_w=') 
+    background: url('https://as2.ftcdn.net/v2/jpg/09/20/93/93/1000_F_920939392_fkU0YwUVfpLdSy4YJXVxirPDeMIEGBX8.jpg') 
         center/cover no-repeat;
-    position: relative;
+   
+    height: 70vh;
 }
 
 .hp-hero-section::before {
@@ -48,6 +51,8 @@
     margin: 0 auto 40px;
     position: relative;
     z-index: 2;
+    margin-top: 40px;
+   
 }
 
 .hp-carousel-image-wrapper {
@@ -155,7 +160,7 @@
 }
 
 .hp-learn-more-btn {
-    background: transparent;
+    background:#a9cbee;
     border: 2px solid #ffffff;
     color: #ffffff;
     padding: 15px 40px;

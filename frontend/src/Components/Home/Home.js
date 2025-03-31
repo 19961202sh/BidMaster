@@ -84,11 +84,17 @@ const Home = () => {
 
       {/* Hero Section */}
       <section className="hp-hero-section" id="hero">
+        <br></br>
+        <br></br>
         <h1 className="hp-hero-title">Welcome to BidMaster</h1>
         <p className="hp-hero-subtitle">Experience the Ultimate Auction Adventure</p>
 
-        {/* Carousel */}
-        <div className="hp-carousel">
+       
+      </section>
+
+
+       {/* Carousel */}
+       <div className="hp-carousel">
           <button className="hp-carousel-btn prev" onClick={goToPrevImage}>←</button>
           <div className="hp-carousel-image-wrapper">
             <img
@@ -116,7 +122,6 @@ const Home = () => {
             Learn More
           </button>
         </div>
-      </section>
 
       {/* Features Section */}
       <section className="hp-features-section" id="features">

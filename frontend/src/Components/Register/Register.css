@@ -2,10 +2,12 @@
 .register-container {
     display: flex;
     align-items: center;
-    justify-content: center;
-    background: url('https://www.fishergerman.co.uk/images/Auction_gavel_with_laptop_in_background_online_auction_istock_974329568.jpg') 
+    justify-content:center;
+    background: url('https://as1.ftcdn.net/v2/jpg/07/72/42/78/1000_F_772427825_1SLyhIRfMRQ9rixxWnDpBfPWiG4PEf8L.jpg') 
     center/cover no-repeat;
     height: 100vh;
+    
+    
   
 }
 
@@ -15,9 +17,10 @@
     border-radius: 10px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
     width: 100%;
-    max-width: 600px;
+    max-width: 500px;
     text-align: left;
     margin-top: 100px;
+    opacity: 0.75;
 }
 
 .register-header {

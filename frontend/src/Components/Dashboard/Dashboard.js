@@ -1,11 +1,7 @@
-// Dashboard.js
 import React from "react";
 import { useNavigate } from "react-router-dom";
-
 import Sidebar from "../Sidebar/Sidebar";
 import "./Dashboard.css";
-
-
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -16,26 +12,19 @@ function Dashboard() {
     return null;
   }
 
-
-
   const role = user.username.split("_")[0]; // Extract user role
 
   return (
-    <div>
-     
-      <div className="dashboard-container">
-        <Sidebar role={role} /> {/* Sidebar changes based on user role */}
-        
-        <div className="dashboard-main-content">
-          <h1>Welcome, {user.name}!</h1>
-          {/* Display content based on user role */}
-          <p>
-            This is the {role === "sl" ? "Seller" : role === "bid" ? "Bidder" : role === "ship" ? "Shipping Manager" : role === "hr" ? "HR Manager" : role === "im" ? "Inspection Manager" :  "User"} Dashboard.
-          </p>
+    <div className="dashboard-container">
+      <Sidebar role={role} /> {/* Sidebar changes based on user role */}
+      <div className="dashboard-main-content">
+        <div className="dashboard-box">
+        <h1>Hi {user.name} !</h1>
+        <p> Welcome to the {role === "sl" ? "Seller " : role === "bid" ? "Bidder" : role === "ship" ? "Shipping Manager " : role === "hr" ? "HR Manager " : role === "im" ? "Inspection Manager " : "User "} 
+           Dashboard  Manage your tasks and explore the features.</p>
           
         </div>
       </div>
-   
     </div>
   );
 }
