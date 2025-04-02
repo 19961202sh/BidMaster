@@ -3,7 +3,6 @@ import { Routes, Route } from "react-router-dom";
 import React from "react";
 
 
-
 import "./App.css";
 import Nav from "./Components/Nav/Nav";
 import Home from "./Components/Home/Home";
@@ -20,6 +19,13 @@ import Terms from "./Components/Terms/Terms";
 import EmployeeDetails from "./Components/EmployeeDetails/EmployeeDetails";
 import Payroll from "./Components/Payroll/Payroll";
 
+//im
+//import ReportedItems from "./Components/ReportedItems/ReportedItems";
+//import InspectionReport from "./Components/InspectionReport/InspectionReport";
+//import RejectedItems from "./Components/RejectedItems/RejectedItems";
+import AddReport from "./Components/AddReport/AddReport";
+import UpdateReport from "./Components/UpdateReport/UpdateReport";
+import InspectionDashboard from "./Components/InspectionDashboard/InspectionDashboard";
 
 function App() {
   return (
@@ -43,7 +49,12 @@ function App() {
         <Route path="/employeeDetails/:id" element={<EmployeeDetails />} />
 
 
-        
+        //im
+        <Route path="/add-report" element={<AddReport/>}/>
+     
+        <Route path="/flagged-items/:_id" element={<UpdateReport/>}/>
+        <Route path="/inspectionDashboard" element={<InspectionDashboard/>}/>
+
       </Routes>
     </React.Fragment>
 

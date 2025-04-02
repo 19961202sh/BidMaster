@@ -7,6 +7,10 @@ const empRoutes = require("./Route/EmpRoute");
 const payrollRoutes = require("./Route/PayrollRoute");
 const path = require('path');
 
+
+//im
+const router = require("./Routes/ReportRoutes");
+
 const app = express();
 
 // Middleware to parse JSON
@@ -20,6 +24,10 @@ app.use("/users", userRoutes); // User registration routes
 app.use("/auth", loginRoutes); // Login route
 app.use("/api/employees", empRoutes);
 app.use("/api/payroll", payrollRoutes);
+
+
+//im
+app.use("/reports",router);
 
 // Connect to MongoDB
 mongoose
