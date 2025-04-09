@@ -1,0 +1,79 @@
+.shipdash {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sh-dashboard-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    padding: 40px;
+    max-width: 1200px;
+    width: 100%;
+}
+
+.sh-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.sh-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+.sh-card-image {
+    height: 200px;
+    background-size: cover;
+    background-position: center;
+}
+
+.shipment-image {
+    background-image: url('https://plus.unsplash.com/premium_photo-1681488229881-d733064c22cf?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjV8fGJveHxlbnwwfHwwfHx8MA%3D%3D');
+}
+
+.provider-image {
+    background-image: url('https://images.unsplash.com/photo-1566576721346-d4a3b4eaeb55?auto=format&fit=crop&w=500&q=80');
+}
+
+.sh-card-content {
+    padding: 20px;
+    text-align: center;
+}
+
+.sh-card-title {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+    font-weight: 600;
+}
+
+.sh-card-description {
+    color: #666;
+    margin: 10px 0 0;
+    font-size: 16px;
+}
+
+.sh-card-button {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: #4a90e2;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    transition: background 0.3s ease;
+}
+
+.sh-card-button:hover {
+    background: #357abd;
+}

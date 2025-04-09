@@ -1,0 +1,305 @@
+body {
+    font-family: "Arial", sans-serif;
+    margin: 0;
+    padding: 0;
+   
+  }
+  
+  .bidprofile-bidder-profile-container {
+    margin: 0; 
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    background: url("F:\Online_Auction_System\Online_Auction_system\frontend\public\BidImages\bc.jpg") no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh; 
+    position: relative;
+    width: 100vw; 
+    box-sizing: border-box;
+  }
+  
+  
+  .bidprofile-bidder-profile-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3); 
+    z-index: 1;
+  }
+  
+  
+  .bidprofile-profile-wrapper,
+  .bidprofile-h1 {
+    position: relative;
+    z-index: 2;
+  }
+  
+  
+  .bidprofile-profile-left,
+  .bidprofile-card {
+    background: rgba(88, 85, 110, 0.95); /* Slightly transparent white */
+  }
+  
+  .bidprofile-h1 {
+    text-align: center;
+    color: #828395; /*my bidderprofile colo*/
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Added for readability */
+  }
+  
+  .bidprofile-profile-wrapper {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    justify-content: center; 
+    max-width: 1200px; 
+    margin: 0 auto; 
+  }
+  
+  /* Left Section */
+  .bidprofile-profile-left {
+    flex: 1;
+    min-width: 300px;
+    max-width: 500px; 
+    padding: 10px; 
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    height: 450px; /* Set a fixed height to match content up to the "Facebook" social link */
+    overflow: hidden; 
+    /* Adjust this height value to change the container's height. Current height (450px) is set to fit content up to the "Facebook" social link. */
+  }
+  
+  .bidprofile-profile-pic-section {
+    margin-bottom: 15px; 
+  }
+  
+  .bidprofile-profile-pic {
+    width: 120px; 
+    height: 120px; 
+    object-fit: cover;
+    border-radius: 50%;
+    border: 3px solid #611ab3;
+  }
+  
+  .bidprofile-pic-placeholder {
+    width: 120px;
+    height: 120px; 
+    background: #304962;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px; 
+    color: #9b2222;
+    border: 3px solid #ddd;
+  }
+  
+  .bidprofile-profile-left h2 {
+    margin: 8px 0; 
+    color: #1a0644; /*name*/
+    font-size: 1.5rem; 
+  }
+  
+  .bidprofile-location {
+    color: #33169c;/*address*/
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+  }
+  
+  .bidprofile-action-buttons {
+    display: flex;
+    gap: 8px; 
+    justify-content: center;
+    margin-bottom: 15px; 
+  }
+  
+  .bidprofile-btn-follow,
+  .bidprofile-btn-message {
+    padding: 8px 16px; 
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+    font-size: 0.9rem; /* Slightly smaller font size */
+  }
+  
+  .bidprofile-btn-follow {
+    background: #112d4b;/*follow btn*/
+    color: rgb(157, 128, 194);
+  }
+  
+  .bidprofile-btn-follow:hover:not(:disabled) {
+    background: #24507e;
+  }
+  
+  .bidprofile-btn-message {
+    background: #125521;/*message btn*/
+    color: rgb(138, 206, 170);
+  }
+  
+  .bidprofile-btn-message:hover:not(:disabled) {
+    background: #218838;
+  }
+  
+  .bidprofile-btn-follow:disabled,
+  .bidprofile-btn-message:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .bidprofile-social-links {
+    text-align: left;
+  }
+  
+  .bidprofile-social-links h3 {
+    margin-bottom: 8px; 
+    color: #ae9cd5;/*connect*/
+    font-size: 1.1rem; 
+  }
+  
+  .bidprofile-social-links ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .bidprofile-social-links li {
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Reduced gap to decrease height */
+    font-size: 0.9rem; 
+  }
+  
+  .bidprofile-social-links .bidprofile-icon {
+    font-size: 16px; /* Reduced icon size */
+  }
+  
+  .bidprofile-social-links a {
+    color: #eb787c;/*link to social*/
+    text-decoration: none;
+  }
+  
+  .bidprofile-social-links a:hover {
+    text-decoration: underline;
+  }
+  
+  /* Right Section */
+  .bidprofile-profile-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    min-width: 300px; 
+    max-width: 500px; 
+  }
+  
+  .bidprofile-card {
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(127, 18, 18, 0.1);
+    width: 100%; 
+  }
+  
+  .bidprofile-profile-details h3,
+  .bidprofile-auction-stats h3 {
+    margin-bottom: 20px;
+    color: #250976;/*personal information auction statistics*/
+  }
+  
+  .bidprofile-detail-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid #a1afbd;/*personal infro underline*/
+  }
+  
+  .bidprofile-detail-item:last-child {
+    border-bottom: none;
+  }
+  
+  .bidprofile-label {
+    font-weight: bold;
+    color: #0eac48;/*name,email*/
+  }
+  
+  .bidprofile-value {
+    color: #e7dbdb;/*details*/
+  }
+  
+  .bidprofile-btn-edit {
+    display: block;
+    margin: 20px auto 0;
+    padding: 10px 20px;
+    background: #0e3e72;/*edit profile*/
+    color: rgb(189, 161, 223);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .bidprofile-btn-edit:hover {
+    background: #1b4e84;
+  }
+  
+  .bidprofile-auction-stats .bidprofile-stat-item {
+    margin-bottom: 15px;
+  }
+  
+  .bidprofile-stat-label {
+    display: block;
+    margin-bottom: 5px;
+    color: #540846;
+  }
+  
+  .bidprofile-progress-bar {
+    background: #827c93;/*bar*/
+    border-radius: 5px;
+    height: 10px;
+    overflow: hidden;
+  }
+  
+  .bidprofile-progress {
+    background: #380995;
+    height: 100%;
+    transition: width 0.3s ease;
+  }
+  
+  /* Blank Profile Styles */
+  .bidprofile-blank-profile .bidprofile-not-set {
+    color: #999;
+    font-style: italic;
+  }
+  
+  .bidprofile-blank-profile .bidprofile-profile-left,
+  .bidprofile-blank-profile .bidprofile-profile-right .bidprofile-card {
+    background: rgba(17, 71, 124, 0.9);
+    opacity: 0.8;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .bidprofile-profile-wrapper {
+      flex-direction: column;
+      align-items: center; 
+    }
+  
+    .bidprofile-profile-left,
+    .bidprofile-profile-right {
+      flex: 1;
+      max-width: 100%; 
+    }
+  
+    .bidprofile-card {
+      max-width: 100%;
+    }
+  
+    .bidprofile-profile-left {
+      height: 350px; /* Adjusted height for mobile to fit content up to "Facebook" */
+      
+    }
+  }

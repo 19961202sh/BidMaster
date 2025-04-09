@@ -1,0 +1,349 @@
+/* General Page Styling */
+.dashboard-page {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #e9af31 0%, #e0f7fa 100%); /* Soft purple to cyan gradient */
+    min-height: 100vh;
+  }
+  
+  /* Hero Section */
+  .dash-hero-section {
+    text-align: center;
+    padding: 150px 20px;
+    background: url('https://prod-webveloper-images.bizwise.com/6c872f79ec1dd7c2672efdfc2c5f5d89.jpg') 
+        center/cover no-repeat;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    margin : 20px;
+    color: rgb(255, 255, 255);
+  }
+  
+  .dash-hero-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #0a0a0a;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    text-align: center;
+  }
+  
+  .dash-hero-subtitle {
+    font-size: 18px;
+    color: #070707;
+    margin-bottom: 20px;
+   
+    text-align: center;
+  }
+  
+  .dash-carousel {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .dash-carousel-item-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .dash-carousel-image {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .dash-carousel-item-wrapper:hover .dash-carousel-image {
+    transform: scale(1.05);
+  }
+  
+  .dash-item-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to top, rgba(255, 87, 34, 0.9), rgba(255, 138, 101, 0.7)); /* Orange gradient */
+    color: white;
+    padding: 20px;
+    text-align: left;
+  }
+  
+  .dash-item-info h3 {
+    margin: 0 0 10px;
+    font-size: 24px;
+  }
+  
+  .dash-item-info p {
+    margin: 5px 0;
+  }
+  
+  .dash-item-info span {
+    font-weight: 600;
+    color: #ffeb3b; /* Bright yellow */
+  }
+  
+  .dash-countdown {
+    font-size: 18px;
+  }
+  
+  .dash-carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #ff5722; /* Vibrant orange */
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-size: 20px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background 0.3s;
+  }
+  
+  .dash-carousel-btn.prev { left: 10px; }
+  .dash-carousel-btn.next { right: 10px; }
+  
+  .dash-carousel-btn:hover {
+    background: #d81b60; /* Deep pink */
+  }
+  
+  /* Metrics Section */
+  .dash-metrics-section {
+    padding: 40px 20px;
+    text-align: center;
+    background: #fff3e0; /* Light peach */
+  }
+  
+  .dash-section-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: #d81b60; /* Pink */
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .dash-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .dash-metric-item {
+    background: linear-gradient(135deg, #110b01, #ff5722); /* Orange gradient */
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    color: white;
+  }
+  
+  .dash-metric-item:nth-child(2) { background: linear-gradient(135deg, #033d11, #4caf50); } /* Green gradient */
+  .dash-metric-item:nth-child(3) { background: linear-gradient(135deg, #410c0c, #f44336); } /* Red gradient */
+  .dash-metric-item:nth-child(4) { background: linear-gradient(135deg, #311436, #e91e63); } /* Purple to pink */
+  
+  .dash-metric-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  }
+  
+  .metric-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 10px;
+  }
+  
+  .dash-metric-item h3 {
+    font-size: 20px;
+    margin: 10px 0;
+  }
+  
+  .dash-metric-item p {
+    font-size: 16px;
+    color: #fff9c4; /* Light yellow */
+  }
+  
+  /* Quick Actions Section */
+  .dash-actions-section {
+    padding: 40px 20px;
+    background: #e8f5e9; /* Light green */
+    text-align: center;
+  }
+  
+  .dash-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .dash-action-card {
+    background: linear-gradient(135deg, #42a5f5, #6084a8); /* Blue gradient */
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    color: white;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .dash-action-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  }
+  
+  .action-icon {
+    width: 40px;
+    height: 40px;
+    margin-bottom: 10px;
+  }
+  
+  .dash-action-card h3 {
+    font-size: 18px;
+    margin: 10px 0;
+  }
+  
+  /* Recent Activity Section */
+  .dash-activity-section {
+    padding: 40px 20px;
+    background: #fff;
+    text-align: center;
+  }
+  
+  .dash-activity-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .dash-activity-item {
+    background: linear-gradient(135deg, #fffde7, #fff9c4); /* Light yellow gradient */
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: transform 0.3s;
+  }
+  
+  .dash-activity-item:hover {
+    transform: scale(1.02);
+  }
+  
+  .activity-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 2px solid #ff5722; /* Orange border */
+  }
+  
+  .activity-details {
+    text-align: left;
+  }
+  
+  .activity-details h3 {
+    font-size: 18px;
+    margin: 0 0 10px;
+    color: #d81b60; /* Pink */
+  }
+  
+  .activity-details p {
+    font-size: 14px;
+    color: #455a64;
+    margin: 5px 0;
+  }
+  
+  .dash-action-btn {
+    padding: 8px 16px;
+    background-color: #ff5722; /* Orange */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .dash-action-btn:hover {
+    background-color: #e64a19; /* Darker orange */
+    transform: scale(1.05);
+  }
+  
+  /* Alerts Section */
+  .dash-alerts-section {
+    padding: 40px 20px;
+    background: #fce4ec; /* Light pink */
+    text-align: center;
+  }
+  
+  .dash-alerts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .dash-alert-item {
+    background: linear-gradient(135deg, #ff8a80, #ff5252); /* Red gradient */
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+  }
+  
+  .alert-icon {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .dash-alert-item p {
+    font-size: 16px;
+    margin: 0;
+  }
+  
+  /* Section Icon */
+  .section-icon {
+    width: 24px;
+    height: 24px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .dash-hero-section {
+      padding: 20px 10px;
+    }
+  
+    .dash-hero-title {
+      font-size: 24px;
+    }
+  
+    .dash-carousel-image {
+      height: 250px;
+    }
+  
+    .dash-metrics-grid,
+    .dash-actions-grid,
+    .dash-activity-grid,
+    .dash-alerts-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .dash-activity-item {
+      flex-direction: column;
+      text-align: center;
+    }
+  }

@@ -1,0 +1,91 @@
+/* NewShipper.css */
+
+/* Container */
+.sh-create-shipper-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+    padding: 20px;
+}
+
+/* Form */
+.sh-shipper-form {
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Form Heading */
+.sh-shipper-form h2 {
+    text-align: center;
+    color: #333;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+/* Form Group */
+.sh-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* Labels */
+.sh-form-group label {
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+}
+
+/* Input Fields */
+.sh-form-group input,
+.sh-form-group select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    outline: none;
+    transition: border 0.3s ease-in-out;
+}
+
+.sh-form-group input:focus,
+.sh-form-group select:focus {
+    border-color: #007bff;
+}
+
+/* Submit Button */
+.sh-form-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.sh-btn-submit {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+.sh-btn-submit:hover {
+    background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .sh-shipper-form {
+        width: 90%;
+    }
+}

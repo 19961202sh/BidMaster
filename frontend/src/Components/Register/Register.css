@@ -1,0 +1,111 @@
+
+.register-container {
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    background: url('https://as1.ftcdn.net/v2/jpg/07/72/42/78/1000_F_772427825_1SLyhIRfMRQ9rixxWnDpBfPWiG4PEf8L.jpg') 
+    center/cover no-repeat;
+    height: 100vh;
+    
+    
+  
+}
+
+.register-box {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
+    width: 100%;
+    max-width: 500px;
+    text-align: left;
+    margin-top: 100px;
+    opacity: 0.75;
+    margin-bottom: 30px;
+}
+
+.register-header {
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.error-message {
+    color: red;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    width: 90%;
+    margin-left: 10px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+   
+    font-weight: bold;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.terms {
+    display: flex;
+    align-items: center;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+.terms input {
+    margin-right: 10px;
+}
+
+.terms-link {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.terms-link:hover {
+    text-decoration: underline;
+}
+
+.register-button {
+    width: 100%;
+    background-color: #007bff;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.register-button:hover {
+    background-color: #0056b3;
+}
+
+.register-p p {
+    font-size: 0.9rem;
+    color: #555;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.login-link {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.login-link:hover {
+    text-decoration: underline;
+}

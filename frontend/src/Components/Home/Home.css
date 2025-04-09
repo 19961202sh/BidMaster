@@ -1,0 +1,374 @@
+.home-page {
+    font-family: 'Roboto', 'Arial', sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f7fa 0%, #dbc6ad 100%);
+    color: #333;
+}
+
+/* Hero Section */
+.hp-hero-section {
+    text-align: center;
+    margin-top: 40px;
+   
+    padding: 80px 20px;
+    background: url('https://as2.ftcdn.net/v2/jpg/09/20/93/93/1000_F_920939392_fkU0YwUVfpLdSy4YJXVxirPDeMIEGBX8.jpg') 
+        center/cover no-repeat;
+   
+    height: 70vh;
+}
+
+.hp-hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(129, 127, 124, 0.096);
+    z-index: 1;
+}
+
+.hp-hero-title {
+    font-size: 52px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 2;
+}
+
+.hp-hero-subtitle {
+    font-size: 22px;
+    color: #e6f0ff;
+    margin-bottom: 40px;
+    position: relative;
+    z-index: 2;
+}
+
+/* Carousel */
+.hp-carousel {
+    max-width: 900px;
+    margin: 0 auto 40px;
+    position: relative;
+    z-index: 2;
+    margin-top: 40px;
+   
+}
+
+.hp-carousel-image-wrapper {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.hp-carousel-image {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    transition: opacity 0.5s ease;
+}
+
+.hp-bid-info {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.hp-bid-info h3 {
+    font-size: 20px;
+    color: #003366;
+    margin: 0 0 5px;
+}
+
+.hp-bid-info p {
+    font-size: 16px;
+    color: #666;
+    margin: 5px 0;
+}
+
+.hp-bid-info .hp-countdown span {
+    font-weight: bold;
+    color: #ff6b6b;
+}
+
+.hp-bid-button {
+    background: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.hp-bid-button:hover {
+    background: #e65a5a;
+}
+
+.hp-carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    font-size: 22px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.hp-carousel-btn:hover {
+    background: #ffffff;
+}
+
+.hp-carousel-btn.prev { left: 15px; }
+.hp-carousel-btn.next { right: 15px; }
+
+/* Hero Buttons */
+.hp-hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.hp-cta-button {
+    background: linear-gradient(45deg, #ff6b6b, #ff8787);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 18px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hp-cta-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.hp-learn-more-btn {
+    background:#a9cbee;
+    border: 2px solid #ffffff;
+    color: #ffffff;
+    padding: 15px 40px;
+    font-size: 18px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.hp-learn-more-btn:hover {
+    background: #ffffff;
+    color: #003366;
+}
+
+/* Features Section */
+.hp-features-section {
+    padding: 80px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.hp-features-title {
+    font-size: 36px;
+    font-weight: 600;
+    color: #003366;
+    margin-bottom: 50px;
+}
+
+.hp-features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+}
+
+.hp-feature-item {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.hp-feature-item:hover {
+    transform: translateY(-5px);
+}
+
+.hp-feature-item h3 {
+    font-size: 22px;
+    color: #003366;
+    margin-bottom: 10px;
+}
+
+.hp-feature-item p {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Our Services Section */
+.hp-services-section {
+    padding: 80px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.hp-services-title {
+    font-size: 36px;
+    font-weight: 600;
+    color: #003366;
+    margin-bottom: 50px;
+}
+
+.hp-services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.hp-service-card {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    text-align: center;
+}
+
+.hp-service-card:hover {
+    transform: translateY(-5px);
+}
+
+.hp-service-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.hp-service-card h3 {
+    font-size: 22px;
+    color: #003366;
+    margin-bottom: 10px;
+}
+
+.hp-service-card p {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Stats Section */
+.hp-stats-section {
+    padding: 60px 20px;
+    background: #660000e5;
+    color: #ffffff;
+    text-align: center;
+}
+
+.hp-stats-title {
+    font-size: 36px;
+    font-weight: 600;
+    margin-bottom: 40px;
+}
+
+.hp-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.hp-stat-item h3 {
+    font-size: 40px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+
+.hp-stat-item p {
+    font-size: 18px;
+}
+
+/* Testimonials Section */
+.hp-testimonials-section {
+    padding: 80px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.hp-testimonials-title {
+    font-size: 36px;
+    font-weight: 600;
+    color: #003366;
+    margin-bottom: 50px;
+}
+
+.hp-testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.hp-testimonial-item {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.hp-testimonial-item p {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+.hp-testimonial-item h4 {
+    font-size: 18px;
+    color: #003366;
+}
+
+.hp-explore-more {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 12px 30px;
+    background: #ff6b6b;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 20px;
+    transition: background 0.3s ease;
+}
+
+.hp-explore-more:hover {
+    background: #e65a5a;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hp-hero-title { font-size: 40px; }
+    .hp-hero-subtitle { font-size: 18px; }
+    .hp-carousel-image { height: 350px; }
+    .hp-bid-info { flex-direction: column; gap: 10px; }
+    .hp-hero-buttons { flex-direction: column; gap: 15px; }
+    .hp-features-title, .hp-services-title, .hp-stats-title, .hp-testimonials-title { font-size: 28px; }
+    .hp-service-image { height: 150px; }
+}

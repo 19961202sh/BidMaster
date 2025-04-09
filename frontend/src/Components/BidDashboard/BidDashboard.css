@@ -1,0 +1,212 @@
+body {
+    font-family: "Arial", sans-serif;
+    margin: 0;
+    padding: 0;
+    
+  }
+  
+  .biddashboard-bid-dashboard-container {
+    margin: 0; 
+    padding: 25px;
+    background: url("F:\Online_Auction_System\Online_Auction_system\frontend\public\BidImages\blueleaves.jpg") no-repeat center center fixed;
+    background-size: cover;
+    min-height: 100vh; 
+    position: relative;
+    width: 100vw;
+    box-sizing: border-box; 
+    margin-top:50px;
+  }
+  
+  /* Add overlay  */
+  .biddashboard-bid-dashboard-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(66, 60, 92, 0.4); 
+    border-radius: 15px;
+    z-index: 1;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .biddashboard-bid-header {/*welcometo bidmaster header*/
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(135deg, #908dbf, #0b3155);
+    color: #fff;
+    padding: 15px 25px;
+    border-radius: 15px 15px 0 0;
+    box-shadow: 0 2px 5px rgba(92, 30, 30, 0.1);
+    position: relative;
+    z-index: 2; 
+  }
+  
+  .biddashboard-bid-main-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    padding: 25px;
+    position: relative;
+    z-index: 2; /* Above overlay */
+  }
+  
+  .biddashboard-bid-image-carousel {
+    flex: 1.5;
+    min-width: 350px;
+    position: relative;
+  }
+  
+  .biddashboard-bid-image-carousel img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(160, 117, 117, 0.2);
+  }
+  
+  .biddashboard-bid-image-nav {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: Sentflex;
+    gap: 10px;
+  }
+  
+  .biddashboard-bid-dot {
+    width: 12px;
+    height: 12px;
+    background: #080808;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .biddashboard-bid-dot.biddashboard-bid-active {
+    background: #a71818;
+  }
+  
+  .biddashboard-bid-auction-details {
+    flex: 1;
+    min-width: 300px;
+    background: rgba(75, 79, 128, 0.9); 
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .biddashboard-bid-auction-details h2 {
+    color: #05213e;
+    margin-top: 0;
+  }
+  
+  .biddashboard-bid-bid-section-advanced {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .biddashboard-bid-countdown {
+    text-align: center;
+    background: rgba(55, 104, 116, 0.9); /* Adjusted opacity */
+    padding: 15px;
+    border-radius: 10px;
+  }
+  
+  .biddashboard-bid-countdown .biddashboard-digital-clock {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    color: #4e2020;
+  }
+  
+  .biddashboard-bid-countdown .biddashboard-digital-clock .biddashboard-time {
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #9c291c;
+    display: flex;
+    gap: 5px;
+  }
+  
+  .biddashboard-bid-countdown .biddashboard-digital-clock .biddashboard-time span {
+    min-width: 40px;
+    text-align: center;
+  }
+  
+  .biddashboard-bid-countdown .biddashboard-digital-clock .biddashboard-date {
+    font-size: 1.2em;
+    margin-top: 5px;
+    color: #763f3f;
+  }
+  
+  .biddashboard-bid-input {
+    background: rgba(76, 124, 142, 0.9); /* Adjusted opacity */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .biddashboard-bid-bidder-test {
+    margin: 10px 0;
+  }
+  
+  .biddashboard-bid-bid-now-btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #2525b1, #2980b9);
+    color: #161728;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.3s ease;
+  }
+  
+  .biddashboard-bid-bid-now-btn:hover:not(:disabled) {
+    transform: scale(1.05);
+    background: linear-gradient(135deg, #495f6d, #1f6390);
+  }
+  
+  .biddashboard-bid-bid-now-btn:disabled {
+    background: #bdc3c7;
+    cursor: not-allowed;
+  }
+  
+  .biddashboard-bid-history {
+    background: rgba(57, 100, 146, 0.9); /* Adjusted opacity */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  
+  .biddashboard-bid-history ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .biddashboard-bid-history li {
+    padding: 8px 0;
+    border-bottom: 1px solid #634c96;
+  }
+  
+  @media (max-width: 768px) {
+    .biddashboard-bid-main-content {
+        flex-direction: column;
+    }
+  }

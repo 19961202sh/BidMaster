@@ -1,0 +1,225 @@
+/* AboutUs.css */
+.aboutus-container {
+  font-family: 'Roboto', 'Arial', sans-serif;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 ;
+  background: linear-gradient(135deg, #f5f7fa 0%, #dbc6ad 100%);
+  min-height: 100vh;
+  margin-top: 100px;
+}
+
+/* Hero Section */
+
+
+.aboutus-hero-overlay {
+  background: rgba(228, 150, 7, 0.404);
+  padding: 50px;
+  border-radius: 10px;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.aboutus-title {
+  font-size: 52px;
+  font-weight: 700;
+  color: #0a0a0a;
+  margin-bottom: 10px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+
+/* Hero Section */
+.aboutus-hero-section {
+  text-align: center;
+  padding: 150px 20px;
+  background: url('https://images.unsplash.com/photo-1684397808097-f23b735e47d3?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') 
+      center/cover no-repeat;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  margin : 20px;
+  color: rgb(255, 255, 255);
+  height: 20vh;
+}
+
+
+
+.aboutus-tagline {
+  font-size: 18px;
+  color: #070707;
+  margin-bottom: 20px;
+ 
+  text-align: center;
+}
+
+/* Content Wrapper */
+.aboutus-content-wrapper {
+  padding: 0 20px;
+  margin-bottom: 60px;
+}
+
+/* Sections */
+.aboutus-intro-section {
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.aboutus-section {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.aboutus-section:hover {
+  transform: translateY(-5px);
+}
+
+.aboutus-section-title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #003366;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.aboutus-section-title::after {
+  content: '';
+  position: absolute;
+  width: 50px;
+  height: 3px;
+  background: #ff6b6b;
+  bottom: -8px;
+  left: 0;
+}
+
+.aboutus-section-text {
+  font-size: 16px;
+  color: #444;
+  line-height: 1.8;
+}
+
+/* Values Section (Card Layout) */
+.aboutus-values-section {
+  padding: 30px;
+  background: #ffffff; /* Keeping it white to match other sections */
+  text-align: center;
+  border-radius: 12px;
+  border-left: 4px solid #d1a545; /* From provided CSS */
+}
+
+.aboutus-values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.aboutus-value-item {
+  background: #b46a08bb; /* Light background for cards */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.aboutus-value-item:hover {
+  transform: translateY(-5px);
+}
+
+.aboutus-value-item h3 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #ffffff; /* Matching the accent color from section-title::after */
+  margin-bottom: 10px;
+}
+
+.aboutus-value-item p {
+  font-size: 16px;
+  color: #ffffff;
+  line-height: 1.6;
+}
+
+/* Team Stats Section */
+.aboutus-stats-section {
+  padding: 40px 20px;
+  background: #660000e5;
+  color: #ffffff;
+  text-align: center;
+}
+
+.aboutus-stats-title {
+  font-size: 36px;
+  font-weight: 600;
+  margin-bottom: 40px;
+}
+
+.aboutus-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.aboutus-stat-item h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #ffffff;
+}
+
+.aboutus-stat-item p {
+  font-size: 15px;
+}
+/* Specific Section Colors */
+.aboutus-mission-section {
+  border-left: 4px solid #ff9a6b;
+}
+
+.aboutus-journey-section {
+  border-left: 4px solid #cd9a4e;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .aboutus-hero-section {
+      height: 300px;
+  }
+  
+  .aboutus-title {
+      font-size: 36px;
+  }
+  
+  .aboutus-tagline {
+      font-size: 16px;
+  }
+  
+  .aboutus-section {
+      padding: 20px;
+  }
+}
+
+.aboutus-profile {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;  /* Makes the container circular */
+  overflow: hidden;  /* Ensures the content inside does not overflow the circular shape */
+}
+
+.aboutus-profile img {
+  width: 100%;  /* Make image fill the entire container */
+  height: 100%;  /* Ensure the image is fully contained */
+  object-fit: cover;  /* Makes sure the image covers the area without distortion */
+  border-radius: 50%;  /* Makes the image circular */
+}

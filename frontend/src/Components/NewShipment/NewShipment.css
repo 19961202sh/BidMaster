@@ -1,0 +1,75 @@
+/* NewShipment.css */
+
+.sh-create-shipment-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 160vh;
+    background-color: #f4f4f4;
+}
+
+.sh-shipment-form {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    margin-top: 70px;
+}
+
+.sh-shipment-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.sh-form-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.sh-form-group label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.sh-form-group input,
+.sh-form-group select,
+.sh-form-group textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease-in-out;
+}
+
+.sh-form-group input:focus,
+.sh-form-group select:focus,
+.sh-form-group textarea:focus {
+    border-color: #007bff;
+}
+
+.sh-form-actions {
+    text-align: center;
+}
+
+.sh-btn-submit {
+    background: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.3s ease-in-out;
+}
+
+.sh-btn-submit:hover {
+    background: #0056b3;
+}

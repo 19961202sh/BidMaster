@@ -1,0 +1,277 @@
+/* Container for the entire dashboard */
+.empDashboard-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 40px;
+  font-family: Arial, sans-serif;
+  height: 150vh;
+  margin-top: 100px;
+  margin-bottom: 20px;
+  background: url('https://images.unsplash.com/photo-1557683316-973673baf926?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') 
+  center/cover no-repeat;
+}
+
+/* Header section with title */
+.empDashboard {
+  text-align: center; /* Center the header */
+  margin-bottom: 10px;
+}
+
+.empDashboard h2 {
+  font-size: 24px;
+  color: #f3eeee;
+  margin: 0;
+}
+
+/* Controls section (search bar and Add button) */
+.empDashboard-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 20px; /* Space between search bar and Add button */
+}
+
+.add-employee-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.add-employee-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Search bar styling */
+.empDashboard-search {
+  flex: 1; /* Allow the search bar to take up remaining space */
+}
+
+.empDashboard-search input {
+  width: 100%;
+  max-width: 300px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.empDashboard-search input::placeholder {
+  color: #aaa;
+}
+
+/* Table styling */
+.empDashboard-table {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.empDashboard-table table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.empDashboard-table th,
+.empDashboard-table td {
+  padding: 12px 15px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.empDashboard-table th {
+  background-color: #f8f9fa;
+  color: #333;
+  font-weight: 600;
+  border-bottom: 1px solid #ddd;
+}
+
+.empDashboard-table td {
+  border-bottom: 1px solid #eee;
+}
+
+/* Alternating row colors */
+.empDashboard-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.empDashboard-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* No employees message */
+.no-employees {
+  text-align: center;
+  color: #888;
+  font-style: italic;
+}
+
+/* Action buttons (edit and delete) */
+.empUpdate-btn,
+.empDelete-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 10px;
+  transition: color 0.3s;
+}
+
+.empUpdate-btn {
+  color: #007bff;
+}
+
+.empUpdate-btn:hover {
+  color: #0056b3;
+}
+
+.empDelete-btn {
+  color: #dc3545;
+}
+
+.empDelete-btn:hover {
+  color: #b02a37;
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  padding: 10px;
+}
+
+.pagination-btn {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 0 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.pagination-btn:disabled {
+  background-color: #d3d3d3;
+  cursor: not-allowed;
+}
+
+.downloadEmp-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.add-employee-btn:hover {
+  background-color: #0056b3;
+}
+
+
+
+
+
+@media print {
+ 
+  .empDashboard-table, .empDashboard-table * {
+    visibility: visible; /* Show only the table */
+  }
+  .empDashboard-table {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
+
+
+
+
+/* Container for the pie chart and department details side by side */
+.pie-chart-and-details {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  
+  padding: 20px;
+}
+
+/* Card for the Pie chart */
+.pie-chart-card {
+  width: 35%;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-right: 20px;
+}
+
+/* Card for the department details */
+.department-details-card {
+  width: 35%;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  padding: 30px;
+  
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+}
+
+
+
+.department-details-card ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.department-details-card li {
+  font-size: 16px;
+  background: #b2cdeb;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 25px 0;
+}
+
+.department-details-card h3 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.department-details-card strong {
+  color: #063566;
+}
+
+/* Styling for the pie chart container */
+.pie-chart-card h3 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.line-chart-card{
+  width: 55%;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-right: 20px;
+}

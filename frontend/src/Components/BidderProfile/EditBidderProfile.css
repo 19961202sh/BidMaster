@@ -1,0 +1,285 @@
+body {
+    font-family: "Arial", sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  html {
+    height: 100%;
+  }
+  
+  .editbidprofile-edit-bidder-profile-container {
+    margin: 0 auto; 
+    padding: 20px;
+    font-family: 'Arial', sans-serif;
+    min-height: 100vh; 
+    position: relative;
+    width: 100%; 
+    max-width: 800px; 
+    box-sizing: border-box;
+    background: url("F:\Online_Auction_System\Online_Auction_system\frontend\public\BidImages\newback.jpg") no-repeat center center fixed;
+    background-size: cover;
+  }
+  
+  
+  .editbidprofile-edit-bidder-profile-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3); 
+    z-index: 1;
+  }
+  
+  /* Ensure content stays above the overlay */
+  .editbidprofile-form-container,
+  .editbidprofile-profile-pic-section,
+  .editbidprofile-profile-form,
+  .editbidprofile-button-group,
+  .editbidprofile-error-message,
+  .editbidprofile-loading-overlay,
+  .editbidprofile-edit-bidder-profile-container h1 {
+    position: relative;
+    z-index: 2;
+  }
+  
+  .editbidprofile-edit-bidder-profile-container h1 {
+    text-align: center;
+    color: #efe8e8;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+  }
+  
+  .editbidprofile-error-message {
+    color: #dc3545;
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 5px;
+    border-radius: 4px;
+  }
+  
+  .editbidprofile-loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: rgb(230, 227, 227);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    z-index: 1000;
+  }
+  
+  .editbidprofile-profile-pic-section {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+  
+  .editbidprofile-profile-pic {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid #fff;
+  }
+  
+  .editbidprofile-pic-placeholder {
+    width: 100px;
+    height: 100px;
+    background: #d0dae3;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 8px;
+    margin-left: auto;
+    margin-right: auto;
+    border: 2px solid #7c2424;
+  }
+  
+  .editbidprofile-file-input {
+    display: none;
+  }
+  
+  .editbidprofile-file-label {
+    display: inline-block;
+    padding: 6px 12px;
+    background: #4d34a7; /* Change pic */
+    color: rgb(21, 4, 4);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.3s;
+  }
+  
+  .editbidprofile-file-label:hover {
+    background: #0056b3;
+  }
+  
+  .editbidprofile-form-container {
+    background: rgba(8, 83, 88, 0.95); /* Container */
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(198, 16, 16, 0.1);
+    margin: 0 auto; /* Center the form container */
+    max-width: 600px; /* Make the form container smaller */
+  }
+  
+  .editbidprofile-profile-form {
+    width: 100%;
+  }
+  
+  .editbidprofile-form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  
+  .editbidprofile-form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .editbidprofile-form-group label {
+    font-weight: bold;
+    color: #b4b3eb; /* Name, email */
+    font-size: 0.9rem;
+  }
+  
+  .editbidprofile-form-group input,
+  .editbidprofile-form-group select,
+  .editbidprofile-form-group textarea {
+    padding: 8px;
+    border: 1px solid #170202;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .editbidprofile-form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+  
+  .editbidprofile-form-group input[type="file"] {
+    padding: 3px;
+    font-size: 0.85rem;
+  }
+  
+  .editbidprofile-form-group.full-width {
+    grid-column: 1 / -1;
+  }
+  
+  .editbidprofile-button-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
+  }
+  
+  .editbidprofile-btn-save,
+  .editbidprofile-btn-delete,
+  .editbidprofile-btn-cancel {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: background 0.3s;
+  }
+  
+  .editbidprofile-btn-save {
+    background: #28a745;
+    color: white;
+  }
+  
+  .editbidprofile-btn-save:hover:not(:disabled) {
+    background: #218838;
+  }
+  
+  .editbidprofile-btn-delete {
+    background: #dc3545;
+    color: white;
+  }
+  
+  .editbidprofile-btn-delete:hover:not(:disabled) {
+    background: #c82333;
+  }
+  
+  .editbidprofile-btn-cancel {
+    background: #6c757d;
+    color: rgb(249, 236, 236);
+  }
+  
+  .editbidprofile-btn-cancel:hover:not(:disabled) {
+    background: #5a6268;
+  }
+  
+  .editbidprofile-btn-save:disabled,
+  .editbidprofile-btn-delete:disabled,
+  .editbidprofile-btn-cancel:disabled {
+    background: #ce1212;
+    cursor: not-allowed;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .editbidprofile-edit-bidder-profile-container {
+      width: 100%;
+      max-width: 100%;
+      padding: 10px;
+    }
+  
+    .editbidprofile-form-container {
+      max-width: 90%;
+      padding: 10px;
+    }
+    
+    .editbidprofile-form-grid {
+      gap: 8px;
+    }
+    
+    .editbidprofile-profile-pic,
+    .editbidprofile-pic-placeholder {
+      width: 80px;
+      height: 80px;
+    }
+  
+    .editbidprofile-button-group {
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .editbidprofile-btn-save,
+    .editbidprofile-btn-delete,
+    .editbidprofile-btn-cancel {
+      width: 100%;
+    }
+  }
+  
+  /* For medium screens */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .editbidprofile-edit-bidder-profile-container {
+      max-width: 700px;
+    }
+    
+    .editbidprofile-form-container {
+      max-width: 500px;
+    }
+  }

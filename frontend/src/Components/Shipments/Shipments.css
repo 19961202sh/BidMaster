@@ -1,0 +1,99 @@
+/* Container for the whole shipment section */
+.sh-shipment-container {
+    width: 90%;
+    margin: 20px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header container */
+.sh-header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    margin-top: 150px;
+}
+
+/* Title styling */
+.sh-shipment-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Button for new shipment */
+.sh-new-shipment-button {
+    padding: 10px 15px;
+    font-size: 16px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.sh-new-shipment-button:hover {
+    background-color: #0056b3;
+}
+
+/* Grid container */
+.ssh-hipments-grid {
+    height: 500px;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* DataGrid table customization */
+.MuiDataGrid-root {
+    background: #fff;
+    border-radius: 8px;
+}
+
+.MuiDataGrid-cell {
+    font-size: 14px;
+    text-align: center;
+}
+
+.MuiDataGrid-columnHeader {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Table row hover effect */
+.MuiDataGrid-row:hover {
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+/* Edit and Delete button styling */
+.edit-button {
+    padding: 5px 10px;
+    font-size: 14px;
+    background: #28a745;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.edit-button:hover {
+    background: #218838;
+}
+
+.delete-icon {
+    color: #dc3545;
+    font-size: 18px;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.delete-icon:hover {
+    color: #c82333;
+}

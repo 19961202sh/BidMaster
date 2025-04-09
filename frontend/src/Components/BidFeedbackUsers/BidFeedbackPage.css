@@ -1,0 +1,190 @@
+/* BidFeedbackPage.css */
+
+/* Full-page wrapper for the background image */
+.bidfeedback-page-wrapper {
+    background-image: url('F:\Online_Auction_System\Online_Auction_system\frontend\public\BidImages\feedback.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    min-height: 100vh; 
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bidfeedback-profile-container {
+    font-family: Arial, sans-serif;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    flex-wrap: wrap;
+    background-color: transparent; 
+}
+
+.bidfeedback-profile-container h1 {
+    color: #f6fbf4;
+    text-align: center;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.bidfeedback-form-container {
+    background: rgb(160, 187, 113);
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 400px; 
+    height: 400px; 
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.bidfeedback-list {
+    background: rgb(125, 115, 188);
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 400px; 
+    height: 400px; 
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.bidfeedback-list h2,
+.bidfeedback-form-container h2 {
+    color: #18121a;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.bidfeedback-item {
+    border: 1px solid #754545;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+    background: #6d598d;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    box-sizing: border-box;
+}
+
+.bidfeedback-item-content {
+    flex: 1;
+    overflow-wrap: break-word;
+}
+
+.bidfeedback-item-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* Style for clickable text (Edit and Delete) */
+.bidfeedback-btn-edit,
+.bidfeedback-btn-delete {
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: underline;
+    display: inline-block;
+}
+
+/* Edit text styling */
+.bidfeedback-btn-edit {
+    color: #0f0452;
+}
+
+.bidfeedback-btn-edit:hover {
+    color: #218838;
+}
+
+/* Delete text styling */
+.bidfeedback-btn-delete {
+    color: #7a0914;
+}
+
+.bidfeedback-btn-delete:hover {
+    color: #c82333;
+}
+
+.bidfeedback-form-group {
+    margin-bottom: 15px;
+    flex: 1; 
+}
+
+.bidfeedback-form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #151319;
+}
+
+.bidfeedback-form-group input,
+.bidfeedback-form-group textarea,
+.bidfeedback-form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #472626;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.bidfeedback-form-group textarea {
+    height: 100px;
+    resize: none; /* Prevent resizing */
+}
+
+.bidfeedback-button-group {
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: rgb(51, 48, 56);
+}
+
+.bidfeedback-btn-save {
+    background-color: #007bff;
+}
+
+.bidfeedback-btn-save:hover {
+    background-color: #0056b3;
+}
+
+.bidfeedback-btn-cancel {
+    background-color: #6c757d;
+}
+
+.bidfeedback-btn-cancel:hover {
+    background-color: #5a6268;
+}
+
+.bidfeedback-loading {
+    text-align: center;
+    padding: 20px;
+    color: #666;
+}
+
+.bidfeedback-error-message {
+    text-align: center;
+    padding: 10px;
+    color: #dc3545;
+    background-color: #f8d7da;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}

@@ -1,0 +1,160 @@
+/* Container */
+.addEmp-container {
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    min-height: 80vh; /* Full viewport height */
+    margin: 0;
+    background-image: url('https://www.wework.com/ideas/wp-content/uploads/sites/4/2019/08/Print_300DPI-20190419-WeWork-EBA-Center-Conference-Room-5B.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Optional: Fixed background for a parallax effect */
+    position: relative;
+    margin-top: 80px;
+   
+}
+
+/* Add a semi-transparent overlay to the container for better contrast */
+.addEmp-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3); /* Dark overlay with 30% opacity */
+    z-index: 0;
+}
+
+/* Form Box */
+.addEmp-box {
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+    backdrop-filter: blur(10px); /* Blur effect for the form background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    text-align: left;
+    width: 700px; /* Wider to accommodate two inputs per row */
+    margin: 20px;
+    padding-left: 60px;
+}
+
+/* Form Header */
+.addEmp-header {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #fff; /* White text to contrast with the background */
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Update Header (for the Go Back button) */
+.updateEmp-header {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+}
+
+/* Form Elements */
+.addEmp-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Two Inputs Per Row */
+.addEmp-form .input-row {
+    display: flex;
+    width: 90%;
+    gap: 40px;
+}
+
+.addEmp-form .input-row > div {
+    flex: 1; /* Each input takes equal space */
+}
+
+/* Labels and Inputs */
+.addEmp-form label {
+    font-weight: bold;
+    color: #fff; /* White text for labels */
+    margin-bottom: 5px;
+    display: block;
+}
+
+.addEmp-form input,
+.addEmp-form textarea,
+.addEmp-form select {
+    width: 90%;
+    padding: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border */
+    border-radius: 5px;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.2); /* Semi-transparent input background */
+    color: #0c0b0b; /* White text for input */
+    outline: none;
+}
+
+.addEmp-form input::placeholder,
+.addEmp-form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.7); /* Lighter placeholder text */
+}
+
+.addEmp-form textarea {
+    resize: vertical;
+}
+
+/* Submit Button */
+.addEmp-button {
+    width: 90%;
+    background-color: #007bff; /* Blue button */
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+}
+
+.addEmp-button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Go Back Button */
+.go-back-button {
+    color: #fff;
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.go-back-button:hover {
+    opacity: 0.8;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .addEmp-box {
+        width: 90%;
+    }
+
+    .addEmp-form .input-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .addEmp-form .input-row > div {
+        flex: none;
+        width: 100%;
+    }
+}

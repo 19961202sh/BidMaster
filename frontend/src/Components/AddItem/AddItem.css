@@ -1,0 +1,148 @@
+/* Full page styling */
+.AR-add-item-page {
+    min-height: 100vh;
+    background: url('https://images.unsplash.com/photo-1612817288484-6f916006741a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1350&q=80') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Header banner */
+  .AR-header-banner {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    padding: 20px 0;
+    text-align: center;
+  }
+  
+  .AR-header {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .AR-page-title {
+    font-size: 2rem;
+    color: #1f1c1c;
+    margin: 20px 0;
+    font-weight: 500;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Form container */
+  .AR-form-container {
+    max-width: 400px;
+    width: 100%;
+    padding: 30px;
+    background: rgba(201, 23, 23, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(235, 168, 168, 0.2);
+    border-radius: 10px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Form styling */
+  .AR-report-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .AR-form-group {
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.2);
+  }
+  
+  .AR-form-group input {
+    padding: 12px 15px;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    color: #362e2e;
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+  
+  .AR-form-group input::placeholder {
+    color: rgba(5, 5, 5, 0.808);
+  }
+  
+  .AR-form-group input:focus {
+    border-color: rgba(235, 172, 172, 0.5);
+    background: rgba(255, 255, 255, 0.3);
+  }
+  
+  .AR-form-group input[type="date"] {
+    color: #fff;
+  }
+  
+  .AR-form-group input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+  }
+  
+  /* Submit button */
+  .AR-submit-btn {
+    padding: 12px 20px;
+    background-color: rgba(94, 12, 53, 0.459);
+    color: #fff;
+    border: 1px solid rgba(11, 170, 45, 0.3);
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+  }
+  
+  .AR-submit-btn:hover {
+    background-color: rgba(39, 175, 5, 0.3);
+    transform: translateY(-2px);
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .AR-form-container {
+      margin: 20px;
+      padding: 20px;
+    }
+  
+    .AR-page-title {
+      font-size: 1.8rem;
+    }
+  
+    .AR-form-group input {
+      padding: 10px 12px;
+      font-size: 0.95rem;
+    }
+  
+    .AR-submit-btn {
+      padding: 10px 16px;
+      font-size: 0.95rem;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .AR-form-container {
+      margin: 10px;
+      padding: 15px;
+    }
+  
+    .AR-page-title {
+      font-size: 1.5rem;
+    }
+  
+    .AR-form-group input {
+      padding: 8px 10px;
+      font-size: 0.9rem;
+    }
+  
+    .AR-submit-btn {
+      width: 100%;
+      padding: 10px;
+    }
+  }

@@ -1,0 +1,43 @@
+.payroll-container {
+    width: 90%;
+    margin: 20px auto;
+    text-align: center;
+    height: 80vh;
+    margin-top: 150px;
+  }
+  
+  .payroll-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .payroll-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .payroll-table th, .payroll-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+  }
+  
+  .payroll-table th {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .status-paid {
+    color: green;
+    font-weight: bold;
+  }
+  
+  .status-pending {
+    color: red;
+    font-weight: bold;
+  }
+  
+  .payroll-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  

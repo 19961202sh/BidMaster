@@ -1,0 +1,53 @@
+/* General reset */
+
+  
+  /* Style the entire dashboard container */
+  .dashboard-container {
+    display: flex;
+    height: 100vh;
+    background-image: url('https://as1.ftcdn.net/v2/jpg/03/21/99/92/1000_F_321999244_kLDfk7mlGQc2zpz1NM91IeTdQfjuKD0u.jpg'); 
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+  }
+  
+
+  
+  /* Main content area */
+  .dashboard-main-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+  }
+  
+  /* Style the dashboard box where the welcome message is shown */
+  .dashboard-box {
+    background-color: rgba(255, 255, 255, 0.8); /* White background with slight opacity */
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    border: 2px solid #dcdcdc;
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+    opacity: 0.7;
+    backdrop-filter: blur(5px); /* Slight blur effect on the background */
+  }
+  
+  /* Welcome message styling */
+  .dashboard-box h1 {
+    color: #4CAF50;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+  
+  .dashboard-box p {
+    color: #333;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+  
+   

@@ -1,0 +1,211 @@
+/* Base styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  html {
+    height: 100%;
+  }
+  
+  /* Main container */
+  .bidshipprofile-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    min-height: 100vh;
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Full-screen background wrapper */
+  .bidshipprofile-background-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("F:\Online_Auction_System\Online_Auction_system\frontend\public\BidImages\streetship.jpg") no-repeat center center fixed;
+    background-size: cover;
+    z-index: 0; /* Place behind content */
+  }
+  
+  /* Add overlay to the background wrapper */
+  .bidshipprofile-background-wrapper::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+  }
+  
+  
+  .bidshipprofile-form-container,
+  .bidshipprofile-h1,
+  .bidshipprofile-h2,
+  .bidshipprofile-error-message,
+  .bidshipprofile-loading {
+    position: relative;
+    z-index: 2;
+  }
+  
+  /* Headings */
+  .bidshipprofile-h1 {
+    text-align: center;
+    color: #d41919;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    font-size: 1.8rem;
+  }
+  
+  .bidshipprofile-h2 {
+    color: #381aad;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #3a7a8b;
+    padding-bottom: 10px;
+    font-size: 1.4rem;
+  }
+  
+  /* Form container */
+  .bidshipprofile-form-container {
+    background-color: rgba(191, 92, 110, 0.95);
+    border-radius: 8px;
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 10px rgba(116, 39, 39, 0.1);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .bidshipprofile-form-group {
+    margin-bottom: 15px;
+  }
+  
+  .bidshipprofile-label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #021121;
+  }
+  
+  .bidshipprofile-input, 
+  .bidshipprofile-textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #8b3535;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+  
+  .bidshipprofile-textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+  
+  /* Button styles */
+  .bidshipprofile-button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+    justify-content: center;
+  }
+  
+  .bidshipprofile-btn-save,
+  .bidshipprofile-btn-previous,
+  .bidshipprofile-btn-cancel {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+  }
+  
+  .bidshipprofile-btn-save:hover,
+  .bidshipprofile-btn-previous:hover,
+  .bidshipprofile-btn-cancel:hover {
+    transform: translateY(-2px);
+  }
+  
+  .bidshipprofile-btn-save {
+    background-color: #973232;
+    color: rgb(235, 228, 228);
+  }
+  
+  .bidshipprofile-btn-save:hover {
+    background-color: #27ae60;
+  }
+  
+  .bidshipprofile-btn-previous {
+    background-color: #f31270;
+    color: white;
+  }
+  
+  .bidshipprofile-btn-previous:hover {
+    background-color: #e67e22;
+  }
+  
+  .bidshipprofile-btn-cancel {
+    background-color: #ecf0f1;
+    color: #2c3e50;
+  }
+  
+  .bidshipprofile-btn-cancel:hover {
+    background-color: #dde4e6;
+  }
+  
+  /* Status messages */
+  .bidshipprofile-loading, 
+  .bidshipprofile-error-message {
+    text-align: center;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .bidshipprofile-loading {
+    background-color: rgba(95, 123, 151, 0.9);
+    color: #7f8c8d;
+  }
+  
+  .bidshipprofile-error-message {
+    background-color: rgba(133, 97, 97, 0.9);
+    color: #e74c3c;
+    margin-bottom: 20px;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .bidshipprofile-button-group {
+      flex-direction: column;
+    }
+    
+    .bidshipprofile-container {
+      width: 100%;
+      max-width: 100%;
+      padding: 10px;
+    }
+    
+    .bidshipprofile-form-container {
+      max-width: 90%;
+      padding: 15px;
+    }
+  }
+  
+  /* For medium screens */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .bidshipprofile-container {
+      max-width: 700px;
+    }
+    
+    .bidshipprofile-form-container {
+      max-width: 550px;
+    }
+  }
