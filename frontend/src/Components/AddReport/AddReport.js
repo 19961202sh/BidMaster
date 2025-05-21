@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import Nav from '../Nav/Nav';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './AddReport.css';
@@ -48,7 +48,7 @@ function AddReport() {
     <div className="AR-add-report-page">
       <header className="AR-header-banner">
       <br/><br/><br/>
-      
+        <Nav />
         
         <div className="AR-header-overlay">
           
@@ -64,6 +64,8 @@ function AddReport() {
         </div>
         <br/><br/>
         <div className="AR-form-container">
+          {/* Added title for the form */}
+          <h1 className="AR-form-title">Add Report Form</h1>
           <form onSubmit={handleSubmit} className="AR-report-form">
             <div className="AR-form-group">
               <label htmlFor="ReportName">Report Name</label>

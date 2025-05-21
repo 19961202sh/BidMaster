@@ -2,7 +2,6 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
-  height: 100vh;
 }
 
 .gallery-title {
@@ -10,6 +9,71 @@
   margin-bottom: 2rem;
   color: #2c3e50;
 }
+
+/* Search Bar Styles - New Addition */
+.search-container {
+  max-width: 400px;
+  margin: 0 auto 2rem;
+  position: relative;
+}
+
+.search-input {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  background-color: #f9f9f9;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #3d4b64;
+  box-shadow: 0 2px 12px rgba(61, 75, 100, 0.15);
+  background-color: #fff;
+}
+
+.search-input::placeholder {
+  color: #aaa;
+}
+
+.suggestions-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+  max-height: 250px;
+  overflow-y: auto;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.suggestion-item {
+  padding: 12px 15px;
+  cursor: pointer;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s;
+  color: #333;
+}
+
+.suggestion-item:last-child {
+  border-bottom: none;
+  border-radius: 0 0 8px 8px;
+}
+
+.suggestion-item:hover {
+  background-color: #f5f7fa;
+}
+/* End of Search Bar Styles */
 
 .gallery-grid {
   display: grid;
@@ -50,6 +114,7 @@
   object-fit: cover;
   border-bottom: 1px solid #eee;
 }
+
 .item-name {
   padding: 0 1rem;
   margin: 1rem 0 0.5rem;
@@ -74,6 +139,7 @@
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
 }
+
 .bidding-info {
   padding: 0 1rem;
   color: #388e3c;
@@ -119,6 +185,10 @@
   .gallery-grid {
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 1.5rem;
+  }
+  
+  .search-container {
+    max-width: 100%;
   }
 }
 

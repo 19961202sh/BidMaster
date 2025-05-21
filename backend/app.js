@@ -14,10 +14,14 @@ const taskRoutes = require('./Route/TaskRoute');
 const notificationRoutes = require('./Route/TaskNotificationRoute');
 const bidNowRoutes = require("./Route/BidNowRoutes");
 
+//const sellItemRoutes =  require("./Route/SellItemRoute");
+
+
 
 const Stripe = require('stripe');
 require('dotenv').config();
 require('./utils/TaskReminder');
+require('./utils/auctionWinnerNotifier');
 
 
 
@@ -44,6 +48,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 
 app.use("/item", SellerRoute);
+
 app.use("/files", express.static(path.join(__dirname, "../frontend/src/Components/ImgUploader/files")));
 
 app.use("/shipments", shipmentRouter);
@@ -64,6 +69,13 @@ app.use("/bid-users", bidUserRoutes);
 app.use("/bid-ship-users", bidShipRoutes);
 app.use("/bid-feedback-users", bidFeedbackUserRoutes);
 app.use("/api/bid-now", bidNowRoutes);
+
+app.use('/api/users', require('./Route/UserRoute'));
+app.use('/api/bid-users', require('./Route/BidUserRoutes'));
+// Add the Stripe webhook route - must be before express.json() middleware
+app.use('/api/stripe', require('./Route/stripeWebhook'));
+app.use('/api/items', require('./Route/ItemRoutes'));
+
 
 
 //im

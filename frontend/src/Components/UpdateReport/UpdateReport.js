@@ -55,16 +55,18 @@ function UpdateReport() {
           
         </div>
       </header>
-      <main className="UR-content-container">
-        <div className="UR-image-container">
+      <main className="AR-content-container">
+        <div className="AR-image-container">
           <img
-            src="https://images.unsplash.com/photo-1586473219010-2ffc57b0d282?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTN8fHJlcG9ydHxlbnwwfHwwfHx8MA%3D%3D"
+            src="https://images.unsplash.com/photo-1527219525722-f9767a7f2884?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE4fHx8ZW58MHx8fHx8"
             alt="Update report illustration"
             className="AR-side-image"
           />
         </div>
         <br/><br/>
         <div className="AR-form-container">
+          {/* Added form title */}
+          <h1 className="UR-form-title">Update Report</h1>
           <form onSubmit={handleSubmit} className="AR-report-form">
             <div className="AR-form-group">
               <label htmlFor="ReportName">Report Name</label>

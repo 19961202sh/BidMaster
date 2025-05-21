@@ -6,7 +6,7 @@ const path = require('path');
 const getAllItems = async (req, res) => {
   let items;
   try {
-    items = await Item.find();
+    items = await Item.find().sort({ createdAt: -1 });
   } catch (err) {
     console.log(err);
     return res.status(500).json({ message: "Server Error" });
@@ -21,7 +21,11 @@ const getAllItems = async (req, res) => {
 
 // Add an item
 const addItem = async (req, res) => {
-  const { id, name, description, price, status, startingPrice, biddingEndTime } = req.body;
+  const { 
+    id, name, description, price, startingPrice, biddingEndTime, status,
+    condition, provenance, dimensions, weight, material, maker, year,
+    authenticity, inspectionNotes, inspectionStatus
+  } = req.body;
   
   // Get main image path from multer
   const imagePath = req.files && req.files.image && req.files.image[0] 
@@ -35,7 +39,7 @@ const addItem = async (req, res) => {
       additionalImages.push(`/uploads/${file.filename}`);
     }
   }
-  
+
   const newItem = new Item({
     id,
     name,
@@ -45,17 +49,29 @@ const addItem = async (req, res) => {
     additionalImages,
     startingPrice: startingPrice || price, // Default to main price if not provided
     biddingEndTime: biddingEndTime || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Default 7 days from now
-    status: status || 'Pending'
+    // Item details
+    condition: condition || 'Excellent',
+    provenance: provenance || '',
+    dimensions: dimensions || '',
+    weight: weight || '',
+    material: material || '',
+    maker: maker || '',
+    year: year || '',
+    // Inspection fields
+    authenticity: authenticity || 'Verified',
+    inspectionNotes: inspectionNotes || '',
+    inspectionStatus: inspectionStatus || 'Pending',
+    status: status || (inspectionStatus === 'Approved' ? 'Approved' : 'Pending')
   });
   
   try {
     await newItem.save();
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ message: "Unable to add item" });
+    return res.status(500).json({ message: "Unable to add item", error: err.message });
   }
   
-  return res.status(201).json({ message: "Item added successfully" });
+  return res.status(201).json(newItem);
 };
 
 // Get item by ID
@@ -80,7 +96,11 @@ const getItemById = async (req, res) => {
 // Update item
 const updateItem = async (req, res) => {
   const id = req.params.id;
-  const { name, description, price, status, startingPrice, biddingEndTime } = req.body;
+  const { 
+    name, description, price, startingPrice, biddingEndTime, status,
+    condition, provenance, dimensions, weight, material, maker, year,
+    authenticity, inspectionNotes, inspectionStatus
+  } = req.body;
   
   let item;
   try {
@@ -90,17 +110,36 @@ const updateItem = async (req, res) => {
       return res.status(404).json({ message: "Item not found" });
     }
     
-    // Update fields
-    item.name = name;
-    item.description = description;
-    item.price = price;
-    item.status = status;
-    
-    if (startingPrice) item.startingPrice = startingPrice;
+    // Update basic fields
+    item.name = name || item.name;
+    item.description = description || item.description;
+    item.price = price || item.price;
+    item.startingPrice = startingPrice || item.startingPrice || item.price;
     if (biddingEndTime) item.biddingEndTime = biddingEndTime;
     
+    // Update Item detail fields
+    item.condition = condition || item.condition;
+    item.provenance = provenance !== undefined ? provenance : item.provenance;
+    item.dimensions = dimensions !== undefined ? dimensions : item.dimensions;
+    item.weight = weight !== undefined ? weight : item.weight;
+    item.material = material !== undefined ? material : item.material;
+    item.maker = maker !== undefined ? maker : item.maker;
+    item.year = year !== undefined ? year : item.year;
+    
+    // Update inspection fields
+    item.authenticity = authenticity || item.authenticity;
+    item.inspectionNotes = inspectionNotes !== undefined ? inspectionNotes : item.inspectionNotes;
+    item.inspectionStatus = inspectionStatus || item.inspectionStatus;
+    
+    // Set status based on inspection status if provided
+    if (inspectionStatus) {
+      item.status = inspectionStatus === 'Approved' ? 'Approved' : 'Pending';
+    } else if (status) {
+      item.status = status;
+    }
+    
     // If a new main image was uploaded, update the image path
-    if (req.file) {
+    if (req.files && req.files.image && req.files.image[0]) {
       // Delete old image if it's not the placeholder
       if (item.image && item.image !== '/uploads/placeholder.png') {
         const oldImagePath = path.join(__dirname, '..', item.image);
@@ -109,7 +148,7 @@ const updateItem = async (req, res) => {
         }
       }
       
-      item.image = `/uploads/${req.file.filename}`;
+      item.image = `/uploads/${req.files.image[0].filename}`;
     }
     
     // Handle additional images if they exist
@@ -132,10 +171,10 @@ const updateItem = async (req, res) => {
     await item.save();
   } catch (err) {
     console.log(err);
-    return res.status(500).json({ message: "Server Error" });
+    return res.status(500).json({ message: "Server Error", error: err.message });
   }
   
-  return res.status(200).json({ message: "Item updated successfully" });
+  return res.status(200).json(item);
 };
 
 // Delete item
@@ -174,10 +213,10 @@ const deleteItem = async (req, res) => {
   return res.status(200).json({ message: "Item deleted successfully" });
 };
 
-// Update item status
+// Update item status (for quick approval/rejection from ItemManager)
 const updateItemStatus = async (req, res) => {
   const id = req.params.id;
-  const { status } = req.body;
+  const { status, inspectionStatus } = req.body;
   
   try {
     const item = await Item.findById(id);
@@ -186,7 +225,14 @@ const updateItemStatus = async (req, res) => {
       return res.status(404).json({ message: "Item not found" });
     }
     
-    item.status = status;
+    // Update fields that were provided
+    if (status) item.status = status;
+    if (inspectionStatus) {
+      item.inspectionStatus = inspectionStatus;
+      // Also update the main status if inspection status is provided
+      item.status = inspectionStatus === 'Approved' ? 'Approved' : 'Pending';
+    }
+    
     await item.save();
   } catch (err) {
     console.log(err);

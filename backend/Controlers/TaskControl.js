@@ -171,3 +171,20 @@ exports.getRecentTasks = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+// Get tasks due in next 24 hours
+exports.getDueSoonTasks = async (req, res) => {
+  try {
+    const now = new Date();
+    const upcoming = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+
+    const tasks = await Task.find({
+      deadline: { $lt: upcoming, $gt: now },
+      status: { $ne: 'Completed' }
+    }).populate('assignedTo');
+
+    res.status(200).json(tasks);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to fetch due-soon tasks' });
+  }
+};

@@ -19,10 +19,10 @@ const bidSchema = new mongoose.Schema({
     },
     isHighestBid: {
         type: Boolean,
-        default: false
+        default: true
     }
 });
 
 const Bid = mongoose.model('BidNowModel', bidSchema);
 
-module.exports = Bid; 
+module.exports = Bid;

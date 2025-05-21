@@ -1,295 +1,172 @@
-/* Modern Reset and Base Styles */
+/* BidNowBidderStyles.css - Modern and User-Friendly UI for the Auction System */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
 :root {
-  --primary-color: #2196F3;
-  --success-color: #4CAF50;
-  --warning-color: #ff9800;
-  --error-color: #f44336;
-  --background-color: #f8f9fa;
-  --card-background: #ffffff;
-  --text-primary: #333333;
-  --text-secondary: #666666;
-  --border-radius: 12px;
-  --transition-speed: 0.3s;
+  --primary-color: #3498db;
+  --primary-dark: #2980b9;
+  --secondary-color: #2c3e50;
+  --success-color: #2ecc71;
+  --danger-color: #e74c3c;
+  --warning-color: #f39c12;
+  --light-color: #ecf0f1;
+  --dark-color: #34495e;
+  --white: #ffffff;
+  --text-color: #333;
+  --text-light: #7f8c8d;
+  --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 10px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 8px 20px rgba(0, 0, 0, 0.1);
+  --border-radius: 8px;
+  --transition: all 0.3s ease;
 }
 
-.bidnow-container {
-  min-height: 100vh;
-  background-color: #f3f4f6;
-  padding: 24px;
+/* Base Styles */
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f5f7fa;
+  color: var(--text-color);
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
 }
 
-.bidnow-card {
-  max-width: 640px;
-  margin: 0 auto;
-  background-color: #ffffff;
-  padding: 24px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.bidnow-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 16px;
-}
-
-.bidnow-info {
-  margin-bottom: 16px;
-}
-
-.bidnow-input {
-  border: 1px solid #d1d5db;
-  padding: 8px;
-  margin-bottom: 16px;
-  width: 100%;
-  border-radius: 4px;
-}
-
-.bidnow-button {
-  padding: 8px 16px;
-  border-radius: 4px;
-  color: #ffffff;
-  cursor: pointer;
-}
-
-.bidnow-place {
-  background-color: #3b82f6;
-  margin-right: 8px;
-}
-
-.bidnow-place:disabled {
-  background-color: #9ca3af;
-  cursor: not-allowed;
-}
-
-.bidnow-retrieve {
-  margin-top: 16px;
-}
-
-.bidnow-retrieve-btn {
-  background-color: #ef4444;
-}
-
-.bidnow-message {
-  margin-top: 16px;
-  color: #16a34a;
-}
-
-.bidnow-pay {
-  background-color: #22c55e;
-  margin-top: 16px;
-}
-
-.bidnow-history-title {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-top: 24px;
-}
-
-.bidnow-history {
-  margin-top: 8px;
-}
-
-.bidnow-history-item {
-  border-bottom: 1px solid #e5e7eb;
-  padding: 8px 0;
-}
-
+/* Main Container */
 .BidNowBidderWrapper {
-  padding: 2rem;
-  max-width: 1400px;
-  margin: 0 auto;
-  background: var(--background-color);
-  min-height: calc(100vh - 4rem);
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 20px;
 }
 
+/* Header with Download Button */
+.BidNowBidderHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--light-color);
+}
+
+.BidNowBidderTitle {
+  font-size: 1.8rem;
+  color: var(--secondary-color);
+  margin: 0;
+}
+
+.downloadPdf-btn {
+  background: linear-gradient(to right, var(--primary-color), var(--primary-dark));
+  color: var(--white);
+  border: none;
+  padding: 10px 20px;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.downloadPdf-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+  background: linear-gradient(to right, var(--primary-dark), #1a5a87);
+}
+
+.downloadPdf-btn:active {
+  transform: translateY(0);
+}
+
+/* Content for PDF Generation */
+.BidNowBidderContent {
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+/* Main Layout */
 .BidNowBidderMain {
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 2rem;
-  position: relative;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  padding: 30px;
 }
 
-/* Left Section Styles */
+/* Left Column */
 .BidNowBidderLeft {
-  background: var(--card-background);
-  padding: 2rem;
-  border-radius: var(--border-radius);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-  transition: transform var(--transition-speed);
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
 }
 
 .BidNowBidderLeft h1 {
-  font-size: 2.5rem;
-  color: var(--text-primary);
-  margin-bottom: 1.5rem;
-  font-weight: 700;
-  background: linear-gradient(45deg, var(--primary-color), #1976D2);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-size: 1.6rem;
+  color: var(--secondary-color);
+  margin: 0 0 10px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--primary-color);
 }
 
 /* Image Gallery */
 .BidNowBidderImageGallery {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-  margin: 2rem 0;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
 }
 
 .BidNowBidderZoomable {
   width: 100%;
-  height: 300px;
+  height: auto;
+  transition: var(--transition);
   object-fit: cover;
-  border-radius: calc(var(--border-radius) - 4px);
-  cursor: pointer;
-  transition: all var(--transition-speed);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: block;
 }
 
 .BidNowBidderZoomable:hover {
-  transform: scale(1.02) translateY(-5px);
-  box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+  transform: scale(1.02);
 }
 
-/* Right Section Styles */
-.BidNowBidderRight {
-  background: var(--card-background);
-  padding: 2rem;
+/* Description Section */
+.BidNowBidderDescription {
+  background-color: #f8f9fa;
+  padding: 20px;
   border-radius: var(--border-radius);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-  position: sticky;
-  top: 2rem;
-  height: fit-content;
+  border-left: 3px solid var(--primary-color);
 }
 
-/* Timer Section */
-.BidNowBidderTimer {
-  background: linear-gradient(135deg, #2196F3, #1976D2);
-  color: white;
-  padding: 1.5rem;
-  border-radius: var(--border-radius);
-  text-align: center;
-  margin-bottom: 2rem;
-  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
-}
-
-.BidNowBidderTimer h2 {
+.BidNowBidderDescription h2 {
   font-size: 1.2rem;
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  color: var(--primary-dark);
+  margin-top: 0;
+  margin-bottom: 15px;
 }
 
-.BidNowBidderTimer p {
-  font-size: 2.5rem;
-  font-weight: 700;
+.BidNowBidderDescription p {
   margin: 0;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  color: var(--text-color);
+  line-height: 1.6;
 }
 
-/* Price Display */
-.BidNowBidderPrices {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin: 2rem 0;
-}
-
-.starting-price, .current-bid {
-  padding: 1.5rem;
-  border-radius: var(--border-radius);
-  text-align: center;
-  transition: transform var(--transition-speed);
-}
-
-.starting-price {
-  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-  border: 1px solid #dee2e6;
-}
-
-.current-bid {
-  background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-  border: 1px solid #90caf9;
-}
-
-.starting-price h3, .current-bid h3 {
-  font-size: 1rem;
-  color: var(--text-secondary);
-  margin-bottom: 0.5rem;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.starting-price p, .current-bid p {
-  font-size: 1.8rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin: 0;
-}
-
-/* Bid Form */
-.BidNowBidderBidForm {
-  margin: 2rem 0;
-}
-
-.BidNowBidderBidForm input {
-  width: 100%;
-  padding: 1rem;
-  font-size: 1.2rem;
-  border: 2px solid #e0e0e0;
-  border-radius: calc(var(--border-radius) - 4px);
-  margin-bottom: 1rem;
-  transition: all var(--transition-speed);
-}
-
-.BidNowBidderBidForm input:focus {
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.2);
-  outline: none;
-}
-
-.BidNowBidderBidForm button {
-  width: 100%;
-  padding: 1rem;
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: white;
-  background: linear-gradient(45deg, var(--primary-color), #1976D2);
-  border: none;
-  border-radius: calc(var(--border-radius) - 4px);
-  cursor: pointer;
-  transition: all var(--transition-speed);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-}
-
-.BidNowBidderBidForm button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
-}
-
-/* Bid History */
+/* Bid History Section */
 .BidNowBidderHistory {
-  margin-top: 2rem;
-  padding: 1.5rem;
-  background: white;
+  background-color: #f8f9fa;
+  padding: 20px;
   border-radius: var(--border-radius);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  border-left: 3px solid var(--secondary-color);
 }
 
 .BidNowBidderHistory h2 {
-  font-size: 1.5rem;
-  color: var(--text-primary);
-  margin-bottom: 1rem;
-  font-weight: 600;
+  font-size: 1.2rem;
+  color: var(--secondary-color);
+  margin-top: 0;
+  margin-bottom: 15px;
 }
 
 .BidNowBidderHistoryList {
-  max-height: 400px;
+  max-height: 300px;
   overflow-y: auto;
-  padding-right: 1rem;
 }
 
 .BidNowBidderHistoryList::-webkit-scrollbar {
@@ -297,122 +174,438 @@
 }
 
 .BidNowBidderHistoryList::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 4px;
+  background: var(--light-color);
+  border-radius: 10px;
 }
 
 .BidNowBidderHistoryList::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
+  background-color: var(--primary-color);
+  border-radius: 10px;
 }
 
 .BidNowBidderHistoryItem {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  margin: 0.5rem 0;
-  background: white;
-  border-radius: calc(var(--border-radius) - 4px);
-  border: 1px solid #eee;
-  transition: all var(--transition-speed);
+  padding: 12px 15px;
+  border-bottom: 1px solid #e6e9ec;
+  background-color: var(--white);
+  border-radius: 4px;
+  margin-bottom: 8px;
+  transition: var(--transition);
 }
 
 .BidNowBidderHistoryItem:hover {
-  transform: translateX(5px);
-  border-left: 4px solid var(--primary-color);
+  transform: translateX(3px);
+  box-shadow: var(--shadow-sm);
 }
 
 .BidNowBidderHistoryItem.your-bid {
-  background: linear-gradient(to right, rgba(76, 175, 80, 0.1), transparent);
-  border-left: 4px solid var(--success-color);
+  background-color: rgba(52, 152, 219, 0.1);
+  border-left: 3px solid var(--primary-color);
 }
 
 .bid-amount {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: var(--primary-color);
+  font-weight: 600;
+  color: var(--primary-dark);
 }
 
 .bid-user {
-  font-size: 1rem;
-  color: var(--text-secondary);
+  font-weight: 500;
 }
 
 .bid-time {
+  color: var(--text-light);
   font-size: 0.9rem;
-  color: #999;
+}
+
+/* Right Column */
+.BidNowBidderRight {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+/* Price Information */
+.BidNowBidderPrices {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.starting-price,
+.current-bid {
+  background-color: #f8f9fa;
+  padding: 15px;
+  border-radius: var(--border-radius);
+  text-align: center;
+}
+
+.starting-price {
+  border-top: 3px solid var(--warning-color);
+}
+
+.current-bid {
+  border-top: 3px solid var(--success-color);
+}
+
+.BidNowBidderPrices h3 {
+  font-size: 1rem;
+  color: var(--text-light);
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.BidNowBidderPrices p {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--secondary-color);
+}
+
+/* Timer Section */
+.BidNowBidderTimer {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: var(--border-radius);
+  text-align: center;
+  border-left: 3px solid var(--warning-color);
+}
+
+.BidNowBidderTimer h2 {
+  font-size: 1.2rem;
+  color: var(--secondary-color);
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.BidNowBidderTimer p {
+  margin: 5px 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--secondary-color);
+}
+
+.BidNowBidderTimer .end-time {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-top: 10px;
+}
+
+.BidNowBidderTimer .auction-ended {
+  color: var(--danger-color);
+}
+
+.warning-message {
+  color: var(--danger-color) !important;
+  font-size: 0.9rem !important;
+  font-weight: 500 !important;
+  background-color: rgba(231, 76, 60, 0.1);
+  padding: 8px 10px;
+  border-radius: 4px;
+  margin-top: 10px !important;
+}
+
+/* Bid Form */
+.BidNowBidderBidForm {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: var(--border-radius);
+  border-left: 3px solid var(--primary-color);
+}
+
+.BidNowBidderBidForm input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #dde0e4;
+  border-radius: var(--border-radius);
+  margin-bottom: 15px;
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.BidNowBidderBidForm input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.BidNowBidderBidForm button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(to right, var(--primary-color), var(--primary-dark));
+  color: var(--white);
+  border: none;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  margin-bottom: 10px;
+}
+
+.BidNowBidderBidForm button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.BidNowBidderBidForm button.retrieve-bid-button {
+  background: linear-gradient(to right, var(--warning-color), #d35400);
+}
+
+.terms-text {
+  margin-top: 10px;
+  font-size: 0.85rem;
+  color: var(--text-light);
+  text-align: center;
+}
+
+.terms-text a {
+  color: var(--primary-color);
+  text-decoration: underline;
 }
 
 /* Notifications */
-.BidNowBidderNotification {
-  margin: 1rem 0;
-  padding: 1rem 1.5rem;
-  border-radius: var(--border-radius);
-  animation: slideIn var(--transition-speed) ease-out;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.BidNowBidderNotification.success {
-  background: linear-gradient(to right, #e8f5e9, #c8e6c9);
-  border-left: 4px solid var(--success-color);
-}
-
-.BidNowBidderNotification.warning {
-  background: linear-gradient(to right, #fff3e0, #ffe0b2);
-  border-left: 4px solid var(--warning-color);
-}
-
-/* End Status */
-.BidNowBidderEndStatus {
-  margin-top: 2rem;
-  padding: 2rem;
+.confirmation-message {
+  background-color: rgba(46, 204, 113, 0.1);
+  color: var(--success-color);
+  padding: 12px;
   border-radius: var(--border-radius);
   text-align: center;
-  animation: fadeIn 0.5s ease-out;
+  font-weight: 500;
+  margin-bottom: 15px;
+  animation: fadeIn 0.3s ease-out;
 }
 
-.BidNowBidderEndStatus.success {
-  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+.outbid-notification {
+  background-color: rgba(231, 76, 60, 0.1);
+  color: var(--danger-color);
+  padding: 12px;
+  border-radius: var(--border-radius);
+  margin-bottom: 15px;
+  animation: fadeIn 0.3s ease-out;
 }
 
-.BidNowBidderEndStatus.failure {
-  background: linear-gradient(135deg, #fafafa, #f5f5f5);
+.outbid-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
-.pay-now-button {
-  margin-top: 1.5rem;
-  padding: 1rem 2rem;
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: white;
-  background: linear-gradient(45deg, var(--success-color), #43a047);
+.outbid-icon {
+  font-size: 1.4rem;
+}
+
+/* Auction Ended Message */
+.auction-ended-message {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: var(--border-radius);
+  text-align: center;
+  border: 1px solid var(--light-color);
+}
+
+.auction-ended-message p {
+  margin: 0 0 15px;
+  font-weight: 500;
+}
+
+.proceed-to-pay-button {
+  background: linear-gradient(to right, var(--success-color), #27ae60);
+  color: var(--white);
   border: none;
-  border-radius: calc(var(--border-radius) - 4px);
+  padding: 12px 20px;
+  border-radius: var(--border-radius);
+  font-weight: 600;
   cursor: pointer;
-  transition: all var(--transition-speed);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+  transition: var(--transition);
 }
 
-.pay-now-button:hover {
+.proceed-to-pay-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(76, 175, 80, 0.4);
+  box-shadow: var(--shadow-md);
+}
+
+/* Bid Retrieval Confirmation Dialog */
+.confirmation-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.confirmation-dialog {
+  width: 90%;
+  max-width: 400px;
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  padding: 25px;
+  box-shadow: var(--shadow-lg);
+  animation: scaleIn 0.3s ease-out;
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.confirmation-dialog h3 {
+  margin-top: 0;
+  color: var(--secondary-color);
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+}
+
+.confirmation-dialog p {
+  margin: 0 0 15px;
+}
+
+.warning-text {
+  color: var(--danger-color);
+  font-weight: 500;
+}
+
+.confirmation-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.confirm-button,
+.cancel-button {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: var(--border-radius);
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.confirm-button {
+  background-color: var(--danger-color);
+  color: var(--white);
+}
+
+.confirm-button:hover {
+  background-color: #c0392b;
+}
+
+.cancel-button {
+  background-color: var(--light-color);
+  color: var(--text-color);
+}
+
+.cancel-button:hover {
+  background-color: #d5d8dc;
+}
+
+/* Statistics Section */
+.BidNowBidderStats {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: var(--border-radius);
+  border-left: 3px solid var(--success-color);
+}
+
+.BidNowBidderStats h2 {
+  font-size: 1.2rem;
+  color: var(--secondary-color);
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.stat-item {
+  background-color: var(--white);
+  padding: 15px;
+  border-radius: var(--border-radius);
+  text-align: center;
+  transition: var(--transition);
+}
+
+.stat-item:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-sm);
+}
+
+.stat-item h3 {
+  font-size: 0.9rem;
+  color: var(--text-light);
+  margin-top: 0;
+  margin-bottom: 8px;
+}
+
+.stat-item p {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--secondary-color);
+}
+
+/* Loading and Error States */
+.loading,
+.error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  padding: 30px;
+  box-shadow: var(--shadow-md);
+  margin: 50px auto;
+  max-width: 500px;
+  text-align: center;
+}
+
+.loading {
+  color: var(--primary-color);
+  font-weight: 500;
+  font-size: 1.2rem;
+  position: relative;
+}
+
+.loading::after {
+  content: '';
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 3px solid rgba(52, 152, 219, 0.2);
+  border-top-color: var(--primary-color);
+  animation: spin 1s linear infinite;
+  position: absolute;
+  right: -35px;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.error {
+  color: var(--danger-color);
+  font-weight: 500;
 }
 
 /* Animations */
-@keyframes slideIn {
-  from {
-    transform: translateY(-20px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -423,28 +616,65 @@
 }
 
 /* Responsive Design */
-@media (max-width: 1024px) {
+@media (max-width: 992px) {
   .BidNowBidderMain {
     grid-template-columns: 1fr;
   }
-
+  
+  .BidNowBidderLeft {
+    order: 1;
+  }
+  
   .BidNowBidderRight {
-    position: relative;
-    top: 0;
+    order: 0;
   }
 }
 
 @media (max-width: 768px) {
-  .BidNowBidderImageGallery {
+  .BidNowBidderWrapper {
+    padding: 0 15px;
+  }
+  
+  .BidNowBidderMain {
+    padding: 20px;
+  }
+  
+  .BidNowBidderPrices {
     grid-template-columns: 1fr;
   }
-
-  .BidNowBidderWrapper {
-    padding: 1rem;
+  
+  .stats-grid {
+    grid-template-columns: 1fr;
   }
+  
+  .confirmation-buttons {
+    flex-direction: column;
+  }
+}
 
+/* Print Styles for PDF */
+@media print {
+  .BidNowBidderHeader, 
+  .BidNowBidderBidForm button,
+  .proceed-to-pay-button,
+  .confirmation-dialog-overlay {
+    display: none !important;
+  }
+  
+  .BidNowBidderWrapper,
+  .BidNowBidderContent,
+  .BidNowBidderMain {
+    margin: 0;
+    padding: 15px;
+    box-shadow: none;
+  }
+  
+  .BidNowBidderMain {
+    grid-template-columns: 1fr;
+  }
+  
   .BidNowBidderLeft,
   .BidNowBidderRight {
-    padding: 1.5rem;
+    margin-bottom: 20px;
   }
 }

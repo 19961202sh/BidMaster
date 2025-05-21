@@ -1,112 +1,268 @@
-import React, { useState, useEffect } from 'react';
-import { DataGrid } from '@mui/x-data-grid';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
+import { DataGrid } from '@mui/x-data-grid';
 import { FaTrash } from 'react-icons/fa';
-import { publicRequest } from '../../requestMethods';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
+import html2canvas from 'html2canvas';
 import './Shipments.css';
-const URL = "http://localhost:5000/shipments"; // Base URL for API requests
+
+const BASE_URL = 'http://localhost:5000';
+
 function Shipments() {
-    const [shipments, setShipments] = useState([]); // variable name casing
+  const [shipments, setShipments] = useState([]);
+  const [shippers, setShippers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const pdfRef = useRef();
 
-    const navigate = useNavigate(); // useNavigate hook for navigation
+  useEffect(() => {
+    const getAllShipments = async () => {
+      try {
+        setLoading(true);
+        const res = await axios.get(`${BASE_URL}/shipments`);
+        const shipmentData = res.data.data || [];
+        setShipments(Array.isArray(shipmentData) ? shipmentData : []);
+        setError(null);
+      } catch (error) {
+        console.error('Error fetching shipments:', error);
+        setError('Failed to load shipments');
+        toast.error('Failed to load shipments');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    const columns = [
-        { field: "itemid", headerName: "Item ID", width: 100 },
-        { field: "itemname", headerName: "Item Name", width: 150 },
-        {field: "from", headerName: "From", width: 100 },
-        { field: "to", headerName: "To", width: 100 },
-        { field: "sellername", headerName: "Seller", width: 120 },
-        { field: "selleremail", headerName: "Seller Email", width: 120 },
-        { field: "sellerphone", headerName: "Seller Contact", width: 100 },
-        { field: "buyername", headerName: "Recipient", width: 120 },
-        { field: "buyeremail", headerName: "Recipient Email", width: 120 },
-        { field: "buyerphone", headerName: "Recipient Phone", width: 100 },
-        { field: "weight", headerName: "Weight", width: 80 },
-        { field: "shipmenttype", headerName: "Shipment Type", width: 120 },
-        { field: "cost", headerName: "Cost", width: 80 },
-        {
-            field: "edit",
-            headerName: "Edit",
-            width: 150,
-            renderCell: (params) => (
-                <Link to={`/shipments/${params.row._id}`}>
-                    <button className="edit-button">Edit</button>
-                </Link>
-            ),
-        },
-        {
-            field: "delete",
-            headerName: "Delete",
-            width: 75,
-            renderCell: (params) => (
-              <button>
-                 <FaTrash 
-                    className="delete-icon" 
-                    onClick={() => handleDelete(params.row._id)}
-                   //onClick={handleDelete}
-                />
-              </button>
-               
-            ),
-        },
-    ];
+    const getAllShippers = async () => {
+      try {
+        const res = await axios.get(`${BASE_URL}/shippers`);
+        const shipperData = res.data.data || [];
+        setShippers(Array.isArray(shipperData) ? shipperData : []);
+      } catch (error) {
+        console.error('Error fetching shippers:', error);
+      }
+    };
 
-    useEffect(() => {
-        const getAllShipments = async () => {
-            try {
-                const res = await publicRequest.get("/shipments");
-                setShipments(res.data.shipments || res.data); // Handle possible response structure
-            } catch (error) {
-                console.error("Error fetching shipments:", error);
-            }
-        };
-        getAllShipments();
-    }, []);
+    getAllShipments();
+    getAllShippers();
+  }, []);
 
-     const handleDelete = async (id) => {
-            try {
-                await publicRequest.delete(`/shipments/${id}`);
-                setShipments(shipments.filter(shipments => shipments._id !== id)); // Update state instead of reloading
-            } catch (error) {
-                console.error('Error deleting shipment:', error);
-            }
-        };
-    /*const handleDelete = async (id) => {
-        try {
-            await axios.delete(`${URL}/${id}`)
-            .then(res => res.data)
-            .then(() => navigate("/"))
-            .then(()=> navigate("/shipments"))
-            setShipments(shipments.filter(shipment => shipment._id !== id));
-        } catch (error) {
-            console.error("Error deleting shipment:", error);
+  const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this shipment?')) {
+      try {
+        const response = await axios.delete(`${BASE_URL}/shipments/${id}`);
+        if (response?.data?.success) {
+          setShipments(prev => prev.filter(s => s._id !== id));
+          toast.success('Shipment deleted successfully');
+        } else {
+          throw new Error(response?.data?.message || 'Failed to delete');
         }
-    };*/
+      } catch (error) {
+        console.error('Delete error:', error);
+        toast.error(error.response?.data?.message || 'Failed to delete shipment');
+      }
+    }
+  };
 
-    return (
-        <div className="sh-shipment-container">
-            <div className="sh-header-container">
-                <h1 className="sh-shipment-title">All Shipments</h1>
-                <Link to="/newshipment">
-                    <button className="sh-new-shipment-button">New Shipment</button>
-                </Link>
-            </div>
-            <div className="ssh-hipments-grid">
-            <DataGrid 
-                rows={shipments} 
-                columns={columns} 
-                getRowId={(row) => row._id}
-                pageSize={10}
-                checkboxSelection
-                disableSelectionOnClick
-            />
-            </div>
+  const handleAssignCourier = async (shipmentId, courierId, field) => {
+    try {
+      const selectedCourier = shippers.find(s => s.providerid === courierId);
+      const currentShipment = shipments.find(s => s._id === shipmentId);
+
+      if (!selectedCourier || !currentShipment) {
+        throw new Error('Courier or shipment not found');
+      }
+
+      const calculatedCost = currentShipment.weight * selectedCourier.rateperkg;
+
+      await axios.post(`${BASE_URL}/shipments/assign-courier`, {
+        shipmentId,
+        courierid: courierId,
+        field
+      });
+
+      setShipments(prevShipments =>
+        prevShipments.map(shipment =>
+          shipment._id === shipmentId
+            ? {
+                ...shipment,
+                [field]: courierId,
+                cost:
+                  field === 'courieridToCollection'
+                    ? calculatedCost
+                    : shipment.cost + calculatedCost,
+                status:
+                  field === 'courieridToCollection'
+                    ? 'Courier Assigned to Collection'
+                    : 'Courier Assigned to Buyer'
+              }
+            : shipment
+        )
+      );
+      toast.success('Courier assigned successfully');
+    } catch (error) {
+      console.error('Assign courier error:', error);
+      toast.error('Failed to assign courier');
+    }
+  };
+
+  const generatePDF = () => {
+    const input = pdfRef.current;
+    html2canvas(input)
+      .then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('l', 'mm', 'a4', true);
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        const ratio = Math.min(pdfWidth / canvas.width, pdfHeight / canvas.height);
+        const imgX = (pdfWidth - canvas.width * ratio) / 2;
+        const imgY = 30;
+        pdf.addImage(imgData, 'PNG', imgX, imgY, canvas.width * ratio, canvas.height * ratio);
+        pdf.save('shipments-report.pdf');
+        toast.success('Report downloaded successfully');
+      })
+      .catch((error) => {
+        console.error('PDF generation error:', error);
+        toast.error('Failed to generate report');
+      });
+  };
+
+  const columns = [
+    { field: 'itemid', headerName: 'Item ID', width: 150 },
+    { field: 'itemname', headerName: 'Item Name', width: 200 },
+    { field: 'from', headerName: 'From', width: 200 },
+    { field: 'collectionCenter', headerName: 'Collection Center', width: 200 },
+    { field: 'to', headerName: 'To', width: 200 },
+    { field: 'userName', headerName: 'Seller Name', width: 150 },
+    { field: 'selleremail', headerName: 'Seller Email', width: 200 },
+    { field: 'phone', headerName: 'Seller Phone', width: 150 },
+    { field: 'buyername', headerName: 'Buyer Name', width: 150 },
+    { field: 'buyeremail', headerName: 'Buyer Email', width: 200 },
+    { field: 'buyerphone', headerName: 'Buyer Phone', width: 150 },
+    { field: 'weight', headerName: 'Weight (kg)', width: 120 },
+    { field: 'shipmenttype', headerName: 'Type', width: 120 },
+    { field: 'cost', headerName: 'Cost ($)', width: 120 },
+    {
+      field: 'courieridToCollection',
+      headerName: 'Courier to Collection',
+      width: 180,
+      renderCell: (params) => (
+        <select
+          value={params.row.courieridToCollection || ''}
+          onChange={(e) =>
+            handleAssignCourier(params.row._id, e.target.value, 'courieridToCollection')
+          }
+          disabled={params.row.status !== 'Pending'}
+        >
+          <option value="">Select Courier</option>
+          {shippers.map((shipper) => (
+            <option key={shipper._id} value={shipper.providerid}>
+              {shipper.companyname}
+            </option>
+          ))}
+        </select>
+      ),
+    },
+    {
+      field: 'courieridToBuyer',
+      headerName: 'Courier to Buyer',
+      width: 180,
+      renderCell: (params) => (
+        <select
+          value={params.row.courieridToBuyer || ''}
+          onChange={(e) =>
+            handleAssignCourier(params.row._id, e.target.value, 'courieridToBuyer')
+          }
+          disabled={params.row.status !== 'At Collection Center'}
+        >
+          <option value="">Select Courier</option>
+          {shippers.map((shipper) => (
+            <option key={shipper._id} value={shipper.providerid}>
+              {shipper.companyname}
+            </option>
+          ))}
+        </select>
+      ),
+    },
+    { field: 'status', headerName: 'Status', width: 150 },
+    {
+      field: 'edit',
+      headerName: 'Edit',
+      width: 150,
+      renderCell: (params) => (
+        <Link to={`/shipments/${params.row._id}`} state={{ shipmentData: params.row }}>
+          <button className="edit-button">Edit</button>
+        </Link>
+      ),
+    },
+    {
+      field: 'delete',
+      headerName: 'Delete',
+      width: 150,
+      renderCell: (params) => (
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%', height: '100%' }}>
+          <FaTrash
+            className="delete-icon"
+            onClick={() => handleDelete(params.row._id)}
+            style={{ cursor: 'pointer' }}
+          />
         </div>
-    );
+      ),
+    },
+  ];
+
+  if (loading) return <div className="sh-loading-message">Loading shipments...</div>;
+  if (error) return <div className="sh-error-message">{error}</div>;
+
+  return (
+    <div className="sh-shipments-container">
+    
+      <div className="sh-shipments-header">
+        <h1 className="sh-shipments-title">Shipments</h1>
+        <div className="sh-shipments-actions">
+          <Link to="/newshipment">
+            <button className="sh-new-shipments-button">New Shipment</button>
+          </Link>
+          <button type="button" className="sh-report-button" onClick={generatePDF}>
+            Download Report
+          </button>
+        </div>
+      </div>
+      <div className="sh-shipments-grid" ref={pdfRef}>
+        {shipments.length === 0 ? (
+          <div className="sh-no-data-message">No shipments found</div>
+        ) : (
+          <DataGrid
+            rows={shipments}
+            columns={columns}
+            getRowId={(row) => row._id}
+            initialState={{
+              pagination: { paginationModel: { pageSize: 10, page: 0 } },
+            }}
+            pageSizeOptions={[10, 25, 50]}
+            checkboxSelection
+            disableRowSelectionOnClick
+            autoHeight
+            sx={{
+              '& .MuiDataGrid-cell': {
+                whiteSpace: 'normal',
+                lineHeight: 'normal',
+                padding: '8px',
+              },
+              '& .MuiDataGrid-columnHeader': {
+                backgroundColor: '#f5f5f5',
+                fontWeight: 'bold',
+              },
+            }}
+          />
+        )}
+      </div>
+    </div>
+  );
 }
 
 export default Shipments;
-

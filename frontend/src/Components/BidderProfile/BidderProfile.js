@@ -1,7 +1,9 @@
+// BidderProfile.js - Enhanced with modern UI but same functionality
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './BidderProfile.css';
+import { FaMapMarkerAlt, FaGlobe, FaGithub, FaTwitter, FaInstagram, FaFacebook, FaUserEdit } from 'react-icons/fa';
 
 const BidderProfile = () => {
   const [profile, setProfile] = useState(null);
@@ -10,11 +12,12 @@ const BidderProfile = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Fetch profile data from the API - keeping original functionality
   const fetchProfile = async () => {
     try {
       setLoading(true);
       const response = await axios.get('http://localhost:5000/bid-users');
-      console.log('API Response:', response.data);
+      console.log('API response:', response.data);
       if (response.data.bidUsers && response.data.bidUsers.length > 0) {
         setProfile(response.data.bidUsers[0]);
         console.log('Profile set to:', response.data.bidUsers[0]);
@@ -36,16 +39,19 @@ const BidderProfile = () => {
     }
   };
 
+  // Fetch profile when the component mounts or location changes
   useEffect(() => {
     fetchProfile();
   }, [location]);
 
+  // Re-fetch profile if recently updated or deleted
   useEffect(() => {
     if (location.state?.justUpdated || location.state?.justDeleted) {
       fetchProfile();
     }
   }, [location.state]);
 
+  // Navigate to the edit profile page
   const handleEditProfile = () => {
     if (profile) {
       navigate('/edit-bidder-profile', { state: { editDetail: profile } });
@@ -62,6 +68,7 @@ const BidderProfile = () => {
     return <div className="bidprofile-error-message">{error}</div>;
   }
 
+  // Default values for a blank profile - keeping original logic
   const blankProfile = {
     name: 'Not set',
     address: 'Not set',
@@ -75,6 +82,13 @@ const BidderProfile = () => {
   const displayProfile = profile || blankProfile;
   const isBlank = !profile;
 
+  // Calculate progress percentages
+  const getProgressWidth = (index) => {
+    if (isBlank) return '0%';
+    const values = [75, 50, 30, 60]; // Sample values as in the original code
+    return `${values[index]}%`;
+  };
+
   return (
     <div className="bidprofile-bidder-profile-container">
       <h1 className="bidprofile-h1">My Bidder Profile</h1>
@@ -83,10 +97,13 @@ const BidderProfile = () => {
           <div className="bidprofile-profile-pic-section">
             {displayProfile.picture ? (
               <img
-                src={`http://localhost:5000/${displayProfile.picture}`} // Adjust path if necessary (e.g., http://localhost:5000/uploads/${displayProfile.picture})
+                src={`http://localhost:5000/${displayProfile.picture}`}
                 alt="Profile"
                 className="bidprofile-profile-pic"
-                onError={(e) => console.log('Image load error:', e)} // Log errors if the image fails to load
+                onError={(e) => {
+                  console.log('Image load error:', e);
+                  e.target.src = 'https://via.placeholder.com/150?text=User';
+                }}
               />
             ) : (
               <div className="bidprofile-pic-placeholder">
@@ -94,8 +111,13 @@ const BidderProfile = () => {
               </div>
             )}
           </div>
-          <h2>{displayProfile.name}</h2>
-          <p className="bidprofile-location">{displayProfile.address}</p>
+          <h2>
+            {displayProfile.name}
+            {!isBlank && <span className="bidprofile-verified-badge">Verified</span>}
+          </h2>
+          <p className="bidprofile-location">
+            <FaMapMarkerAlt /> {displayProfile.address}
+          </p>
           <div className="bidprofile-action-buttons">
             <button className="bidprofile-btn-follow" disabled={isBlank}>
               Follow
@@ -108,7 +130,9 @@ const BidderProfile = () => {
             <h3>Connect</h3>
             <ul>
               <li>
-                <span className="bidprofile-icon website">🌐</span>
+                <span className="bidprofile-icon website">
+                  <FaGlobe />
+                </span>
                 {isBlank ? (
                   <span className="bidprofile-not-set">Not set</span>
                 ) : (
@@ -118,17 +142,21 @@ const BidderProfile = () => {
                 )}
               </li>
               <li>
-                <span className="bidprofile-icon github">🐙</span>
+                <span className="bidprofile-icon github">
+                  <FaGithub />
+                </span>
                 {isBlank ? (
                   <span className="bidprofile-not-set">Not set</span>
                 ) : (
                   <a href="https://github.com" target="_blank" rel="noopener noreferrer">
-                    GitHub
+                    Github
                   </a>
                 )}
               </li>
               <li>
-                <span className="bidprofile-icon twitter">🐦</span>
+                <span className="bidprofile-icon twitter">
+                  <FaTwitter />
+                </span>
                 {isBlank ? (
                   <span className="bidprofile-not-set">Not set</span>
                 ) : (
@@ -138,7 +166,9 @@ const BidderProfile = () => {
                 )}
               </li>
               <li>
-                <span className="bidprofile-icon instagram">📸</span>
+                <span className="bidprofile-icon instagram">
+                  <FaInstagram />
+                </span>
                 {isBlank ? (
                   <span className="bidprofile-not-set">Not set</span>
                 ) : (
@@ -148,7 +178,9 @@ const BidderProfile = () => {
                 )}
               </li>
               <li>
-                <span className="bidprofile-icon facebook">📘</span>
+                <span className="bidprofile-icon facebook">
+                  <FaFacebook />
+                </span>
                 {isBlank ? (
                   <span className="bidprofile-not-set">Not set</span>
                 ) : (
@@ -206,7 +238,7 @@ const BidderProfile = () => {
               </span>
             </div>
             <button className="bidprofile-btn-edit" onClick={handleEditProfile}>
-              {isBlank ? 'Create Profile' : 'Edit Profile'}
+              <FaUserEdit /> {isBlank ? 'Create Profile' : 'Edit Profile'}
             </button>
           </div>
           <div className="bidprofile-auction-stats bidprofile-card">
@@ -216,27 +248,66 @@ const BidderProfile = () => {
             ) : (
               <>
                 <div className="bidprofile-stat-item">
-                  <span className="bidprofile-stat-label">Bids Placed</span>
+                  <div className="bidprofile-stat-label">
+                    <span>Bids Placed</span>
+                    <span className="bidprofile-stat-value">75%</span>
+                  </div>
                   <div className="bidprofile-progress-bar">
-                    <div className="bidprofile-progress" style={{ width: '75%' }}></div>
+                    <div className="bidprofile-progress" style={{ width: getProgressWidth(0) }}></div>
                   </div>
                 </div>
                 <div className="bidprofile-stat-item">
-                  <span className="bidprofile-stat-label">Auctions Won</span>
+                  <div className="bidprofile-stat-label">
+                    <span>Auctions Won</span>
+                    <span className="bidprofile-stat-value">50%</span>
+                  </div>
                   <div className="bidprofile-progress-bar">
-                    <div className="bidprofile-progress" style={{ width: '50%' }}></div>
+                    <div className="bidprofile-progress" style={{ width: getProgressWidth(1) }}></div>
                   </div>
                 </div>
                 <div className="bidprofile-stat-item">
-                  <span className="bidprofile-stat-label">Active Bids</span>
+                  <div className="bidprofile-stat-label">
+                    <span>Active Bids</span>
+                    <span className="bidprofile-stat-value">30%</span>
+                  </div>
                   <div className="bidprofile-progress-bar">
-                    <div className="bidprofile-progress" style={{ width: '30%' }}></div>
+                    <div className="bidprofile-progress" style={{ width: getProgressWidth(2) }}></div>
                   </div>
                 </div>
                 <div className="bidprofile-stat-item">
-                  <span className="bidprofile-stat-label">Total Spent</span>
+                  <div className="bidprofile-stat-label">
+                    <span>Total Spent</span>
+                    <span className="bidprofile-stat-value">60%</span>
+                  </div>
                   <div className="bidprofile-progress-bar">
-                    <div className="bidprofile-progress" style={{ width: '60%' }}></div>
+                    <div className="bidprofile-progress" style={{ width: getProgressWidth(3) }}></div>
+                  </div>
+                </div>
+                
+                {/* Add Bid Activity Summary - New Feature */}
+                <div className="bidprofile-activity-summary">
+                  <h4>Recent Activity</h4>
+                  <div className="bidprofile-activity-items">
+                    <div className="bidprofile-activity-item">
+                      <div className="bidprofile-activity-icon bid"></div>
+                      <div className="bidprofile-activity-content">
+                        <div className="bidprofile-activity-title">Vintage Watch</div>
+                        <div className="bidprofile-activity-details">
+                          <span className="bidprofile-activity-amount">$250</span>
+                          <span className="bidprofile-activity-time">2 days ago</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="bidprofile-activity-item">
+                      <div className="bidprofile-activity-icon won"></div>
+                      <div className="bidprofile-activity-content">
+                        <div className="bidprofile-activity-title">Antique Clock</div>
+                        <div className="bidprofile-activity-details">
+                          <span className="bidprofile-activity-amount">$175</span>
+                          <span className="bidprofile-activity-time">1 week ago</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </>

@@ -21,6 +21,8 @@ router.delete('/delete/:taskId', taskController.deleteTask);
 // Full update of task
 router.put('/updatefull/:taskId', taskController.updateTask);
 
+router.get('/due-soon', taskController.getDueSoonTasks);
+
 
 
 

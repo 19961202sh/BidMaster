@@ -7,11 +7,11 @@ const Shipper = require('../Model/ShipperModel.js');
 const ShipperController = require('../Controlers/ShipperController.js');
 
 shipperRouter.get('/', ShipperController.getAllShippers);
-shipperRouter.post('/', ShipperController.addShippers);
-shipperRouter.get("/:shipperid", ShipperController.getByIdShippers);
-shipperRouter.put("/:shipperid", ShipperController.updateShippers);
-shipperRouter.delete("/:shipperid", ShipperController.deleteShippers);
+shipperRouter.post('/', ShipperController.addShipper);
+shipperRouter.get("/:shipperid", ShipperController.getByIdShipper);
+shipperRouter.put("/:shipperid", ShipperController.updateShipper);
+shipperRouter.delete("/:shipperid", ShipperController.deleteShipper);
 
 
 //export router
-module.exports = shipperRouter; 
+module.exports = shipperRouter;

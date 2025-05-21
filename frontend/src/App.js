@@ -17,7 +17,7 @@ import EmployeeDashboard from "./Components/AsignRoles/EmployeeDashboard";
 import AboutUs from "./Components/AboutUs/AboutUs";
 import Footer from "./Components/Footer/Footer";
 import ContactUs from "./Components/ContactUs/ContactUs";
-import UpdateEmployee from "./Components/UpdateEmployee/UpdateEmployee";
+import UpdateEmployee from "./Components/AsignRoles/UpdateEmployee";
 import Terms from "./Components/Terms/Terms";
 import EmployeeDetails from "./Components/EmployeeDetails/EmployeeDetails";
 import Payroll from "./Components/Payroll/Payroll";
@@ -40,10 +40,14 @@ import ItemView from "./Components/ItemView/ItemView";
 //sl
 import SellerDashboard from './Components/SellerDashboard/SellerDashboard';
 import SellerListings from './Components/SellerListings/SellerListings';
-//import AddItem from './Components/AddItem/AddItem';
-import UpdateItem from './Components/UpdateItem/UpdateItem';
+import AddItem from './Components/AddItem/AddItem';
+import SellUpdateItem from './Components/SellUpdateItem/SellUpdateItem';
 import ImgUploader from './Components/ImgUploader/ImgUploader';
 import SellerProfile from './Components/SellerProfile/SellerProfile';
+import EditProfile from "./Components/EditProfile/EditProfile.js";
+
+
+
 
 
 // Bidder profile
@@ -72,6 +76,8 @@ import UpdateShipment from './Components/UpdateShipment/UpdateShipment';
 import NewShipper from './Components/NewShipper/NewShipper';
 import UpdateShipper from './Components/UpdateShipper/UpdateShipper';
 import ShipManageDash from './Components/ShipManageDash/ShipManageDash';
+
+
 
 
 const Placeholder = ({ pageName }) => <h2>{pageName} Page (Under Construction)</h2>;
@@ -108,7 +114,7 @@ function App() {
 
        
         <Route path="/inspectionDashboard" element={<InspectionDashboard/>}/>
-        <Route path="/item-form" element={<ItemForm />} />
+       
           <Route path="/item-manager" element={<ItemManager/>} />
           <Route path="/item/:id" element={<ItemView />} />
           <Route path="/edit-item/:id" element={<EditItem />} />
@@ -116,20 +122,23 @@ function App() {
           <Route path="/flagged-items" element={<ReportedItems/>}/>
           <Route path="/flagged-items/:_id" element={<UpdateReport/>}/>
           <Route path="/add-report" element={<AddReport/>}/>
-        
+        <Route path="/item-form" element={<ItemForm />} />
        
          
           
 
 
         <Route path="/seller-listing" element={<SellerListings/>}/>
-        
-        <Route path="/upload-img" element={<ImgUploader/>}/>
+         <Route path="/upload-img" element={<ImgUploader/>}/>
          <Route path="/seller-dashboard" element={<SellerDashboard />} />
-         <Route path="/seller-dashboard/:id" element={<UpdateItem />} />
+         <Route path="/seller-dashboard/:id" element={<SellUpdateItem />} />
          <Route path="/seller-profile" element={<SellerProfile />} />
+          <Route path="/edit-profile" element={<EditProfile />} />
+           <Route path="/add-item" element={<AddItem />} />
 
 
+ 
+      
 
           {/* Bidder profile */}
           <Route path="/bidder-profile" element={<BidderProfile />} />
@@ -146,7 +155,7 @@ function App() {
           <Route path="/BidFeedbackPage" element={<BidFeedbackPage />} />
 
           {/* Payment */}
-          <Route path="/payment" element={<Checkout />} />
+           <Route path="/payment/:id" element={<Checkout />} />
           <Route path="/success" element={<Success />} />
           <Route path="/cancel" element={<Cancel />} />
 

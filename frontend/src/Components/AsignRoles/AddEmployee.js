@@ -42,7 +42,7 @@ const AddEmployee = () => {
     }
 
     if (!validateEmail(inputs.email)) {
-      alert("Please enter a valid email address ending with '.com'.");
+      alert("Please enter a valid email address.");
       return;
     }
 
@@ -51,119 +51,141 @@ const AddEmployee = () => {
       skills: inputs.skills.split(',').map(skill => skill.trim()).filter(Boolean), // Convert to array
     };
 
-    const response = await fetch("http://localhost:5000/api/employees/add", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+    try {
+      const response = await fetch("http://localhost:5000/api/employees/add", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
-    const data = await response.json();
-    if (response.ok) {
-      alert("Employee added successfully!");
-      setFormData({ employeeId: "", name: "", email: "",username: "", phone: "", address: "", salary: "", role: "", department: "", task: "" });
-      navigate("/employeeDashboard", { state: { refresh: true } });
-    } else {
-      alert(`Error: ${data.message}`);
+      const data = await response.json();
+      if (response.ok) {
+        alert("Employee added successfully!");
+        setFormData({ employeeId: "", name: "", email: "", username: "", phone: "", address: "", salary: "", role: "", department: "", task: "", skills: "" });
+        navigate("/employeeDashboard", { state: { refresh: true } });
+      } else {
+        alert(`Error: ${data.message}`);
+      }
+    } catch (error) {
+      alert("Failed to add employee. Please try again.");
+      console.error("Error adding employee:", error);
     }
   };
 
   return (
     <div className="addEmp-container">
       <div className="addEmp-box">
-        <div className="updateEmp-header">
-          {/* Go Back Button */}
-          <button onClick={() => navigate(-1)} className="go-back-button">
-            <IoIosArrowBack /> 
-          </button>
+        {/* Left side image with content */}
+        <div className="addEmp-image-container">
+          <div className="addEmp-image"></div>
+          <div className="addEmp-image-content">
+            <h3>Team Management</h3>
+            <p>Add new talent to your auction team with all the details needed for seamless onboarding.</p>
+          </div>
         </div>
 
-        <h2 className="addEmp-header">Add Employee</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="addEmp-form">
+        {/* Form container */}
+        <div className="addEmp-form-container">
+          <div className="updateEmp-header">
+            <button onClick={() => navigate(-1)} className="go-back-button">
+              <IoIosArrowBack /> 
+            </button>
+          </div>
+
+          <h2 className="addEmp-header">Add Employee</h2>
+          <form onSubmit={handleSubmit} className="addEmp-form">
             {/* Row 1: Employee ID and Name */}
             <div className="input-row">
               <div>
-                <label>Employee ID:</label>
+                <label>Employee ID</label>
                 <input
                   type="text"
                   name="employeeId"
                   value={inputs.employeeId}
                   onChange={handleChange}
+                  placeholder="Enter employee ID"
                   required
                 />
               </div>
               <div>
-                <label>Name:</label>
+                <label>Full Name</label>
                 <input
                   type="text"
                   name="name"
                   value={inputs.name}
                   onChange={handleChange}
+                  placeholder="Enter full name"
                   required
                 />
               </div>
             </div>
 
-            {/* Row 2: Email and Phone Number */}
+            {/* Row 2: Email and Username */}
             <div className="input-row">
               <div>
-                <label>Email:</label>
+                <label>Email Address</label>
                 <input
                   type="email"
                   name="email"
                   value={inputs.email}
                   onChange={handleChange}
+                  placeholder="example@company.com"
                   required
                 />
               </div>
-
               <div>
-                <label>Username:</label>
+                <label>Username</label>
                 <input
-                  type="username"
+                  type="text"
                   name="username"
                   value={inputs.username}
                   onChange={handleChange}
-                  required
-                />
-              </div>
-              <div>
-                <label>Phone Number:</label>
-                <input
-                  type="text"
-                  name="phone"
-                  value={inputs.phone}
-                  onChange={handleChange}
+                  placeholder="Create a username"
                   required
                 />
               </div>
             </div>
 
-            {/* Row 3: Address (full width) */}
+            {/* Row 3: Phone Number */}
             <div>
-              <label>Address:</label>
+              <label>Phone Number</label>
+              <input
+                type="text"
+                name="phone"
+                value={inputs.phone}
+                onChange={handleChange}
+                placeholder="10-digit phone number"
+                required
+              />
+            </div>
+
+            {/* Row 4: Address (full width) */}
+            <div>
+              <label>Address</label>
               <textarea
                 name="address"
                 value={inputs.address}
                 onChange={handleChange}
+                placeholder="Enter complete address"
                 required
               ></textarea>
             </div>
 
-            {/* Row 4: Salary and Role */}
+            {/* Row 5: Salary and Role */}
             <div className="input-row">
               <div>
-                <label>Salary:</label>
+                <label>Salary</label>
                 <input
                   type="text"
                   name="salary"
                   value={inputs.salary}
                   onChange={handleChange}
+                  placeholder="Enter salary amount"
                   required
                 />
               </div>
               <div>
-                <label>Role:</label>
+                <label>Role</label>
                 <select
                   name="role"
                   value={inputs.role}
@@ -183,10 +205,10 @@ const AddEmployee = () => {
               </div>
             </div>
 
-            {/* Row 5: Department and Task */}
+            {/* Row 6: Department and Skills */}
             <div className="input-row">
               <div>
-                <label>Department:</label>
+                <label>Department</label>
                 <select
                   name="department"
                   value={inputs.department}
@@ -202,37 +224,34 @@ const AddEmployee = () => {
                   <option value="Shipping">Shipping</option>
                 </select>
               </div>
-
               <div>
-  <label>Skills:</label>
-  <input
-    type="text"
-    name="skills"
-    value={inputs.skills}
-    onChange={handleChange}
-    placeholder="JavaScript, MongoDB, React"
-  />
-</div>
-             
-
-            
-
-            </div>
-
-            <div>
-                <label>Task:</label>
+                <label>Skills</label>
                 <input
                   type="text"
-                  name="task"
-                  value={inputs.task}
+                  name="skills"
+                  value={inputs.skills}
                   onChange={handleChange}
-                  required
+                  placeholder="JavaScript, MongoDB, React"
                 />
               </div>
+            </div>
+
+            {/* Row 7: Task */}
+            <div>
+              <label>Primary Task</label>
+              <input
+                type="text"
+                name="task"
+                value={inputs.task}
+                onChange={handleChange}
+                placeholder="Main responsibility or task"
+                required
+              />
+            </div>
 
             <button type="submit" className="addEmp-button">Add Employee</button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   );

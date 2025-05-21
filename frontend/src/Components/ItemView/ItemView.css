@@ -1,188 +1,231 @@
 .item-view-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: #f9f9f9;
+}
+
+.item-view-content {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 30px;
+}
+
+.item-images-section {
+  flex: 1;
+  min-width: 300px;
+}
+
+.main-image-container {
+  width: 100%;
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+.main-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.thumbnails-container {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.thumbnail {
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+  border-radius: 5px;
+  overflow: hidden;
+  border: 2px solid transparent;
+  transition: all 0.3s;
+}
+
+.thumbnail.active {
+  border-color: #3f51b5;
+}
+
+.thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.item-details-section {
+  flex: 2;
+  min-width: 300px;
+}
+
+.item-title {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.item-price-info {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.price-container, .bid-timer-container {
+  flex: 1;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.price-container h3, .bid-timer-container h3 {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.starting-price, .bid-timer {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #3f51b5;
+}
+
+.item-description-section {
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.section-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 15px;
+  display: flex;
+  align-items: center;
+  color: #333;
+}
+
+.section-title .icon {
+  margin-right: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #444;
+}
+
+.item-description {
+  line-height: 1.6;
+  color: #555;
+}
+
+.item-details-container {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.details-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.detail-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.detail-item {
+  flex: 1;
+  min-width: 200px;
+}
+
+.detail-label {
+  display: block;
+  font-weight: 500;
+  color: #666;
+  margin-bottom: 5px;
+}
+
+.detail-value {
+  display: block;
+  font-size: 1rem;
+  color: #333;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+}
+
+.bid-button, .back-button {
+  padding: 12px 25px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.bid-button {
+  background-color: #3f51b5;
+  color: white;
+  flex: 2;
+}
+
+.back-button {
+  background-color: #e0e0e0;
+  color: #333;
+  flex: 1;
+}
+
+.bid-button:hover {
+  background-color: #303f9f;
+}
+
+.back-button:hover {
+  background-color: #d0d0d0;
+}
+
+.loading, .error, .not-found {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  font-size: 18px;
+  color: #666;
+}
+
+@media (max-width: 768px) {
   .item-view-content {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    margin-top: 1rem;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    padding: 2rem;
-  }
-  
-  .item-images-section {
-    flex: 1;
-    min-width: 300px;
-  }
-  
-  .main-image-container {
-    width: 100%;
-    height: 400px;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-bottom: 1rem;
-  }
-  
-  .main-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .thumbnails-container {
-    display: flex;
-    gap: 1rem;
-    overflow-x: auto;
-    padding-bottom: 0.5rem;
-  }
-  
-  .thumbnail {
-    width: 80px;
-    height: 80px;
-    border-radius: 4px;
-    overflow: hidden;
-    cursor: pointer;
-    border: 2px solid #e0e0e0;
-    transition: border-color 0.3s;
-  }
-  
-  .thumbnail.active {
-    border-color: #3d4b64;
-  }
-  
-  .thumbnail img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .item-details-section {
-    flex: 1;
-    min-width: 300px;
-  }
-  
-  .item-title {
-    color: #3d4b64;
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-    border-bottom: 1px solid #f0f0f0;
-    padding-bottom: 0.5rem;
+    flex-direction: column;
   }
   
   .item-price-info {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-    gap: 1rem;
+    flex-direction: column;
+    gap: 15px;
   }
   
-  .price-container, .bid-timer-container {
-    background-color: #f9fafc;
-    padding: 1rem;
-    border-radius: 8px;
-    min-width: 150px;
-    flex: 1;
-  }
-  
-  .price-container h3, .bid-timer-container h3 {
-    font-size: 1rem;
-    color: #666;
-    margin-bottom: 0.5rem;
-  }
-  
-  .starting-price {
-    font-size: 1.8rem;
-    color: #2e7d32;
-    font-weight: bold;
-  }
-  
-  .bid-timer {
-    font-size: 1.5rem;
-    color: #f57f17;
-    font-weight: bold;
-  }
-  
-  .item-description-container {
-    margin-bottom: 2rem;
-  }
-  
-  .item-description-container h3 {
-    font-size: 1.2rem;
-    color: #333;
-    margin-bottom: 0.5rem;
-  }
-  
-  .item-description {
-    line-height: 1.6;
-    color: #555;
+  .detail-row {
+    flex-direction: column;
+    gap: 15px;
   }
   
   .action-buttons {
-    display: flex;
-    gap: 1rem;
-    margin-top: 2rem;
+    flex-direction: column;
   }
-  
-  .bid-button {
-    background-color: #3d4b64;
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 4px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    flex: 2;
-  }
-  
-  .bid-button:hover {
-    background-color: #2c3e50;
-  }
-  
-  .back-button {
-    background-color: #f0f0f0;
-    color: #333;
-    border: none;
-    padding: 12px 24px;
-    border-radius: 4px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    flex: 1;
-  }
-  
-  .back-button:hover {
-    background-color: #e0e0e0;
-  }
-  
-  .loading, .error, .not-found {
-    text-align: center;
-    padding: 4rem 2rem;
-    font-size: 1.2rem;
-    color: #666;
-  }
-  
-  .error {
-    color: #c62828;
-  }
-  
-  @media (max-width: 768px) {
-    .item-price-info {
-      flex-direction: column;
-    }
-    
-    .action-buttons {
-      flex-direction: column;
-    }
-    
-    .main-image-container {
-      height: 300px;
-    }
-  }
+}

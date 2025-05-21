@@ -1,630 +1,290 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import './UpdateShipment.css';
 
-const URL = "http://localhost:5000/shipments";
+const BASE_URL = 'http://localhost:5000';
 
 function UpdateShipment() {
-    const [shipmentData, setShipmentData] = useState({
-        itemid: "",
-        itemname: "",
-        from: "",
-        to: "",
-        sellername: "",
-        selleremail: "",
-        sellerphone: "",
-        buyername: "",
-        buyeremail: "",
-        buyerphone: "",
-        weight: 0,
-        shipmenttype: "",
-        cost: 0
+  const [shipmentData, setShipmentData] = useState({
+    itemid: '',
+    itemname: '',
+    from: '',
+    collectionCenter: '',
+    to: '',
+    userName: '',
+    selleremail: '',
+    phone: '',
+    buyername: '',
+    buyeremail: '',
+    buyerphone: '',
+    weight: 0,
+    shipmenttype: '',
+    cost: 0,
+    status: '',
+    courieridToCollection: '',
+    courieridToBuyer: ''
+  });
+
+  const [shippers, setShippers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let data = location.state?.shipmentData;
+        if (!data) {
+          const shipmentRes = await axios.get(`${BASE_URL}/shipments/${id}`);
+          data = shipmentRes.data.data;
+        }
+
+        setShipmentData(prev => ({
+          ...prev,
+          ...data,
+          weight: data.weight || 0,
+          cost: data.cost || 0,
+          courieridToCollection: data.courieridToCollection || '',
+          courieridToBuyer: data.courieridToBuyer || ''
+        }));
+
+        const shippersRes = await axios.get(`${BASE_URL}/shippers`);
+        setShippers(shippersRes.data.data || []);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        toast.error('Failed to load shipment details');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [id, location.state]);
+
+  const calculateCost = (weight, courierId) => {
+    if (!weight || !courierId) return 0;
+    const courier = shippers.find(s => s.providerid === courierId);
+    if (!courier) return 0;
+    return (weight * courier.rateperkg).toFixed(2);
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setShipmentData(prev => {
+      const newData = {
+        ...prev,
+        [name]: name === 'weight' || name === 'cost' ? Number(value) : value
+      };
+
+      if (name === 'weight' || name === 'courieridToCollection' || name === 'courieridToBuyer') {
+        const weight = name === 'weight' ? value : prev.weight;
+        const courierId = name === 'courieridToCollection' ? value : prev.courieridToCollection;
+        const courierToBuyerId = name === 'courieridToBuyer' ? value : prev.courieridToBuyer;
+
+        const costToCollection = calculateCost(weight, courierId);
+        const costToBuyer = calculateCost(weight, courierToBuyerId);
+        const totalCost = (Number(costToCollection) + Number(costToBuyer)).toFixed(2);
+
+        newData.cost = totalCost;
+      }
+
+      return newData;
     });
-    const { id } = useParams();
-    const navigate = useNavigate();
+  };
 
-    useEffect(() => {
-        const fetchHandler = async () => {
-            try {
-                const res = await axios.get(`${URL}/${id}`);
-                setShipmentData(res.data.shipments || res.data);
-            } catch (error) {
-                console.error("Error fetching shipment:", error);
-            }
-        };
-        fetchHandler();
-    }, [id]);
+  const handleCourierChange = async (e) => {
+    const { name, value } = e.target;
+    try {
+      const selectedCourier = shippers.find(shipper => shipper.providerid === value);
+      if (!selectedCourier) throw new Error('Courier not found');
 
-    const handleChange = (e) => {
-        setShipmentData((prevState) => ({
-            ...prevState,
-            [e.target.name]: e.target.value,
-        }));
-    };
+      const calculatedCost = shipmentData.weight * selectedCourier.rateperkg;
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            await sendRequest();
-            navigate('/shipments');
-        } catch (error) {
-            console.error('Error updating shipments:', error);
-        }
-    };
+      await axios.put(`${BASE_URL}/shipments/assign-courier`, {
+        shipmentId: id,
+        courierid: value,
+        field: name
+      });
 
-    const sendRequest = async () => {
-            await axios.put(`${URL}/${id}`, {
-                itemid: String(shipmentData.itemid),
-                itemname: String(shipmentData.itemname),
-                from: String(shipmentData.from),
-                to: String(shipmentData.to),
-                sellername: String(shipmentData.sellername),
-                selleremail: String(shipmentData.selleremail),
-                sellerphone: String(shipmentData.sellerphone),
-                buyername: String(shipmentData.buyername),
-                buyeremail: String(shipmentData.buyeremail),
-                buyerphone: String(shipmentData.buyerphone),
-                weight: Number(shipmentData.weight),
-                shipmenttype: String(shipmentData.shipmenttype),
-                cost: Number(shipmentData.cost)
-            });
-           
-       
-    };
+      setShipmentData(prevState => ({
+        ...prevState,
+        [name]: value,
+        cost:
+          name === 'courieridToCollection'
+            ? calculatedCost
+            : prevState.cost + calculatedCost,
+        status:
+          name === 'courieridToCollection'
+            ? 'Courier Assigned to Collection'
+            : 'Courier Assigned to Buyer'
+      }));
 
-    return (
-        <div classname="upshipm">
-            <div className="sh-update-shipment-container">
-                <form className="sh-shipment-form" onSubmit={handleSubmit}>
-                    <h2>Update Shipment</h2>
-                    <div className="sh-form-group">
-                        <label htmlFor="itemid">Item ID</label>
-                        <input type="text" id="sh-itemid" name="sh-itemid" value={shipmentData.itemid || ''} onChange={handleChange} required />
-                    </div>
-                    <div className="sh-form-group">
-                        <label htmlFor="itemname">Item Name</label>
-                        <input type="text" id="sh-itemname" name="sh-itemname" value={shipmentData.itemname || ''} onChange={handleChange} required />
-                    </div>
-                    <div className="sh-form-group">
-                        <label htmlFor="sh-from">From</label>
-                        <input type="text" id="sh-from" name="sh-from" value={shipmentData.from || ''} onChange={handleChange} required />
-                    </div>
-                    <div className="sh-form-group">
-                        <label htmlFor="to">To</label>
-                        <input type="text" id="sh-to" name="sh-to" value={shipmentData.to || ''} onChange={handleChange} required />
-                    </div>
-                    <div className="sh-form-group">
-                        <label htmlFor="sellername">Seller Name</label>
-                        <input type="text" id="sh-sellername" name="sh-sellername" value={shipmentData.sellername || ''} onChange={handleChange} required />
-                    </div>
-                    <div className="sh-form-group">
-                        <label htmlFor="selleremail">Seller Email</label>
-                        <input type="email" id="sh-selleremail" name="sh-selleremail" value={shipmentData.selleremail || ''} onChange={handleChange} required />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="sellerphone">Seller Phone</label>
-                        <input type="text" id="sh-sellerphone" name="sh-sellerphone" value={shipmentData.sellerphone || ''} onChange={handleChange} required />
-                    </div>
-                    <div className="sh-form-group">
-                        <label htmlFor="buyername">Buyer Name</label>
-                        <input type="text" id="sh-buyername" name="sh-buyername" value={shipmentData.buyername || ''} onChange={handleChange} required />
-                    </div>
-                    <div className="sh-form-group">
-                        <label htmlFor="buyeremail">Buyer Email</label>
-                        <input type="email" id="sh-buyeremail" name="sh-buyeremail" value={shipmentData.buyeremail || ''} onChange={handleChange} required />
-                    </div>
-                    <div className="sh-form-group">
-                        <label htmlFor="buyerphone">Buyer Phone</label>
-                        <input type="text" id="sh-buyerphone" name="sh-buyerphone" value={shipmentData.buyerphone || ''} onChange={handleChange} required />
-                    </div>
-                    <div className="sh-form-group">
-                        <label htmlFor="weight">Weight (g)</label>
-                        <input type="number" id="sh-weight" name="sh-weight" value={shipmentData.weight || ''} onChange={handleChange} step="0.1" min="0" required />
-                    </div>
-                    <div className="sh-form-group">
-                        <label htmlFor="shipmenttype">Shipment Type</label>
-                        <select id="sh-shipmenttype" name="sh-shipmenttype" value={shipmentData.shipmenttype || ''} onChange={handleChange} required>
-                            <option value="">Select Type</option>
-                            <option value="Local">Local</option>
-                            <option value="International">International</option>
-                        </select>
-                    </div>
-                    <div className="sh-form-group">
-                        <label htmlFor="cost">Cost ($)</label>
-                        <input type="number" id="sh-cost" name="sh-cost" value={shipmentData.cost || ''} onChange={handleChange} step="0.01" min="0" required />
-                    </div>
-                    <div className="sh-form-actions">
-                        <button type="submit" className="sh-btn-submit" onClick={() => navigate("/shipments")}>Update Shipment</button>
-                        <button type="button" className="sh-btn-cancel" onClick={() => navigate("/shipments")}>Cancel</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    );
-}
+      toast.success('Courier assigned successfully');
+    } catch (error) {
+      console.error('Error assigning courier:', error);
+      toast.error('Failed to assign courier');
+    }
+  };
 
-export default UpdateShipment;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.put(`${BASE_URL}/shipments/${id}`, {
+        ...shipmentData,
+        weight: Number(shipmentData.weight),
+        cost: Number(shipmentData.cost)
+      });
+      toast.success('Shipment updated successfully!');
+      navigate('/shipments');
+    } catch (error) {
+      console.error('Error updating shipment:', error);
+      toast.error('Failed to update shipment');
+    }
+  };
 
-/*import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom';
-import './UpdateShipment.css';
-
-const URL = "http://localhost:5000/shipments";
-
-function UpdateShipment() {
-    const [shipmentData, setShipmentData] = useState({});
-    const { id } = useParams();
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        const fetchHandler = async () => {
-            try {
-                const res = await axios.get(`${URL}/${id}`);
-                setShipmentData(res.data.shipments || res.data); // Handle possible response structure
-            } catch (error) {
-                console.error("Error fetching shipment:", error);
-            }
-        };
-        fetchHandler();
-    }, [id]);
-
-    const handleChange = (e) => {
-        setShipmentData((prevState) => ({
-            ...prevState,
-            [e.target.name]: e.target.value,
-        }));
-    };
-
-    const sendRequest = async () => {
-        await axios.put(`${URL}/${id}`, {
-            itemid: String(shipmentData.itemid),
-            itemname: String(shipmentData.itemname),
-            from: String(shipmentData.from),
-            to: String(shipmentData.to),
-            sellername: String(shipmentData.sellername),
-            selleremail: String(shipmentData.selleremail),
-            sellerphone: String(shipmentData.sellerphone),
-            buyername: String(shipmentData.buyername),
-            buyeremail: String(shipmentData.buyeremail),
-            buyerphone: String(shipmentData.buyerphone),
-            weight: Number(shipmentData.weight),
-            shipmenttype: String(shipmentData.shipmenttype),
-            cost: Number(shipmentData.cost)
-        });
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            await sendRequest();
-            navigate("/shipments");
-        } catch (error) {
-            console.error("Error updating shipment:", error);
-        }
-    };
-
-    return (
-        <div className="update-shipment-container">
-            <form className="shipment-form" onSubmit={handleSubmit}>
-                <h2>Update Shipment</h2>
-                
-                <div className="form-group">
-                    <label htmlFor="itemid">Item ID</label>
-                    <input
-                        type="text"
-                        id="itemid"
-                        name="itemid"
-                        value={shipmentData.itemid || ''}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="itemname">Item Name</label>
-                    <input
-                        type="text"
-                        id="itemname"
-                        name="itemname"
-                        value={shipmentData.itemname || ''}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="from">From</label>
-                    <input
-                        type="text"
-                        id="from"
-                        name="from"
-                        value={shipmentData.from || ''}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="to">To</label>
-                    <input
-                        type="text"
-                        id="to"
-                        name="to"
-                        value={shipmentData.to || ''}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="sellername">Seller Name</label>
-                    <input
-                        type="text"
-                        id="sellername"
-                        name="sellername"
-                        value={shipmentData.sellername || ''}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="selleremail">Seller Email</label>
-                    <input
-                        type="email"
-                        id="selleremail"
-                        name="selleremail"
-                        value={shipmentData.selleremail || ''}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="sellerphone">Seller Phone</label>
-                    <input
-                        type="text"
-                        id="sellerphone"
-                        name="sellerphone"
-                        value={shipmentData.sellerphone || ''}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="buyername">Buyer Name</label>
-                    <input
-                        type="text"
-                        id="buyername"
-                        name="buyername"
-                        value={shipmentData.buyername || ''}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="buyeremail">Buyer Email</label>
-                    <input
-                        type="email"
-                        id="buyeremail"
-                        name="buyeremail"
-                        value={shipmentData.buyeremail || ''}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="buyerphone">Buyer Phone</label>
-                    <input
-                        type="text"
-                        id="buyerphone"
-                        name="buyerphone"
-                        value={shipmentData.buyerphone || ''}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="weight">Weight (g)</label>
-                    <input
-                        type="number"
-                        id="weight"
-                        name="weight"
-                        value={shipmentData.weight || ''}
-                        onChange={handleChange}
-                        step="0.1"
-                        min="0"
-                        required
-                    />
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="shipmenttype">Shipment Type</label>
-                    <select
-                        id="shipmenttype"
-                        name="shipmenttype"
-                        value={shipmentData.shipmenttype || ''}
-                        onChange={handleChange}
-                        required
-                    >
-                        <option value="">Select Type</option>
-                        <option value="Local">Local</option>
-                        <option value="International">International</option>
-                    </select>
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="cost">Cost ($)</label>
-                    <input
-                        type="number"
-                        id="cost"
-                        name="cost"
-                        value={shipmentData.cost || ''}
-                        onChange={handleChange}
-                        step="0.01"
-                        min="0"
-                        required
-                    />
-                </div>
-
-                <div className="form-actions">
-                    <button type="submit" className="btn-submit">Update Shipment</button>
-                    <button 
-                        type="button" 
-                        className="btn-cancel" 
-                        onClick={() => navigate("/shipments")}
-                    >
-                        Cancel
-                    </button>
-                </div>
-            </form>
-        </div>
-    );
-}
-
-export default UpdateShipment;
-
-/*import React from 'react'
-import './UpdateShipment.css'
-import { useState } from 'react'
-import axios from 'axios'
-import { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
-const URL = "http://localhost:5000/shipments";
-
-function UpdateShipment() {
-
-    const [shipment, setShipment] = useState({});
-    const { id } = useParams();
-    const history = useNavigate();
-
-    useEffect(() => {
-        const fetchHandler = async () => {
-            return await axios.get(`http://localhost:5000/shipments/${id}`)
-            .then((res) => res.data)
-            .then((data) => setShipment(data));
-        };
-        fetchHandler();
-    },[id]);
-
-    const sendRequest = async () => {
-        await axios.put(`http://localhost:5000/shipments/${id}`, {
-
-            itemID: String(shipment.itemID),
-            itemName: String(shipment.itemName),
-            from: String(shipment.from),
-            to: String(shipment.to),
-            sellername: String(shipment.sellername),
-            selleremail: String(shipment.selleremail),
-            sellerphone: String(shipment.sellerphone),
-            buyername: String(shipment.buyername),
-            buyeremail: String(shipment.buyeremail),
-            buyerphone: String(shipment.buyerphone),
-            weight: Number(shipment.weight),
-            shipmenttype: String(shipment.shipmenttype),
-            cost: Number(shipment.cost)
-        }).then((res) => res.data);    
-
-        const handleChange = (e) => {
-            setShipment((prevState) => ({
-                ...prevState,
-                [e.target.name]: e.target.value,
-            }));
-        };
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        console.log(shipment);
-        sendRequest().then(() => history("/shipments"));
-    };
+  if (loading) {
+    return <div className="sh-loading-message">Loading shipment data...</div>;
+  }
 
   return (
-    <div>
-    <div className="update-shipment-container">
-        <form className="shipment-form" onSubmit={handleSubmit}>
-            <h2>Update Shipment</h2>
-            
-            <div className="form-group">
-                <label htmlFor="itemID">Item ID</label>
-                <input
-                    type="text"
-                    id="itemID"
-                    name="itemID"
-                    value={shipment.itemID}
-                    onChange={handleChange}
-                    required
-                />
-            </div>
-            <div className="form-group">
-                <label htmlFor="itemName">Item Name</label>
-                <input
-                    type="text"
-                    id="itemName"
-                    name="itemName"
-                    value={shipment.itemName}
-                    onChange={handleChange}
-                    required
-                />
-            </div>
-            <div className="form-grid">
-                <div className="form-group">
-                    <label htmlFor="from">From</label>
-                    <input
-                        type="text"
-                        id="from"
-                        name="from"
-                        value={shipment.from}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-        
-                <div className="form-group">
-                    <label htmlFor="to">To</label>
-                    <input
-                        type="text"
-                        id="to"
-                        name="to"
-                        value={shipment.to}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-        
-                <div className="form-group">
-                    <label htmlFor="sellername">Seller Name</label>
-                    <input
-                        type="text"
-                        id="sellername"
-                        name="sellername"
-                        value={shipment.sellername}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-        
-                <div className="form-group">
-                    <label htmlFor="buyername">Buyer Name</label>
-                    <input
-                        type="text"
-                        id="buyername"
-                        name="buyername"
-                        value={shipment.buyername}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-        
-                <div className="form-group">
-                    <label htmlFor="selleremail">Seller Email</label>
-                    <input
-                        type="email"
-                        id="selleremail"
-                        name="selleremail"
-                        value={shipment.selleremail}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-        
-                <div className="form-group">
-                    <label htmlFor="buyeremail">Buyer Email</label>
-                    <input
-                        type="email"
-                        id="buyeremail"
-                        name="buyeremail"
-                        value={shipment.buyeremail}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-        
-                <div className="form-group">
-                    <label htmlFor="sellerphone">Seller Phone</label>
-                    <input
-                        type="text"
-                        id="sellerphone"
-                        name="sellerphone"
-                        value={shipment.sellerphone}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-        
-                <div className="form-group">
-                    <label htmlFor="buyerphone">Buyer Phone</label>
-                    <input
-                        type="text"
-                        id="buyerphone"
-                        name="buyerphone"
-                        value={shipment.buyerphone}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-        
-                <div className="form-group">
-                    <label htmlFor="weight">Weight (g)</label>
-                    <input
-                        type="number"
-                        id="weight"
-                        name="weight"
-                        value={shipment.weight}
-                        onChange={handleChange}
-                        step="0.1"
-                        min="0"
-                        required
-                    />
-                </div>
-        
-                <div className="form-group">
-                    <label htmlFor="shipmenttype">Shipment Type</label>
-                    <select
-                        id="shipmenttype"
-                        name="shipmenttype"
-                        value={shipment.shipmenttype}
-                        onChange={handleChange}
-                        required
-                    >
-                        <option value="local">Local</option>
-                        <option value="international">International</option>
-                    </select>
-                </div>
-        
-                <div className="form-group">
-                    <label htmlFor="cost">Cost ($)</label>
-                    <input
-                        type="number"
-                        id="cost"
-                        name="cost"
-                        value={shipment.cost}
-                        onChange={handleChange}
-                        step="0.01"
-                        min="0"
-                        required
-                    />
-                </div>
-            </div>
-            
-            <div className="form-actions">
-                <button type="submit" className="btn-submit">Update Shipment</button>
-                <button type="button" className="btn-cancel" onClick={() => navigate("/shipments")}>
-                    Cancel
-                </button>
-            </div>
-        </form>
+    <div className="sh-update-shipment-container">
+      <h2>Update Shipment</h2>
+      <form className="sh-shipment-form" onSubmit={handleSubmit}>
+        {[
+          ['itemid', 'Item ID', 'text', true],
+          ['itemname', 'Item Name'],
+          ['from', 'From'],
+          ['collectionCenter', 'Collection Center'],
+          ['to', 'To'],
+          ['userName', 'Seller Name'],
+          ['selleremail', 'Seller Email', 'email'],
+          ['phone', 'Seller Phone'],
+          ['buyername', 'Buyer Name'],
+          ['buyeremail', 'Buyer Email', 'email'],
+          ['buyerphone', 'Buyer Phone']
+        ].map(([name, label, type = 'text', readOnly = false]) => (
+          <div className="sh-form-group" key={name}>
+            <label htmlFor={name}>{label}</label>
+            <input
+              type={type}
+              name={name}
+              value={shipmentData[name]}
+              onChange={handleChange}
+              readOnly={readOnly}
+              required={!readOnly}
+              className={readOnly ? 'readonly-input' : ''}
+            />
+          </div>
+        ))}
+
+        <div className="sh-form-group">
+          <label htmlFor="weight">Weight (kg)</label>
+          <input
+            type="number"
+            name="weight"
+            value={shipmentData.weight}
+            onChange={handleChange}
+            step="0.1"
+            min="0"
+            required
+          />
+        </div>
+
+        <div className="sh-form-group">
+          <label htmlFor="shipmenttype">Shipment Type</label>
+          <select
+            name="shipmenttype"
+            value={shipmentData.shipmenttype}
+            onChange={handleChange}
+            required
+          >
+            <option value="">Select Type</option>
+            <option value="Local">Local</option>
+            <option value="International">International</option>
+          </select>
+        </div>
+
+        <div className="sh-form-group">
+          <label htmlFor="courieridToCollection">Courier to Collection</label>
+          <select
+            name="courieridToCollection"
+            value={shipmentData.courieridToCollection || ''}
+            onChange={handleCourierChange}
+          >
+            <option value="">Select Courier</option>
+            {shippers.map((shipper) => (
+              <option key={shipper._id} value={shipper.providerid}>
+                {shipper.companyname} ({shipper.companytype}) - ${shipper.rateperkg}/kg
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="sh-form-group">
+          <label htmlFor="courieridToBuyer">Courier to Buyer</label>
+          <select
+            name="courieridToBuyer"
+            value={shipmentData.courieridToBuyer || ''}
+            onChange={handleCourierChange}
+          >
+            <option value="">Select Courier</option>
+            {shippers.map((shipper) => (
+              <option key={shipper._id} value={shipper.providerid}>
+                {shipper.companyname} ({shipper.companytype}) - ${shipper.rateperkg}/kg
+              </option>
+            ))}
+          </select>
+        </div>
+
+        <div className="sh-form-group">
+          <label htmlFor="cost">Cost ($)</label>
+          <input
+            type="number"
+            name="cost"
+            value={shipmentData.cost}
+            readOnly
+            className="readonly-input"
+          />
+          <small className="cost-note">
+            Cost is automatically calculated based on weight and courier rates
+          </small>
+        </div>
+
+        <div className="sh-form-group">
+          <label htmlFor="status">Status</label>
+          <select
+            name="status"
+            value={shipmentData.status}
+            onChange={handleChange}
+            required
+          >
+            <option value="Pending">Pending</option>
+            <option value="Courier Assigned to Collection">Courier Assigned to Collection</option>
+            <option value="Picked Up">Picked Up</option>
+            <option value="At Collection Center">At Collection Center</option>
+            <option value="Courier Assigned to Buyer">Courier Assigned to Buyer</option>
+            <option value="Shipped to Buyer">Shipped to Buyer</option>
+            <option value="Delivered">Delivered</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
+        </div>
+
+        <div className="sh-form-actions">
+          <button type="submit" className="sh-btn-submit">Update Shipment</button>
+          <button
+            type="button"
+            className="sh-btn-cancel"
+            onClick={() => navigate('/shipments')}
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
     </div>
-</div>
-  )
+  );
 }
 
-export default UpdateShipment
-*/
+export default UpdateShipment;

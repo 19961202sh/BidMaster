@@ -1,168 +1,227 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import Nav from '../Nav/Nav';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./SellerListings.css";
-import { Line, Pie } from 'react-chartjs-2';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend, LineElement, PointElement, LinearScale, CategoryScale } from 'chart.js';
 
+import axios from "axios";
 
-ChartJS.register(ArcElement, Tooltip, Legend, LineElement, PointElement, LinearScale, CategoryScale);
+import { jsPDF } from "jspdf";
 
-const SellerListings = () => {
-  const [listings, setListings] = useState([
-    { id: 1, title: "Vintage Watch", description: "A classic timepiece", startingBid: 100, status: "Draft", startDate: "2025-04-01" },
-    { id: 2, title: "Antique Vase", description: "Porcelain vase", startingBid: 150, status: "Live", startDate: "2025-03-25" },
-    { id: 3, title: "Old Book", description: "Rare first edition", startingBid: 200, status: "Ended", startDate: "2025-03-20" },
-  ]);
+const API_BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5000";
 
-  const [filter, setFilter] = useState("All");
+function SellerListings() {
+  const [listings, setListings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-  const handleDelete = (id) => {
-    setListings(listings.filter(listing => listing.id !== id));
+  useEffect(() => {
+    fetchListings();
+  }, []);
+
+  const fetchListings = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`${API_BASE_URL}/item`);
+      setListings(response.data.items || []);
+      setLoading(false);
+    } catch (err) {
+      console.error("Error fetching listings:", err);
+      setError(err.message);
+      setLoading(false);
+    }
   };
 
-  const filteredListings = filter === "All" 
-    ? listings 
-    : listings.filter(listing => listing.status === filter);
-
-  const sortedListings = [...filteredListings].sort((a, b) => new Date(b.startDate) - new Date(a.startDate));
-
-  // Sample chart data
-  const statusDistributionData = {
-    labels: ["Draft", "Live", "Ended"],
-    datasets: [
-      {
-        data: [
-          listings.filter(l => l.status === "Draft").length,
-          listings.filter(l => l.status === "Live").length,
-          listings.filter(l => l.status === "Ended").length,
-        ],
-        backgroundColor: ['#ff8a65', '#4682b4', '#483d8b'],
-        hoverOffset: 4,
-      },
-    ],
+  const handleAddNew = () => {
+    navigate("/add-item");
   };
 
-  const bidTrendsData = {
-    labels: listings.map(l => l.title),
-    datasets: [
-      {
-        label: 'Starting Bid ($)',
-        data: listings.map(l => l.startingBid),
-        fill: false,
-        borderColor: '#ff8a65',
-        tension: 0.1,
-      },
-    ],
+  const handleDownload = async (listing) => {
+    const doc = new jsPDF();
+    let yOffset = 20;
+
+    // Add title
+    doc.setFontSize(18);
+    doc.text("Item Details", 20, yOffset);
+    yOffset += 10;
+
+    // Add item details
+    doc.setFontSize(12);
+    doc.text(`Title: ${listing.title || "Untitled"}`, 20, yOffset);
+    yOffset += 10;
+    doc.text(
+      `Description: ${
+        listing.description || "No description"
+      }`,
+      20,
+      yOffset,
+      { maxWidth: 170 } // Wrap text if too long
+    );
+    yOffset += Math.ceil((listing.description || "").length / 85) * 10 + 10;
+    doc.text(
+      `Price: $${parseFloat(listing.startingBid).toFixed(2)}`,
+      20,
+      yOffset
+    );
+    yOffset += 10;
+    doc.text(
+      `Status: ${
+        listing.status
+          ? listing.status.charAt(0).toUpperCase() + listing.status.slice(1)
+          : "Pending"
+      }`,
+      20,
+      yOffset
+    );
+    yOffset += 10;
+
+    // Add image if available
+    if (listing.image && !listing.image.includes("via.placeholder.com")) {
+      try {
+        const imgUrl = `${API_BASE_URL}/${listing.image}`;
+        // Create an image element to load the image
+        const img = new Image();
+        img.crossOrigin = "Anonymous"; // Handle CORS
+        img.src = imgUrl;
+
+        await new Promise((resolve, reject) => {
+          img.onload = resolve;
+          img.onerror = () => reject(new Error("Failed to load image"));
+        });
+
+        // Create a canvas to convert the image
+        const canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0);
+        const imgData = canvas.toDataURL("image/jpeg");
+
+        // Add image to PDF (scale to fit)
+        const imgProps = doc.getImageProperties(imgData);
+        const pdfWidth = doc.internal.pageSize.getWidth() - 40; // Margin
+        const imgHeight = (imgProps.height * pdfWidth) / imgProps.width;
+        doc.addImage(imgData, "JPEG", 20, yOffset, pdfWidth, imgHeight);
+      } catch (err) {
+        console.error("Error embedding image:", err);
+        doc.text("Image: Not available", 20, yOffset);
+      }
+    } else {
+      doc.text("Image: Not available", 20, yOffset);
+    }
+
+    // Save the PDF
+    doc.save(`${listing.title || "item"}-details.pdf`);
   };
 
-  const chartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: 'top',
-      },
-    },
-  };
+  if (loading) {
+    return (
+      <div className="SellerListing-page">
+        
+        <div className="SellerListing-loading" aria-live="polite">
+          Loading listings...
+        </div>
+        
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="SellerListing-page">
+        
+        <div className="SellerListing-error" aria-live="assertive">
+          Error: {error}
+        </div>
+        
+      </div>
+    );
+  }
 
   return (
-    <div className="seller-listings-page">
-      <Nav /><br/><br/>
-      <h1>Seller Listings</h1>
-      <p>Manage your auction listings below.</p>
-
-      {/* Navigation Links */}
-      <div className="navigation-links">
-        <Link to="/create-listing">Create Listing</Link>
-        <Link to="/live-bids">Live Bids</Link>
-        <Link to="/seller-dashboard">Dashboard</Link>
+    <div className="SellerListing-page">
+      
+      <br/><br/><br/><br/>
+      <div className="SellerListing-header">
+        <h1>My Listings</h1>
+        <button
+          className="SellerListing-add-listing-btn"
+          onClick={handleAddNew}
+          aria-label="Add new listing"
+        >
+          Add New Listing
+        </button>
       </div>
 
-      {/* 2x2 Grid Container */}
-      <div className="grid-container">
-        {/* Listings Card */}
-        <div className="card listings-container">
-          <h2>Your Listings</h2>
-          <div className="filter-section">
-            <label>Filter by Status: </label>
-            <select value={filter} onChange={(e) => setFilter(e.target.value)}>
-              <option value="All">All</option>
-              <option value="Draft">Draft</option>
-              <option value="Live">Live</option>
-              <option value="Ended">Ended</option>
-            </select>
-          </div>
-          {sortedListings.length === 0 ? (
-            <p>No listings available.</p>
-          ) : (
-            <table className="listings-table">
-              <thead>
-                <tr>
-                  <th>Title</th>
-                  <th>Description</th>
-                  <th>Starting Bid</th>
-                  <th>Status</th>
-                  <th>Start Date</th>
-                  <th>Actions</th>
+      <div className="SellerListing-table-container">
+        <table className="SellerListing-table" aria-label="Seller listings table">
+          <thead>
+            <tr>
+              <th scope="col">Image</th>
+              <th scope="col">Item Name</th>
+              <th scope="col">Description</th>
+              <th scope="col">Price</th>
+              <th scope="col">Status</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {listings.length === 0 ? (
+              <tr>
+                <td colSpan="6" className="SellerListing-no-listings">
+                  No listings available.
+                </td>
+              </tr>
+            ) : (
+              listings.map((listing) => (
+                <tr key={listing._id}>
+                  <td>
+                    <img
+                      src={
+                        listing.image
+                          ? `${API_BASE_URL}/${listing.image}`
+                          : "https://via.placeholder.com/50?text=No+Image"
+                      }
+                      alt={listing.title}
+                      className="SellerListing-listing-thumbnail"
+                      onError={(e) => {
+                        e.target.src =
+                          "https://via.placeholder.com/50?text=No+Image";
+                      }}
+                    />
+                  </td>
+                  <td>{listing.title}</td>
+                  <td className="SellerListing-description-cell">
+                    {listing.description?.length > 50
+                      ? `${listing.description.substring(0, 50)}...`
+                      : listing.description || "No description"}
+                  </td>
+                  <td>${parseFloat(listing.startingBid).toFixed(2)}</td>
+                  <td>
+                    {listing.status
+                      ? listing.status.charAt(0).toUpperCase() +
+                        listing.status.slice(1)
+                      : "Pending"}
+                  </td>
+                  <td className="SellerListing-actions-cell">
+                    <button
+                      className="SellerListing-download-btn"
+                      onClick={() => handleDownload(listing)}
+                      aria-label={`Download PDF for ${listing.title}`}
+                    >
+
+                      Download PDF
+                    </button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {sortedListings.map((listing) => (
-                  <tr key={listing.id}>
-                    <td>{listing.title}</td>
-                    <td>{listing.description}</td>
-                    <td>${listing.startingBid}</td>
-                    <td>{listing.status}</td>
-                    <td>{listing.startDate}</td>
-                    <td>
-                      <button className="view-btn">View</button>
-                      {listing.status !== "Live" && listing.status !== "Ended" && (
-                        <>
-                          <button className="edit-btn" onClick={() => alert(`Edit listing ${listing.id}`)}>
-                            Edit
-                          </button>
-                          <button className="delete-btn" onClick={() => handleDelete(listing.id)}>
-                            Delete
-                          </button>
-                        </>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          )}
-        </div>
-
-        {/* Status Distribution Card */}
-        <div className="card chart-container">
-          <h2>Status Distribution</h2>
-          <div className="chart">
-            <Pie data={statusDistributionData} options={chartOptions} />
-          </div>
-        </div>
-
-        {/* Bid Trends Card */}
-        <div className="card chart-container">
-          <h2>Bid Trends</h2>
-          <div className="chart">
-            <Line data={bidTrendsData} options={chartOptions} />
-          </div>
-        </div>
-
-        {/* Navigation Card (for balance) */}
-        <div className="card navigation-card">
-          <h2>Quick Links</h2>
-          <div className="nav-links">
-            <Link to="/create-listing">Create New Listing</Link>
-            <Link to="/live-bids">View Live Bids</Link>
-            <Link to="/seller-dashboard">Back to Dashboard</Link>
-          </div>
-        </div>
+              ))
+            )}
+          </tbody>
+        </table>
       </div>
+      <br/><br/><br/><br/>
+     
     </div>
   );
-};
+}
 
 export default SellerListings;

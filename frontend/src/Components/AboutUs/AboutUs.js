@@ -1,3 +1,4 @@
+// Updated AboutUs.js file
 import React from 'react';
 import Nav from '../Nav/Nav';
 import './AboutUs.css';
@@ -29,16 +30,14 @@ function AboutUs() {
       <Nav/>
       {/* Hero Section */}
       <div className="aboutus-hero-section">
-       
-      </div>
-
-      <div className="aboutus-hero-overlay">
+        <div className="aboutus-hero-overlay">
           <h1 className="aboutus-title">About BidMaster</h1>
           <p className="aboutus-tagline">
             Discover a world of opportunities where every bid brings you closer 
             to extraordinary finds and exceptional value.
           </p>
         </div>
+      </div>
 
       {/* Content Sections */}
       <div className="aboutus-content-wrapper">
@@ -57,13 +56,16 @@ function AboutUs() {
         {/* Our Mission Section */}
         <section className="aboutus-section aboutus-mission-section">
           <h2 className="aboutus-section-title">Our Mission</h2>
-          <p className="aboutus-section-text">
-            We strive to revolutionize online auctions by creating a dynamic marketplace 
-            that is accessible to everyone. From rare collectibles to everyday essentials, 
-            we empower our community to bid confidently and sell effortlessly. Our goal is 
-            to deliver excitement, value, and trust in every click—making auctions not just 
-            a transaction, but an experience.
-          </p>
+          <div className="aboutus-mission-content">
+            <p className="aboutus-section-text">
+              We strive to revolutionize online auctions by creating a dynamic marketplace 
+              that is accessible to everyone. From rare collectibles to everyday essentials, 
+              we empower our community to bid confidently and sell effortlessly. Our goal is 
+              to deliver excitement, value, and trust in every click—making auctions not just 
+              a transaction, but an experience.
+            </p>
+            <div className="aboutus-mission-image"></div>
+          </div>
         </section>
 
         {/* Our Journey Section */}
@@ -125,7 +127,6 @@ function AboutUs() {
         </div>
       </section>
       </div>
-    
     </div>
   );
 }

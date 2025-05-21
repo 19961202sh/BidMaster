@@ -1,12 +1,16 @@
 import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./Nav.css";
 import NotificationBell from "../NotificationBell/NotificationBell";
 
 function Nav() {
   const [notifications, setNotifications] = useState([]);
   const [user, setUser] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const navigate = useNavigate();
 
   const userId = localStorage.getItem("userId");
   const username = JSON.parse(localStorage.getItem("user"))?.username;
@@ -53,6 +57,29 @@ function Nav() {
     window.location.href = "/login"; // Full refresh to clear navbar
   };
 
+  // Search handler
+  const handleSearch = async () => {
+    if (!searchTerm.trim()) return;
+    try {
+      const res = await axios.get("http://localhost:5000/items");
+      const items = Array.isArray(res.data) ? res.data : res.data.items || [];
+      const filtered = items.filter(item =>
+        item.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+      setSearchResults(filtered);
+      setShowSuggestions(true);
+    } catch (err) {
+      setSearchResults([]);
+      setShowSuggestions(false);
+    }
+  };
+
+  const handleSuggestionClick = (item) => {
+    setSearchTerm("");
+    setShowSuggestions(false);
+    navigate(`/item/${item._id}`);
+  };
+
   return (
     <div>
       {/* Top Navbar */}
@@ -65,9 +92,48 @@ function Nav() {
         </div>
 
         {/* Search Bar */}
-        <div className="navsearch-bar">
-          <input type="text" placeholder="Search auctions..." />
-          <button className="navsearch-btn">Search</button>
+        <div className="navsearch-bar" style={{ position: 'relative' }}>
+          <input
+            type="text"
+            placeholder="Search auctions..."
+            value={searchTerm}
+            onChange={e => {
+              setSearchTerm(e.target.value);
+              setShowSuggestions(false);
+            }}
+            onKeyDown={e => {
+              if (e.key === 'Enter') handleSearch();
+            }}
+            onFocus={() => searchResults.length > 0 && setShowSuggestions(true)}
+          />
+          <button className="navsearch-btn" onClick={handleSearch}>Search</button>
+          {showSuggestions && searchResults.length > 0 && (
+            <ul style={{
+              position: 'absolute',
+              top: '42px',
+              left: 0,
+              right: 0,
+              background: '#fff',
+              border: '1px solid #ccc',
+              borderTop: 'none',
+              zIndex: 100,
+              maxHeight: '200px',
+              overflowY: 'auto',
+              listStyle: 'none',
+              margin: 0,
+              padding: 0
+            }}>
+              {searchResults.slice(0, 5).map(item => (
+                <li
+                  key={item._id}
+                  onMouseDown={() => handleSuggestionClick(item)}
+                  style={{ padding: '10px', cursor: 'pointer', borderBottom: '1px solid #eee', color: '#222' }}
+                >
+                  {item.name}
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
         {/* Navigation Links */}

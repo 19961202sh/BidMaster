@@ -1,14 +1,80 @@
 //insert model
-const Shippers = require("../Model/ShipperModel.js");
+
+const Shipper = require('../Model/ShipperModel.js');
+
+const getAllShippers = async (req, res) => {
+    try {
+        const shippers = await Shipper.find();
+        res.status(200).json({ success: true, data: shippers });
+    } catch (error) {
+        console.error('Error fetching shippers:', error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+const addShipper = async (req, res) => {
+    const { providerid, companyname, companyemail, companyphone, companyaddress, companytype, rateperkg } = req.body;
+    try {
+        const shipper = new Shipper({
+            providerid, companyname, companyemail, companyphone, companyaddress, companytype, rateperkg
+        });
+        await shipper.save();
+        res.status(201).json({ success: true, data: shipper });
+    } catch (error) {
+        console.error('Error creating shipper:', error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+const getByIdShipper = async (req, res) => {
+    try {
+        const shipper = await Shipper.findById(req.params.shipperid);
+        if (!shipper) return res.status(404).json({ success: false, message: 'Shipper not found' });
+        res.status(200).json({ success: true, data: shipper });
+    } catch (error) {
+        console.error('Error fetching shipper:', error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+const updateShipper = async (req, res) => {
+    const { shipperid } = req.params;
+    const { providerid, companyname, companyemail, companyphone, companyaddress, companytype, rateperkg } = req.body;
+    try {
+        const shipper = await Shipper.findByIdAndUpdate(
+            shipperid,
+            { providerid, companyname, companyemail, companyphone, companyaddress, companytype, rateperkg },
+            { new: true }
+        );
+        if (!shipper) return res.status(404).json({ success: false, message: 'Shipper not found' });
+        res.status(200).json({ success: true, data: shipper });
+    } catch (error) {
+        console.error('Error updating shipper:', error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+const deleteShipper = async (req, res) => {
+    try {
+        const shipper = await Shipper.findByIdAndDelete(req.params.shipperid);
+        if (!shipper) return res.status(404).json({ success: false, message: 'Shipper not found' });
+        res.status(200).json({ success: true, message: 'Shipper deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting shipper:', error);
+        res.status(500).json({ success: false, message: error.message });
+    }
+};
+
+module.exports = { getAllShippers, addShipper, getByIdShipper, updateShipper, deleteShipper };
+
+/*
 
 
-
-//display
 const getAllShippers = async(req,res,next) =>{
 
     let shippers;
 
-//get all users
+
     try{
         shippers = await Shippers.find();
 
@@ -149,3 +215,4 @@ exports.addShippers = addShippers;
 exports.getByIdShippers = getByIdShippers;
 exports.updateShippers = updateShippers;
 exports.deleteShippers = deleteShippers;
+*/

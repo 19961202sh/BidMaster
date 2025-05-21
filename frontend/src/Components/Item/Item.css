@@ -1,87 +1,168 @@
-/* Item.css */
-.item-card {
-    background: white;
-    border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-left: 5px solid #3498db; /* Blue accent */
-  }
-  
-  .item-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-  }
-  
-  .item-title {
-    color: #e74c3c; /* Vibrant red */
-    font-size: 1.5rem;
-    margin: 0 0 10px 0;
-  }
-  
-  .item-description {
-    color: #7f8c8d; /* Muted gray */
-    font-size: 1rem;
-    margin: 0 0 10px 0;
-  }
-  
-  .item-price {
-    color: #27ae60; /* Green */
-    font-size: 1.2rem;
-    font-weight: bold;
-    margin: 0 0 15px 0;
-  }
-  
-  .item-actions {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .update-btn {
-    background-color: #f1c40f; /* Yellow */
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .update-btn:hover {
-    background-color: #e67e22; /* Orange on hover */
-  }
-  
-  .delete-btn {
-    background-color: #e74c3c; /* Red */
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .delete-btn:hover {
-    background-color: #c0392b; /* Darker red on hover */
-  }
-
-  /* Target the link */
-a {
-  text-decoration: none; /* Removes the default underline */
-  color: #007bff; /* A nice blue color */
-  font-weight: 500; /* Slightly bold text */
-  padding: 8px 16px; /* Some padding for a button-like feel */
-  border-radius: 4px; /* Rounded corners */
-  transition: all 0.3s ease; /* Smooth transition for hover effects */
+.seller-item-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Hover effect */
-a:hover {
-  color: #0056b3; /* Darker blue on hover */
-  background-color: #f0f0f0; /* Light gray background */
+.seller-item-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 }
 
-/* Optional: Active state */
-a:active {
-  color: #003d82; /* Even darker blue when clicked */
+.seller-item-image {
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+}
+
+.seller-item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.seller-item-card:hover .seller-item-image img {
+  transform: scale(1.05);
+}
+
+.no-image {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f2f2f2;
+  color: #999;
+  font-size: 16px;
+}
+
+.seller-item-content {
+  padding: 16px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.seller-item-content h3 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.seller-item-description-short {
+  color: #666;
+  font-size: 14px;
+  margin: 0 0 12px 0;
+  line-height: 1.4;
+  flex-grow: 1;
+}
+
+.seller-item-meta {
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.seller-item-price {
+  font-weight: bold;
+  color: #2c7be5;
+  margin-bottom: 4px;
+}
+
+.seller-item-date {
+  color: #999;
+  font-size: 12px;
+  margin: 0;
+}
+
+.seller-item-actions {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.view-details-btn {
+  display: inline-block;
+  background-color: #4CAF50;
+  color: white;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  transition: background-color 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.view-details-btn:hover {
+  background-color: #3e8e41;
+}
+
+.seller-item-buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.edit-btn, .delete-btn {
+  flex: 1;
+  padding: 6px 12px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.edit-btn {
+  background-color: #2196F3;
+  color: white;
+  text-decoration: none;
+}
+
+.edit-btn:hover {
+  background-color: #0b7dda;
+}
+
+.delete-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+}
+
+.delete-btn:hover {
+  background-color: #d32f2f;
+}
+
+/* Status indicators */
+.status-indicator {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: bold;
+  color: white;
+}
+
+.status-pending {
+  background-color: #ffc107;
+}
+
+.status-accepted {
+  background-color: #4CAF50;
+}
+
+.status-rejected {
+  background-color: #f44336;
 }

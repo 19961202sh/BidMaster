@@ -1,111 +1,318 @@
+/* Register.css - Styled to match the login form in Image 1 */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-.register-container {
-    display: flex;
-    align-items: center;
-    justify-content:center;
-    background: url('https://as1.ftcdn.net/v2/jpg/07/72/42/78/1000_F_772427825_1SLyhIRfMRQ9rixxWnDpBfPWiG4PEf8L.jpg') 
-    center/cover no-repeat;
-    height: 100vh;
-    
-    
+:root {
+  --primary-dark: #3a4356;
+  --primary-button: #3a4356;
+  --primary-light: #4e5977;
+  --accent-blue: #3b5998;
+  --accent-twitter: #1da1f2;
+  --accent-google: #db4437;
+  --text-color: #333;
+  --text-light: #6c7a89;
+  --white: #ffffff;
+  --off-white: #f5f7fa;
+  --input-border: #e1e5eb;
+  --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 15px rgba(0, 0, 0, 0.08);
+  --border-radius: 5px;
+  --transition: all 0.3s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+.RF-register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: url('https://www.johnderian.com/cdn/shop/collections/Vintage_Collection_Esme_Tiffany_Plates_IMG_0702_1200x.jpg?v=1711026003') center/cover no-repeat fixed;
+  position: relative;
+}
+
+.RF-register-box {
+  width: 100%;
+  max-width: 650px;
+  background: var(--white);
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  position: relative;
+  animation: slideIn 0.5s ease-out forwards;
+  padding: 30px;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.RF-register-header {
+  color: var(--primary-dark);
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 1.8rem;
+  font-weight: 600;
+}
+
+/* Progress steps - Styling similar to Image 2 */
+.RF-form-progress {
+  display: flex;
+  justify-content: center;
+  padding: 0 10%;
+  margin-bottom: 30px;
+}
+
+.RF-progress-step {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background-color: #e1e5eb;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin: 0 25px;
+  position: relative;
+}
+
+.RF-progress-step::before,
+.RF-progress-step::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  height: 2px;
+  background-color: #e1e5eb;
+  width: 50px;
+}
+
+.RF-progress-step::before {
+  right: 100%;
+}
+
+.RF-progress-step::after {
+  left: 100%;
+}
+
+.RF-progress-step:first-child::before,
+.RF-progress-step:last-child::after {
+  display: none;
+}
+
+.RF-progress-step.RF-active {
+  background-color: #f24976;
+  color: var(--white);
+}
+
+.RF-progress-step.RF-completed {
+  background-color: #4cb0ff;
+  color: var(--white);
+}
+
+/* Form styling */
+.RF-register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.RF-error-message {
+  background-color: rgba(242, 73, 118, 0.1);
+  color: #f24976;
+  padding: 12px;
+  border-radius: var(--border-radius);
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.RF-input-group {
+  position: relative;
+}
+
+.RF-input-group label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--text-light);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.RF-input-group input {
+  width: 100%;
+  padding: 12px 40px 12px 15px;
+  border: 1px solid var(--input-border);
+  border-radius: var(--border-radius);
+  background-color: var(--off-white);
+  color: var(--text-color);
+  font-size: 0.95rem;
+  transition: var(--transition);
+}
+
+.RF-input-group input:focus {
+  outline: none;
+  border-color: #4cb0ff;
+  box-shadow: 0 0 0 2px rgba(76, 176, 255, 0.2);
+}
+
+.RF-input-icon {
+  position: absolute;
+  right: 15px;
+  top: 37px;
+  color: var(--text-light);
+  font-size: 1rem;
+}
+
+/* Password visibility toggle */
+.RF-password-toggle {
+  position: absolute;
+  right: 15px;
+  top: 37px;
+  background: none;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+  z-index: 2;
+}
+
+/* Password strength meter */
+.RF-password-strength {
+  height: 4px;
+  margin-top: 5px;
+  border-radius: 2px;
+  background: #e1e5eb;
+  overflow: hidden;
+}
+
+.RF-password-strength-meter {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.RF-password-strength.weak .RF-password-strength-meter {
+  width: 30%;
+  background-color: #f24976;
+}
+
+.RF-password-strength.medium .RF-password-strength-meter {
+  width: 60%;
+  background-color: #ffa726;
+}
+
+.RF-password-strength.strong .RF-password-strength-meter {
+  width: 100%;
+  background-color: #4cb0ff;
+}
+
+.RF-validation-message {
+  color: #f24976;
+  font-size: 0.8rem;
+  margin-top: 5px;
+  display: block;
+}
+
+/* Terms and conditions checkbox */
+.RF-terms {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 5px 0;
+}
+
+.RF-terms input[type="checkbox"] {
+  margin-top: 3px;
+}
+
+.RF-terms label {
+  font-size: 0.85rem;
+  color: var(--text-light);
+  line-height: 1.4;
+}
+
+.RF-terms-link {
+  color: #4cb0ff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.RF-terms-link:hover {
+  text-decoration: underline;
+}
+
+/* Register button - gradient like Image 2 */
+.RF-register-button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(to right, #0a0344, #4cb0ff);
+  color: var(--white);
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  margin: 10px 0;
+}
+
+.RF-register-button:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+
+/* Login link */
+.RF-register-p {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 0.85rem;
+  color: var(--text-light);
+}
+
+.RF-login-link {
+  color: #4cb0ff;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.RF-login-link:hover {
+  text-decoration: underline;
+}
+
+/* Additional styling to match Image 1 */
+.RF-register-box::after {
+  content: '© Auction System';
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  color: #adb5bd;
+  font-size: 0.8rem;
+}
+
+/* Responsive design */
+@media (max-width: 500px) {
+  .RF-register-box {
+    margin: 0 15px;
+    padding: 25px 20px;
+  }
   
-}
-
-.register-box {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.5);
-    width: 100%;
-    max-width: 500px;
-    text-align: left;
-    margin-top: 100px;
-    opacity: 0.75;
-    margin-bottom: 30px;
-}
-
-.register-header {
-    font-size: 1.5rem;
-    text-align: center;
-    margin-bottom: 15px;
-    color: #333;
-}
-
-.error-message {
-    color: red;
-    text-align: center;
-    font-size: 0.9rem;
-}
-
-.input-group {
-    margin-bottom: 15px;
-    width: 90%;
-    margin-left: 10px;
-}
-
-.input-group label {
-    display: block;
-    font-size: 0.9rem;
-    margin-bottom: 5px;
-   
-    font-weight: bold;
-}
-
-.input-group input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
-}
-
-.terms {
-    display: flex;
-    align-items: center;
-    font-size: 0.9rem;
-    margin-bottom: 15px;
-}
-
-.terms input {
-    margin-right: 10px;
-}
-
-.terms-link {
-    color: #007bff;
-    text-decoration: none;
-}
-
-.terms-link:hover {
-    text-decoration: underline;
-}
-
-.register-button {
-    width: 100%;
-    background-color: #007bff;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-}
-
-.register-button:hover {
-    background-color: #0056b3;
-}
-
-.register-p p {
-    font-size: 0.9rem;
-    color: #555;
-    text-align: center;
-    margin-top: 10px;
-}
-
-.login-link {
-    color: #007bff;
-    text-decoration: none;
-}
-
-.login-link:hover {
-    text-decoration: underline;
+  .RF-progress-step {
+    margin: 0 15px;
+  }
+  
+  .RF-progress-step::before,
+  .RF-progress-step::after {
+    width: 30px;
+  }
 }

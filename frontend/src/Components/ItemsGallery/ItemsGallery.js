@@ -7,6 +7,8 @@ function ItemsGallery() {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showSuggestions, setShowSuggestions] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,6 +35,16 @@ function ItemsGallery() {
     navigate(`/item/${item._id}`);
   };
 
+  const filteredItems = items.filter(item =>
+    item.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const handleSuggestionClick = (item) => {
+    setSearchTerm('');
+    setShowSuggestions(false);
+    navigate(`/item/${item._id}`);
+  };
+
   if (loading) return <div className="gallery-container"><Nav /><div className="loading">Loading items...</div></div>;
   if (error) return <div className="gallery-container"><Nav /><div className="error">Error: {error}</div></div>;
 
@@ -40,11 +52,38 @@ function ItemsGallery() {
     <div className="gallery-container">
       <Nav />
       <br/><br/><br/><br/>
+      <div className="search-container">
+        <input
+          type="text"
+          placeholder="Search items..."
+          value={searchTerm}
+          onChange={e => {
+            setSearchTerm(e.target.value);
+            setShowSuggestions(true);
+          }}
+          onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+          onFocus={() => setShowSuggestions(true)}
+          className="search-input"
+        />
+        {showSuggestions && searchTerm && filteredItems.length > 0 && (
+          <ul className="suggestions-list">
+            {filteredItems.slice(0, 5).map(item => (
+              <li
+                key={item._id}
+                onMouseDown={() => handleSuggestionClick(item)}
+                className="suggestion-item"
+              >
+                {item.name}
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
       <div className="gallery-grid">
-        {items.length === 0 ? (
+        {filteredItems.length === 0 ? (
           <p>No items available in the gallery.</p>
         ) : (
-          items.map(item => (
+          filteredItems.map(item => (
             <div key={item._id} className="gallery-item">
               {parseFloat(item.price) < 30 && <span className="sale-badge">SALE</span>}
               <img 

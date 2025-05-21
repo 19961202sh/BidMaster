@@ -67,8 +67,8 @@ function ItemView() {
   };
   
   const handlePlaceBid = () => {
-    alert('Bid placed! This would typically open a bidding form.');
-    // navigate('/place-bid/' + id);  // For future implementation
+   
+    navigate('/bid-now/' + id);  // For future implementation
   };
   
   if (loading) return <div className="item-view-container"><Nav /><div className="loading">Loading item details...</div></div>;
@@ -124,12 +124,66 @@ function ItemView() {
             </div>
           </div>
           
-          <div className="item-description-container">
-            <h3>Description</h3>
+          {/* Description section */}
+          <div className="item-description-section">
+            <h2 className="section-title">
+              <span className="icon">ⓘ</span> Description
+            </h2>
             <div className="item-description">
               {item.description.split('\n').map((paragraph, index) => (
                 <p key={index}>{paragraph}</p>
               ))}
+            </div>
+          </div>
+          
+          {/* Item Details section - similar to the image provided */}
+          <div className="item-details-container">
+            <h2 className="section-title">Item Details</h2>
+            
+            <div className="details-grid">
+              <div className="detail-row">
+                <div className="detail-item">
+                  <span className="detail-label">Condition</span>
+                  <span className="detail-value">{item.condition || 'Not specified'}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Provenance</span>
+                  <span className="detail-value">{item.provenance || 'Not specified'}</span>
+                </div>
+              </div>
+              
+              <div className="detail-row">
+                <div className="detail-item">
+                  <span className="detail-label">Dimensions</span>
+                  <span className="detail-value">{item.dimensions || 'Not specified'}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Weight</span>
+                  <span className="detail-value">{item.weight || 'Not specified'}</span>
+                </div>
+              </div>
+              
+              <div className="detail-row">
+                <div className="detail-item">
+                  <span className="detail-label">Material</span>
+                  <span className="detail-value">{item.material || 'Not specified'}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Maker</span>
+                  <span className="detail-value">{item.maker || 'Not specified'}</span>
+                </div>
+              </div>
+              
+              <div className="detail-row">
+                <div className="detail-item">
+                  <span className="detail-label">Year</span>
+                  <span className="detail-value">{item.year || 'Not specified'}</span>
+                </div>
+                <div className="detail-item">
+                  <span className="detail-label">Authenticity</span>
+                  <span className="detail-value">{item.authenticity || 'Not verified'}</span>
+                </div>
+              </div>
             </div>
           </div>
           

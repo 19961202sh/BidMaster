@@ -18,27 +18,77 @@ const itemSchema = new Schema({
     type: Number,
     required: true
   },
+  startingPrice: {
+    type: Number
+  },
   image: {
     type: String,
-    default: 'placeholder.png'
+    default: '/uploads/placeholder.png'
   },
-  // New fields for additional images
   additionalImages: {
     type: [String],
     default: []
   },
-  // New field for bidding time limit
   biddingEndTime: {
     type: Date
   },
-  // New field for starting price
-  startingPrice: {
-    type: Number
+  // Item detail fields - displayed in the view page
+  condition: {
+    type: String,
+    enum: ['Excellent', 'Very Good', 'Good', 'Fair', 'Poor'],
+    default: 'Excellent'
+  },
+  provenance: {
+    type: String
+  },
+  dimensions: {
+    type: String
+  },
+  weight: {
+    type: String
+  },
+  material: {
+    type: String
+  },
+  maker: {
+    type: String
+  },
+  year: {
+    type: String
+  },
+  // Inspection related fields
+  authenticity: {
+    type: String,
+    enum: ['Verified', 'Unverified', 'Reproduction'],
+    default: 'Verified'
+  },
+  inspectionNotes: {
+    type: String
+  },
+  inspectionStatus: {
+    type: String,
+    enum: ['Pending', 'Approved', 'Rejected'],
+    default: 'Pending'
   },
   status: {
     type: String,
+    enum: ['Pending', 'Approved', 'Rejected'],
     default: 'Pending'
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
   }
+});
+
+// Update timestamps before save
+itemSchema.pre('save', function(next) {
+  this.updatedAt = Date.now();
+  next();
 });
 
 module.exports = mongoose.model("Item", itemSchema);
