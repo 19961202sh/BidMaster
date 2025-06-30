@@ -1,21 +1,7 @@
-
 import React, { useRef } from 'react';
-
 import emailjs from 'emailjs-com';
-import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import './ContactUs.css';
-import { FaPhone, FaEnvelope, FaMapMarkerAlt,  Fa500Px, FaAddressBook } from 'react-icons/fa';
-
-
-const mapContainerStyle = {
-  width: '100%',
-  height: '400px',
-};
-
-const center = {
-  lat: 7.2906,   // Kandy, Sri Lanka
-  lng: 80.6336   // Kandy, Sri Lanka
-};
+import { FaPhone, FaEnvelope, FaMapMarkerAlt, Fa500Px, FaAddressBook } from 'react-icons/fa';
 
 function ContactUs() {
   const form = useRef();
@@ -35,8 +21,6 @@ function ContactUs() {
 
   return (
     <div className="contact-us-page">
-      
-      
       {/* Hero Section */}
       <section className="contact-hero">
         <h1>Contact Us</h1>
@@ -51,7 +35,7 @@ function ContactUs() {
             <h2>Send Us a Message</h2>
             <form ref={form} onSubmit={sendEmail} className="contact-form">
 
-            <label htmlFor="user_name"><FaAddressBook /> Name</label>
+              <label htmlFor="user_name"><FaAddressBook /> Name</label>
               <div className="form-group">
                 <input
                   type="text"
@@ -73,7 +57,7 @@ function ContactUs() {
                 />
               </div>
 
-              <label htmlFor="message"><Fa500Px/>Message</label>
+              <label htmlFor="message"><Fa500Px /> Message</label>
               <div className="form-group">
                 <textarea
                   id="message"
@@ -87,7 +71,7 @@ function ContactUs() {
           </div>
         </section>
 
-        {/* Contact Info Section with Image */}
+        {/* Contact Info Section */}
         <section className="contact-info-section">
           <h2>Contact Information</h2>
           <div className="contact-details">
@@ -100,8 +84,6 @@ function ContactUs() {
             <p><FaEnvelope /> <strong>Email:</strong> support@auction.com</p>
             <p><FaMapMarkerAlt /> <strong>Address:</strong> 123 Auction Lane, Kandy, Sri Lanka</p>
           </div>
-          
-          
         </section>
       </div>
 
@@ -109,24 +91,20 @@ function ContactUs() {
       <section className="map-section">
         <h2>Find Us Here</h2>
         <div className="map-container">
-          <LoadScript googleMapsApiKey="YOUR_GOOGLE_MAPS_API_KEY">
-            <GoogleMap
-              mapContainerStyle={mapContainerStyle}
-              center={center}
-              zoom={13}
-            >
-              <Marker position={center} />
-            </GoogleMap>
-          </LoadScript>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d63316.148757489554!2d80.5905!3d7.2906!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae366fdcf0df4c5%3A0xd55c7c78189b7a9d!2sKandy!5e0!3m2!1sen!2slk!4v1719732567890"
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            allowFullScreen=""
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Our Location"
+          ></iframe>
         </div>
       </section>
-
-   
     </div>
   );
 }
 
 export default ContactUs;
-
-
-

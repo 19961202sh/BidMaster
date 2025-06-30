@@ -3,7 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 .dashboard-page {
-  max-width: 1200px;
+  max-width: 1300px;
   margin: 0 auto;
   padding: 1rem 2rem 4rem;
   font-family: 'Poppins', sans-serif;
@@ -226,12 +226,14 @@
 .dash-metrics-section > * {
   position: relative;
   z-index: 2;
+  
 }
 
 .dash-metrics-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 1.5rem;
+  
 }
 
 .dash-metric-item {
@@ -354,7 +356,9 @@
 .dash-actions-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1.5rem;
+  gap: 3.5rem;
+  
+  
 }
 
 .dash-action-card {

@@ -168,6 +168,8 @@ textarea {
   background-color: #e74c3c;
 }
 
+
+
 @keyframes slideIn {
   from {
     transform: translateX(100%);

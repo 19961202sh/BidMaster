@@ -1,53 +1,37 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const multer = require("multer");
-const path = require("path");
-const SellerControllers = require("../Controlers/SellerController");
+const SellerController = require('../Controlers/SellerController');
+const multer = require('multer');
+const path = require('path');
 
-// Configure multer for file storage
+// Image Upload Configuration
 const storage = multer.diskStorage({
-    destination: function(req, file, cb) {
-        cb(null, "uploads/"); // Make sure this directory exists
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/');
     },
-    filename: function(req, file, cb) {
-        // Create unique filename with original extension
-        cb(null, `${Date.now()}-${Math.round(Math.random() * 1E9)}${path.extname(file.originalname)}`);
+    filename: function (req, file, cb) {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, uniqueSuffix + path.extname(file.originalname));
     }
 });
 
-// Set up file filter to only allow certain image types
-const fileFilter = (req, file, cb) => {
-    if (file.mimetype.startsWith("image")) {
-        // Accept image files only
-        cb(null, true);
-    } else {
-        // Reject non-image files
-        cb(new Error("Only image files are allowed!"), false);
-    }
-};
-
-// Initialize upload middleware
 const upload = multer({
-    storage: storage,
-    fileFilter: fileFilter,
-    limits: {
-        fileSize: 5 * 1024 * 1024, // Limit file size to 5MB
-    }
+    storage: storage
 });
 
-// Get all seller items
-router.get("/", SellerControllers.getAllItems);
+// Routes
+router.post(
+    '/',
+    upload.fields([
+        { name: 'image', maxCount: 1 },
+        { name: 'additionalImages', maxCount: 4 }
+    ]),
+    SellerController.createItem
+);
 
-// Create new item (with image upload)
-router.post("/", upload.single("image"), SellerControllers.addItem);
-
-// Get by ID
-router.get("/:id", SellerControllers.getById);
-
-// Update item (with optional image upload)
-router.put("/:id", upload.single("image"), SellerControllers.updateItem);
-
-// Delete item
-router.delete("/:id", SellerControllers.deleteItem);
+router.get('/', SellerController.getItems);
+router.get('/:id', SellerController.getItemById);
+router.delete('/:id', SellerController.deleteItem);
+router.get('/seller/:username', SellerController.getItemsBySeller);
 
 module.exports = router;

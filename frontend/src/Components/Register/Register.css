@@ -1,318 +1,370 @@
-/* Register.css - Styled to match the login form in Image 1 */
+/* Register.css */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
-:root {
-  --primary-dark: #3a4356;
-  --primary-button: #3a4356;
-  --primary-light: #4e5977;
-  --accent-blue: #3b5998;
-  --accent-twitter: #1da1f2;
-  --accent-google: #db4437;
-  --text-color: #333;
-  --text-light: #6c7a89;
-  --white: #ffffff;
-  --off-white: #f5f7fa;
-  --input-border: #e1e5eb;
-  --shadow-sm: 0 2px 5px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 15px rgba(0, 0, 0, 0.08);
-  --border-radius: 5px;
-  --transition: all 0.3s ease;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
-}
-
 .RF-register-container {
+  font-family: 'Poppins', sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: url('https://www.johnderian.com/cdn/shop/collections/Vintage_Collection_Esme_Tiffany_Plates_IMG_0702_1200x.jpg?v=1711026003') center/cover no-repeat fixed;
-  position: relative;
+  background: url('https://images.capitoliumart.com/auction-images/446/264347.jpg') 
+      center/cover no-repeat;
+  color: #333;
 }
 
 .RF-register-box {
   width: 100%;
-  max-width: 650px;
-  background: var(--white);
-  border-radius: 10px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-  overflow: hidden;
-  position: relative;
-  animation: slideIn 0.5s ease-out forwards;
-  padding: 30px;
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.RF-register-header {
-  color: var(--primary-dark);
+  max-width: 600px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  padding: 40px 30px;
   text-align: center;
-  margin-bottom: 25px;
-  font-size: 1.8rem;
-  font-weight: 600;
+  animation: fadeIn 0.6s ease-out;
 }
 
-/* Progress steps - Styling similar to Image 2 */
-.RF-form-progress {
-  display: flex;
-  justify-content: center;
-  padding: 0 10%;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.RF-register-box h2 {
+  font-size: 2rem;
+  font-weight: 700;
   margin-bottom: 30px;
+  color: #3d4b64;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
-.RF-progress-step {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background-color: #e1e5eb;
-  color: var(--text-light);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.8rem;
-  font-weight: 600;
-  margin: 0 25px;
-  position: relative;
+.RF-error-message {
+  background-color: #feecf0;
+  color: #e74c3c;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
-.RF-progress-step::before,
-.RF-progress-step::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  height: 2px;
-  background-color: #e1e5eb;
-  width: 50px;
-}
-
-.RF-progress-step::before {
-  right: 100%;
-}
-
-.RF-progress-step::after {
-  left: 100%;
-}
-
-.RF-progress-step:first-child::before,
-.RF-progress-step:last-child::after {
-  display: none;
-}
-
-.RF-progress-step.RF-active {
-  background-color: #f24976;
-  color: var(--white);
-}
-
-.RF-progress-step.RF-completed {
-  background-color: #4cb0ff;
-  color: var(--white);
-}
-
-/* Form styling */
 .RF-register-form {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.RF-error-message {
-  background-color: rgba(242, 73, 118, 0.1);
-  color: #f24976;
-  padding: 12px;
-  border-radius: var(--border-radius);
-  margin-bottom: 15px;
-  font-size: 0.9rem;
-  text-align: center;
-}
-
 .RF-input-group {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   position: relative;
 }
 
 .RF-input-group label {
-  display: block;
-  margin-bottom: 6px;
-  color: var(--text-light);
-  font-size: 0.85rem;
+  width: 30%;
+  text-align: left;
   font-weight: 500;
+  color: #3d4b64;
+  font-size: 0.95rem;
 }
 
 .RF-input-group input {
-  width: 100%;
-  padding: 12px 40px 12px 15px;
-  border: 1px solid var(--input-border);
-  border-radius: var(--border-radius);
-  background-color: var(--off-white);
-  color: var(--text-color);
-  font-size: 0.95rem;
-  transition: var(--transition);
+  width: 65%;
+  padding: 14px 14px 14px 14px;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background-color: #f8f9fa;
+  color: #000000;
 }
 
 .RF-input-group input:focus {
   outline: none;
-  border-color: #4cb0ff;
-  box-shadow: 0 0 0 2px rgba(76, 176, 255, 0.2);
+  border-color: #3d4b64;
+  box-shadow: 0 0 0 3px rgba(61, 75, 100, 0.1);
+}
+
+.RF-input-group input::placeholder {
+  color: #adb5bd;
 }
 
 .RF-input-icon {
   position: absolute;
-  right: 15px;
-  top: 37px;
-  color: var(--text-light);
+  right: 10px;
+  color: #3d4b64;
   font-size: 1rem;
 }
 
-/* Password visibility toggle */
-.RF-password-toggle {
-  position: absolute;
-  right: 15px;
-  top: 37px;
-  background: none;
-  border: none;
-  color: var(--text-light);
-  cursor: pointer;
-  z-index: 2;
-}
-
-/* Password strength meter */
-.RF-password-strength {
-  height: 4px;
-  margin-top: 5px;
-  border-radius: 2px;
-  background: #e1e5eb;
-  overflow: hidden;
-}
-
-.RF-password-strength-meter {
-  height: 100%;
-  transition: width 0.3s ease;
-}
-
-.RF-password-strength.weak .RF-password-strength-meter {
-  width: 30%;
-  background-color: #f24976;
-}
-
-.RF-password-strength.medium .RF-password-strength-meter {
-  width: 60%;
-  background-color: #ffa726;
-}
-
-.RF-password-strength.strong .RF-password-strength-meter {
-  width: 100%;
-  background-color: #4cb0ff;
-}
-
-.RF-validation-message {
-  color: #f24976;
-  font-size: 0.8rem;
-  margin-top: 5px;
-  display: block;
-}
-
-/* Terms and conditions checkbox */
-.RF-terms {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  margin: 5px 0;
-}
-
-.RF-terms input[type="checkbox"] {
-  margin-top: 3px;
-}
-
-.RF-terms label {
-  font-size: 0.85rem;
-  color: var(--text-light);
-  line-height: 1.4;
-}
-
-.RF-terms-link {
-  color: #4cb0ff;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.RF-terms-link:hover {
-  text-decoration: underline;
-}
-
-/* Register button - gradient like Image 2 */
 .RF-register-button {
-  width: 100%;
-  padding: 12px;
-  background: linear-gradient(to right, #0a0344, #4cb0ff);
-  color: var(--white);
+  background: linear-gradient(135deg, #3d4b64 0%, #2c3e50 100%);
+  color: white;
   border: none;
-  border-radius: var(--border-radius);
+  padding: 14px 24px;
+  border-radius: 8px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: var(--transition);
-  margin: 10px 0;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
 }
 
 .RF-register-button:hover {
-  opacity: 0.9;
+  background: linear-gradient(135deg, #2c3e50 0%, #1a2530 100%);
   transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-/* Login link */
-.RF-register-p {
-  text-align: center;
-  margin-top: 15px;
-  font-size: 0.85rem;
-  color: var(--text-light);
+.RF-register-button:active {
+  transform: translateY(1px);
+}
+
+.RF-social-login {
+  margin-top: 30px;
+  position: relative;
+}
+
+.RF-social-login p {
+  font-size: 0.9rem;
+  color: #6c757d;
+  margin-bottom: 15px;
+  position: relative;
+}
+
+.RF-social-login p::before,
+.RF-social-login p::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 30%;
+  height: 1px;
+  background-color: #e9ecef;
+}
+
+.RF-social-login p::before {
+  left: 0;
+}
+
+.RF-social-login p::after {
+  right: 0;
+}
+
+.RF-social-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.RF-social-btn {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.RF-social-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.RF-facebook {
+  background-color: #3b5998;
+}
+
+.RF-twitter {
+  background-color: #1da1f2;
+}
+
+.RF-google {
+  background-color: #db4437;
 }
 
 .RF-login-link {
-  color: #4cb0ff;
-  text-decoration: none;
-  font-weight: 500;
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.RF-login-link:hover {
+.RF-login-link p {
+  color: #6c757d;
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.RF-login-link a {
+  color: #3d4b64;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.RF-login-link a:hover {
+  color: #2c3e50;
   text-decoration: underline;
 }
 
-/* Additional styling to match Image 1 */
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .RF-input-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .RF-input-group label {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+
+  .RF-input-group input {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .RF-register-box {
+    padding: 30px 20px;
+  }
+
+  .RF-register-box h2 {
+    font-size: 1.8rem;
+  }
+
+  .RF-social-buttons {
+    gap: 10px;
+  }
+
+  .RF-social-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1rem;
+  }
+}
+
+/* Branding at the bottom */
 .RF-register-box::after {
   content: '© Auction System';
   display: block;
   text-align: center;
-  margin-top: 20px;
+  margin-top: 30px;
   color: #adb5bd;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
 }
 
-/* Responsive design */
-@media (max-width: 500px) {
-  .RF-register-box {
-    margin: 0 15px;
-    padding: 25px 20px;
-  }
-  
-  .RF-progress-step {
-    margin: 0 15px;
-  }
-  
-  .RF-progress-step::before,
-  .RF-progress-step::after {
-    width: 30px;
-  }
+/* Align checkbox and label in one row */
+.RF-terms {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* spacing between checkbox and label */
+  margin-top: 10px;
 }
+
+.RF-terms input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.RF-terms label {
+  cursor: pointer;
+}
+
+.RF-password-toggle {
+  position: absolute;
+  right: 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #3d4b64;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+}
+
+.RF-password-toggle:hover {
+  color: #2c3e50;
+}
+
+.RF-password-toggle svg {
+  font-size: 1.1rem;
+}
+
+
+
+/* Modal Overlay */
+.RF-terms-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* Modal Box */
+.RF-terms-modal {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  width: 80%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+/* Modal Content */
+.RF-terms-modal h2 {
+  margin-top: 0;
+  color: #3d4b64;
+}
+
+.RF-terms-content {
+  margin-top: 15px;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+/* Close Button */
+.RF-modal-close {
+  background-color: #3d4b64;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.RF-modal-close:hover {
+  background-color: #2c3e50;
+}
+
+/* Terms Link */
+.RF-terms-link {
+  color: #3d4b64;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.RF-terms-link:hover {
+  color: #2c3e50;
+}
+

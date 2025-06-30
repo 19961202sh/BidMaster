@@ -74,13 +74,17 @@ const TaskDashboard = () => {
   };
 
   const deleteTask = async (taskId) => {
-    try {
-      await axios.delete(`http://localhost:5000/api/tasks/delete/${taskId}`);
-      setTasks(tasks.filter(task => task._id !== taskId));
-    } catch (error) {
-      console.error("Error deleting task:", error);
-    }
-  };
+  const confirmDelete = window.confirm("Are you sure you want to delete this task?");
+  if (!confirmDelete) return;
+
+  try {
+    await axios.delete(`http://localhost:5000/api/tasks/delete/${taskId}`);
+    setTasks(tasks.filter(task => task._id !== taskId));
+  } catch (error) {
+    console.error("Error deleting task:", error);
+  }
+};
+
 
   const startEditing = (task) => {
     setEditingTaskId(task._id);

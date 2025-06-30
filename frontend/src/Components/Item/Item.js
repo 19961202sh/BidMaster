@@ -6,7 +6,6 @@ import "./Item.css";
 function Item({ item, onRefresh }) {
   const navigate = useNavigate();
 
-  // Extract timestamp from MongoDB ObjectId if available
   const getDateFromId = (id) => {
     if (id && id.length >= 24) {
       const timestamp = parseInt(id.substring(0, 8), 16);
@@ -15,13 +14,12 @@ function Item({ item, onRefresh }) {
     return "Unknown date";
   };
 
-  // Handle delete item
   const handleDelete = async (e) => {
     e.preventDefault();
     e.stopPropagation();
     if (window.confirm("Are you sure you want to delete this item?")) {
       try {
-        await axios.delete(`http://localhost:5000/item/${item._id}`);
+        await axios.delete(`http://localhost:5000/items/${item._id}`);
         if (typeof onRefresh === "function") {
           onRefresh();
         }
@@ -33,40 +31,50 @@ function Item({ item, onRefresh }) {
     }
   };
 
-  // Navigate to item details page
   const handleClick = () => {
     navigate(`/seller-dashboard/${item._id}`);
   };
 
   return (
-    <div className="seller-item-card" onClick={handleClick} style={{ cursor: "pointer" }}>
+    <div
+      className="seller-item-card"
+      onClick={handleClick}
+      style={{ cursor: "pointer" }}
+    >
       {item.status && (
         <div className={`status-indicator status-${item.status}`}>
           {item.status}
         </div>
       )}
-      <div className="seller-item-image">
-        {item.image ? (
-          <img
-            src={`http://localhost:5000/${item.image}`}
-            alt={item.title}
-            onError={(e) => {
-              e.target.src = "https://via.placeholder.com/150?text=No+Image";
-            }}
-          />
-        ) : (
-          <div className="no-image">No Image</div>
-        )}
-      </div>
+     <div className="seller-item-image">
+  {item.image ? (
+    <img
+      src={
+        item.image.startsWith('/uploads')
+          ? `http://localhost:5000${item.image}`
+          : 'https://via.placeholder.com/150?text=No+Image'
+      }
+      alt={item.name}
+      onError={(e) => {
+        e.target.src = "https://via.placeholder.com/150?text=No+Image";
+      }}
+    />
+  ) : (
+    <div className="no-image">No Image</div>
+  )}
+</div>
+
       <div className="seller-item-content">
-        <h3>{item.title}</h3>
+        <h3>{item.name}</h3>
         <p className="seller-item-description-short">
           {item.description?.length > 80
             ? `${item.description.substring(0, 80)}...`
             : item.description}
         </p>
         <div className="seller-item-meta">
-          <p className="seller-item-price">Starting Bid: ${item.startingBid?.toFixed(2)}</p>
+          <p className="seller-item-price">
+            Starting Bid: ${item.startingPrice?.toFixed(2)}
+          </p>
           <p className="seller-item-date">
             {item.createdAt
               ? `Listed: ${new Date(item.createdAt).toLocaleDateString()}`

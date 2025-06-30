@@ -28,8 +28,11 @@ require('./utils/auctionWinnerNotifier');
 
 const path = require('path');
 const SellerRoute = require("./Route/SellerRoute");
+const sellerProfileRoutes = require("./Route/SellerProfileRoute");
+
 const multer = require("multer");
 const fs = require("fs"); // Add fs for file deletion
+
 
 // Initialize Stripe with your secret key from .env
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
@@ -48,6 +51,7 @@ app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 
 app.use("/item", SellerRoute);
+app.use('/seller', sellerProfileRoutes);
 
 app.use("/files", express.static(path.join(__dirname, "../frontend/src/Components/ImgUploader/files")));
 
@@ -74,7 +78,7 @@ app.use('/api/users', require('./Route/UserRoute'));
 app.use('/api/bid-users', require('./Route/BidUserRoutes'));
 // Add the Stripe webhook route - must be before express.json() middleware
 app.use('/api/stripe', require('./Route/stripeWebhook'));
-app.use('/api/items', require('./Route/ItemRoutes'));
+
 
 
 

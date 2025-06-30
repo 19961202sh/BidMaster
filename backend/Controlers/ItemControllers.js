@@ -1,250 +1,229 @@
 const Item = require("../Model/ItemModel");
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
-// Get all items
+// ✅ Get all items
 const getAllItems = async (req, res) => {
-  let items;
   try {
-    items = await Item.find().sort({ createdAt: -1 });
+    const items = await Item.find().sort({ createdAt: -1 });
+    res.status(200).json(items);
   } catch (err) {
-    console.log(err);
-    return res.status(500).json({ message: "Server Error" });
+    res.status(500).json({ message: "Server Error" });
   }
-  
-  if (!items) {
-    return res.status(404).json({ message: "No items found" });
-  }
-  
-  return res.status(200).json(items);
 };
 
-// Add an item
-const addItem = async (req, res) => {
-  const { 
-    id, name, description, price, startingPrice, biddingEndTime, status,
-    condition, provenance, dimensions, weight, material, maker, year,
-    authenticity, inspectionNotes, inspectionStatus
-  } = req.body;
-  
-  // Get main image path from multer
-  const imagePath = req.files && req.files.image && req.files.image[0] 
-    ? `/uploads/${req.files.image[0].filename}` 
-    : '/uploads/placeholder.png';
-  
-  // Handle additional images if they exist
-  const additionalImages = [];
-  if (req.files && req.files.additionalImages) {
-    for (const file of req.files.additionalImages) {
-      additionalImages.push(`/uploads/${file.filename}`);
-    }
+// ✅ Get item by ID
+const getItemById = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const item = await Item.findById(id);
+    if (!item) return res.status(404).json({ message: "Item not found" });
+    res.status(200).json(item);
+  } catch (err) {
+    res.status(500).json({ message: "Server Error" });
   }
+};
 
-  const newItem = new Item({
+// ✅ Get items by Seller username
+const getItemsBySeller = async (req, res) => {
+  const { username } = req.params;
+  try {
+    const items = await Item.find({ username }).sort({ createdAt: -1 });
+    res.status(200).json({ item: items });
+  } catch (err) {
+    res.status(500).json({ message: "Server Error" });
+  }
+};
+
+// ✅ Add item
+const addItem = async (req, res) => {
+  const {
+    username,
     id,
     name,
     description,
     price,
-    image: imagePath,
-    additionalImages,
-    startingPrice: startingPrice || price, // Default to main price if not provided
-    biddingEndTime: biddingEndTime || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // Default 7 days from now
-    // Item details
-    condition: condition || 'Excellent',
-    provenance: provenance || '',
-    dimensions: dimensions || '',
-    weight: weight || '',
-    material: material || '',
-    maker: maker || '',
-    year: year || '',
-    // Inspection fields
-    authenticity: authenticity || 'Verified',
-    inspectionNotes: inspectionNotes || '',
-    inspectionStatus: inspectionStatus || 'Pending',
-    status: status || (inspectionStatus === 'Approved' ? 'Approved' : 'Pending')
-  });
-  
-  try {
-    await newItem.save();
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json({ message: "Unable to add item", error: err.message });
-  }
-  
-  return res.status(201).json(newItem);
-};
-
-// Get item by ID
-const getItemById = async (req, res) => {
-  const id = req.params.id;
-  
-  let item;
-  try {
-    item = await Item.findById(id);
-  } catch (err) {
-    console.log(err);
-    return res.status(500).json({ message: "Server Error" });
-  }
-  
-  if (!item) {
-    return res.status(404).json({ message: "No item found" });
-  }
-  
-  return res.status(200).json(item);
-};
-
-// Update item
-const updateItem = async (req, res) => {
-  const id = req.params.id;
-  const { 
-    name, description, price, startingPrice, biddingEndTime, status,
-    condition, provenance, dimensions, weight, material, maker, year,
-    authenticity, inspectionNotes, inspectionStatus
+    startingPrice,
+    biddingEndTime,
+    condition,
+    provenance,
+    dimensions,
+    weight,
+    material,
+    maker,
+    year,
+    authenticity,
+    inspectionNotes,
+    inspectionStatus,
+    status,
   } = req.body;
-  
-  let item;
+
+  const image = req.files?.image?.[0]?.filename
+    ? `/uploads/${req.files.image[0].filename}`
+    : "/uploads/placeholder.png";
+
+  const additionalImages = req.files?.additionalImages
+    ? req.files.additionalImages.map((file) => `/uploads/${file.filename}`)
+    : [];
+
+  const item = new Item({
+    username,
+    id,
+    name,
+    description,
+    price,
+    startingPrice: startingPrice || price,
+    biddingEndTime: biddingEndTime || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+    condition,
+    provenance,
+    dimensions,
+    weight,
+    material,
+    maker,
+    year,
+    authenticity,
+    inspectionNotes,
+    inspectionStatus: inspectionStatus || "Pending",
+    status: status || "Pending",
+    image,
+    additionalImages,
+  });
+
   try {
-    item = await Item.findById(id);
-    
-    if (!item) {
-      return res.status(404).json({ message: "Item not found" });
+    await item.save();
+    res.status(201).json(item);
+  } catch (err) {
+    res.status(500).json({ message: "Failed to add item" });
+  }
+};
+
+const updateItem = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const item = await Item.findById(id);
+    if (!item) return res.status(404).json({ message: "Item not found" });
+
+    // Block update if inspectionStatus is Approved
+    if (item.inspectionStatus === "Approved") {
+      return res.status(403).json({
+        message: "This item has been approved and cannot be edited anymore.",
+      });
     }
-    
-    // Update basic fields
+
+    const {
+      name,
+      description,
+      price,
+      startingPrice,
+      biddingEndTime,
+      condition,
+      provenance,
+      dimensions,
+      weight,
+      material,
+      maker,
+      year,
+      authenticity,
+      inspectionNotes,
+      inspectionStatus,
+      status,
+    } = req.body;
+
     item.name = name || item.name;
     item.description = description || item.description;
     item.price = price || item.price;
-    item.startingPrice = startingPrice || item.startingPrice || item.price;
-    if (biddingEndTime) item.biddingEndTime = biddingEndTime;
-    
-    // Update Item detail fields
+    item.startingPrice = startingPrice || item.startingPrice;
+    item.biddingEndTime = biddingEndTime || item.biddingEndTime;
     item.condition = condition || item.condition;
-    item.provenance = provenance !== undefined ? provenance : item.provenance;
-    item.dimensions = dimensions !== undefined ? dimensions : item.dimensions;
-    item.weight = weight !== undefined ? weight : item.weight;
-    item.material = material !== undefined ? material : item.material;
-    item.maker = maker !== undefined ? maker : item.maker;
-    item.year = year !== undefined ? year : item.year;
-    
-    // Update inspection fields
+    item.provenance = provenance || item.provenance;
+    item.dimensions = dimensions || item.dimensions;
+    item.weight = weight || item.weight;
+    item.material = material || item.material;
+    item.maker = maker || item.maker;
+    item.year = year || item.year;
     item.authenticity = authenticity || item.authenticity;
-    item.inspectionNotes = inspectionNotes !== undefined ? inspectionNotes : item.inspectionNotes;
+    item.inspectionNotes = inspectionNotes || item.inspectionNotes;
     item.inspectionStatus = inspectionStatus || item.inspectionStatus;
-    
-    // Set status based on inspection status if provided
-    if (inspectionStatus) {
-      item.status = inspectionStatus === 'Approved' ? 'Approved' : 'Pending';
-    } else if (status) {
-      item.status = status;
-    }
-    
-    // If a new main image was uploaded, update the image path
-    if (req.files && req.files.image && req.files.image[0]) {
-      // Delete old image if it's not the placeholder
-      if (item.image && item.image !== '/uploads/placeholder.png') {
-        const oldImagePath = path.join(__dirname, '..', item.image);
-        if (fs.existsSync(oldImagePath)) {
-          fs.unlinkSync(oldImagePath);
-        }
+    item.status = inspectionStatus === "Approved" ? "Approved" : status || item.status;
+
+    if (req.files?.image?.[0]) {
+      if (item.image && item.image !== "/uploads/placeholder.png") {
+        const oldPath = path.join(__dirname, "..", item.image);
+        if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
       }
-      
       item.image = `/uploads/${req.files.image[0].filename}`;
     }
-    
-    // Handle additional images if they exist
-    if (req.files && req.files.additionalImages && req.files.additionalImages.length > 0) {
-      // Delete old additional images
-      for (const imgPath of item.additionalImages) {
-        const oldImgPath = path.join(__dirname, '..', imgPath);
-        if (fs.existsSync(oldImgPath)) {
-          fs.unlinkSync(oldImgPath);
-        }
-      }
-      
-      // Add new additional images
-      item.additionalImages = [];
-      for (const file of req.files.additionalImages) {
-        item.additionalImages.push(`/uploads/${file.filename}`);
-      }
+
+    if (req.files?.additionalImages?.length > 0) {
+      item.additionalImages.forEach((imgPath) => {
+        const imgFile = path.join(__dirname, "..", imgPath);
+        if (fs.existsSync(imgFile)) fs.unlinkSync(imgFile);
+      });
+      item.additionalImages = req.files.additionalImages.map(
+        (file) => `/uploads/${file.filename}`
+      );
     }
-    
+
     await item.save();
+    res.status(200).json(item);
   } catch (err) {
-    console.log(err);
-    return res.status(500).json({ message: "Server Error", error: err.message });
+    res.status(500).json({ message: "Server Error" });
   }
-  
-  return res.status(200).json(item);
 };
 
-// Delete item
+
+// ✅ Delete item
 const deleteItem = async (req, res) => {
-  const id = req.params.id;
-  
+  const { id } = req.params;
   try {
     const item = await Item.findById(id);
-    
-    if (!item) {
-      return res.status(404).json({ message: "Item not found" });
+    if (!item) return res.status(404).json({ message: "Item not found" });
+
+    if (item.image && item.image !== "/uploads/placeholder.png") {
+      const imgPath = path.join(__dirname, "..", item.image);
+      if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
     }
-    
-    // Delete main image if it's not the placeholder
-    if (item.image && item.image !== '/uploads/placeholder.png') {
-      const imagePath = path.join(__dirname, '..', item.image);
-      if (fs.existsSync(imagePath)) {
-        fs.unlinkSync(imagePath);
-      }
-    }
-    
-    // Delete additional images
-    for (const imgPath of item.additionalImages) {
-      const additionalImagePath = path.join(__dirname, '..', imgPath);
-      if (fs.existsSync(additionalImagePath)) {
-        fs.unlinkSync(additionalImagePath);
-      }
-    }
-    
+
+    item.additionalImages.forEach((img) => {
+      const imgPath = path.join(__dirname, "..", img);
+      if (fs.existsSync(imgPath)) fs.unlinkSync(imgPath);
+    });
+
     await Item.findByIdAndDelete(id);
+    res.status(200).json({ message: "Item deleted successfully" });
   } catch (err) {
-    console.log(err);
-    return res.status(500).json({ message: "Failed to delete item" });
+    res.status(500).json({ message: "Failed to delete item" });
   }
-  
-  return res.status(200).json({ message: "Item deleted successfully" });
 };
 
-// Update item status (for quick approval/rejection from ItemManager)
+// ✅ Update item status (inspection approval/rejection)
 const updateItemStatus = async (req, res) => {
-  const id = req.params.id;
+  const { id } = req.params;
   const { status, inspectionStatus } = req.body;
-  
   try {
     const item = await Item.findById(id);
-    
-    if (!item) {
-      return res.status(404).json({ message: "Item not found" });
-    }
-    
-    // Update fields that were provided
+    if (!item) return res.status(404).json({ message: "Item not found" });
+
     if (status) item.status = status;
     if (inspectionStatus) {
       item.inspectionStatus = inspectionStatus;
-      // Also update the main status if inspection status is provided
-      item.status = inspectionStatus === 'Approved' ? 'Approved' : 'Pending';
+      item.status = inspectionStatus === "Approved" ? "Approved" : "Pending";
     }
-    
+
     await item.save();
+    res.status(200).json({ message: "Status updated successfully" });
   } catch (err) {
-    console.log(err);
-    return res.status(500).json({ message: "Failed to update status" });
+    res.status(500).json({ message: "Failed to update status" });
   }
-  
-  return res.status(200).json({ message: "Status updated successfully" });
 };
 
-exports.getAllItems = getAllItems;
-exports.addItem = addItem;
-exports.getItemById = getItemById;
-exports.updateItem = updateItem;
-exports.deleteItem = deleteItem;
-exports.updateItemStatus = updateItemStatus;
+module.exports = {
+  getAllItems,
+  getItemById,
+  getItemsBySeller,
+  addItem,
+  updateItem,
+  deleteItem,
+  updateItemStatus,
+};

@@ -1,12 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Home.css';
-import Nav from '../Nav/Nav';
+
+import { useNavigate } from 'react-router-dom';
+
 
 const Home = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [timeLeft, setTimeLeft] = useState(3600); // 1 hour countdown
   const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const navigate = useNavigate();
+
 
   const auctionItems = [
     {
@@ -31,7 +35,7 @@ const Home = () => {
 
   const services = [
     {
-      image: 'https://images.unsplash.com/photo-1519996529931-28324d5a630e?auto=format&fit=crop&w=300&q=80',
+      image: 'https://janineshroff.co.uk/wp-content/uploads/2017/08/janineshroff_projects_live-auctioneers0.jpg?w=1568',
       title: 'Live Auctions',
       description: 'Participate in real-time auctions from anywhere in the world.',
     },
@@ -76,16 +80,13 @@ const Home = () => {
   const goToNextImage = () => setCurrentImageIndex((prev) => (prev + 1) % auctionItems.length);
   const goToPrevImage = () => setCurrentImageIndex((prev) => (prev === 0 ? auctionItems.length - 1 : prev - 1));
 
-  const handleGetStarted = () => {
-    // Smoother scrolling to services instead of alert
-    document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
-  };
+  
   
   const scrollToSection = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 
   return (
     <div className="home-page">
-      <Nav />
+     
 
       {/* Hero Section */}
       <section className="hp-hero-section" id="hero">
@@ -112,7 +113,13 @@ const Home = () => {
                   <p>Bids: {auctionItems[currentImageIndex].bids}</p>
                   <p className="hp-countdown">Time Left: <span>{formatTime(timeLeft)}</span></p>
                 </div>
-                <button className="hp-bid-button">Bid Now</button>
+                <button 
+                        className="hp-bid-button" 
+                        onClick={() => navigate('/login')}
+                      >
+                        Bid Now
+                      </button>
+
               </div>
             </div>
             <button className="hp-carousel-btn next" onClick={goToNextImage} aria-label="Next item">
@@ -121,7 +128,7 @@ const Home = () => {
           </div>
 
           <div className="hp-hero-buttons">
-            <button className="hp-cta-button" onClick={handleGetStarted}>Get Started</button>
+            <button className="hp-cta-button"  onClick={() => navigate('/register')}>Get Started</button>
             <button className="hp-learn-more-btn" onClick={() => scrollToSection('features')}>
               Learn More
             </button>
@@ -230,7 +237,7 @@ const Home = () => {
               <h4>- James T.</h4>
             </div>
           </div>
-          <Link to="/about-us" className="hp-explore-more">Explore Our Story</Link>
+          <Link to="/aboutus" className="hp-explore-more">Explore Our Story</Link>
         </div>
       </section>
     </div>

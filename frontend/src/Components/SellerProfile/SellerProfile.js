@@ -1,25 +1,37 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import Item from '../Item/Item';
 import axios from 'axios';
 import { Bar, Line, Pie } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, LineElement, PointElement, ArcElement, Title, Tooltip, Legend } from 'chart.js';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  LineElement,
+  PointElement,
+  ArcElement,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js';
 import './SellerProfile.css';
 
-
-// Register Chart.js components
-ChartJS.register(CategoryScale, LinearScale, BarElement, LineElement, PointElement, ArcElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  LineElement,
+  PointElement,
+  ArcElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const SellerProfile = () => {
   const navigate = useNavigate();
-  const [seller, setSeller] = useState({
-    username: '',
-    email: '',
-    profilePicture: '',
-    bio: '',
-    joinedDate: ''
-  });
+
   const [sellerItems, setSellerItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [visibleCharts, setVisibleCharts] = useState({
@@ -27,112 +39,85 @@ const SellerProfile = () => {
     timeline: true,
     bids: true
   });
-  const [statusFilter, setStatusFilter] = useState('all'); // Filter for item status
-  const [dateRange, setDateRange] = useState('all'); // Filter for date range
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [dateRange, setDateRange] = useState('all');
 
   useEffect(() => {
-    fetchSellerProfile();
     fetchSellerItems();
   }, []);
 
-  const fetchSellerProfile = async () => {
+  const fetchSellerItems = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/seller/profile');
-      if (response.status !== 200) {
-        throw new Error('Failed to fetch seller profile');
-      }
-      const data = response.data;
-      setSeller({
-        username: data.username || 'Unknown Seller',
-        email: data.email || 'N/A',
-        profilePicture: data.profilePicture || '/Uploads/default-profile.jpg',
-        bio: data.bio || 'No bio provided.',
-        joinedDate: data.joinedDate || new Date().toISOString()
-      });
+      const username = localStorage.getItem("username");
+      const response = await axios.get(`http://localhost:5000/items/seller/${username}`);
+      const data = Array.isArray(response.data.item) ? response.data.item : [];
+      setSellerItems(data);
     } catch (err) {
-      console.error('Error fetching seller profile:', err);
-      setSeller({
-        username: 'Official Seller',
-        email: 'seller@auction.com',
-        profilePicture: "http://yourdomain.com/backend/uploads/1746976809600-785179484.jpeg",
-        bio: 'Passionate about antiques and collectibles.',
-        joinedDate: '2025-01-01'
-      });
+      console.error('Error fetching seller items:', err);
+      setSellerItems([]);
     } finally {
       setLoading(false);
     }
   };
 
-  const fetchSellerItems = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/item');
-      if (response.status !== 200) {
-        throw new Error('Failed to fetch seller items');
-      }
-      const data = response.data.items || [];
-      setSellerItems(data); // Fetch all items for analytics
-    } catch (err) {
-      console.error('Error fetching seller items:', err);
-      setSellerItems([
-        { _id: '123', title: 'Antique Lamp', status: 'pending', createdAt: '2025-03-29', image: '/Uploads/lamp.jpg', description: 'A vintage antique lamp from the 1920s.', startingBid: 50.00 },
-        { _id: '124', title: 'Vintage Phone', status: 'accepted', createdAt: '2025-03-30', image: '/Uploads/phone.jpg', description: 'A classic rotary phone in mint condition.', startingBid: 75.00 },
-        { _id: '125', title: 'Collectible Toy Car', status: 'rejected', createdAt: '2025-03-30', image: '/Uploads/toy.jpg', description: 'A rare toy car from the 1960s.', startingBid: 30.00 }
-      ]);
-    }
-  };
-
-  // Filter items based on status and date range
   const filteredItems = useMemo(() => {
     let items = [...sellerItems];
-    // Status filter
+
     if (statusFilter !== 'all') {
-      items = items.filter(item => item.status === statusFilter);
+      items = items.filter((item) => item.inspectionStatus?.toLowerCase() === statusFilter);
     }
-    // Date range filter
+
     if (dateRange !== 'all') {
       const now = new Date();
-      const days = dateRange === '30days' ? 30 : dateRange === '90days' ? 90 : 365;
-      const cutoff = new Date(now.setDate(now.getDate() - days));
-      items = items.filter(item => new Date(item.createdAt) >= cutoff);
+      const days =
+        dateRange === '30days' ? 30 : dateRange === '90days' ? 90 : 365;
+      const cutoff = new Date(now);
+      cutoff.setDate(now.getDate() - days);
+
+      items = items.filter((item) => new Date(item.createdAt) >= cutoff);
     }
+
     return items;
   }, [sellerItems, statusFilter, dateRange]);
 
-  // Calculate item status counts
   const getItemStatusCounts = () => {
-    const counts = { pending: 0, accepted: 0, rejected: 0 };
-    filteredItems.forEach(item => {
-      if (item.status === 'pending') counts.pending++;
-      else if (item.status === 'accepted') counts.accepted++;
-      else if (item.status === 'rejected') counts.rejected++;
+    const counts = { pending: 0, approved: 0, rejected: 0 };
+    filteredItems.forEach((item) => {
+      const status = item.inspectionStatus?.toLowerCase();
+      if (status === 'pending') counts.pending++;
+      else if (status === 'approved') counts.approved++;
+      else if (status === 'rejected') counts.rejected++;
     });
     return counts;
   };
 
-  // Calculate items listed per month for Line chart
   const getItemsByMonth = () => {
     const months = Array(12).fill(0);
     const labels = [];
     const now = new Date();
+
     for (let i = 11; i >= 0; i--) {
       const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
       labels.push(date.toLocaleString('default', { month: 'short', year: 'numeric' }));
     }
-    filteredItems.forEach(item => {
+
+    filteredItems.forEach((item) => {
       const createdAt = new Date(item.createdAt);
-      const monthIndex = (now.getFullYear() - createdAt.getFullYear()) * 12 + (now.getMonth() - createdAt.getMonth());
+      const monthIndex =
+        (now.getFullYear() - createdAt.getFullYear()) * 12 +
+        (now.getMonth() - createdAt.getMonth());
       if (monthIndex >= 0 && monthIndex < 12) {
         months[11 - monthIndex]++;
       }
     });
+
     return { labels, data: months };
   };
 
-  // Calculate starting bid distribution for Pie chart
   const getBidDistribution = () => {
     const ranges = { '0-50': 0, '51-100': 0, '101-200': 0, '201+': 0 };
-    filteredItems.forEach(item => {
-      const bid = item.startingBid;
+    filteredItems.forEach((item) => {
+      const bid = item.startingPrice || item.price || 0;
       if (bid <= 50) ranges['0-50']++;
       else if (bid <= 100) ranges['51-100']++;
       else if (bid <= 200) ranges['101-200']++;
@@ -144,14 +129,13 @@ const SellerProfile = () => {
     };
   };
 
-  // Chart data
   const statusCounts = getItemStatusCounts();
   const barChartData = {
     labels: ['Pending', 'Approved', 'Rejected'],
     datasets: [
       {
         label: 'Item Status',
-        data: [statusCounts.pending, statusCounts.accepted, statusCounts.rejected],
+        data: [statusCounts.pending, statusCounts.approved, statusCounts.rejected],
         backgroundColor: ['#FFCE56', '#36A2EB', '#FF6384'],
         borderColor: ['#FFCE56', '#36A2EB', '#FF6384'],
         borderWidth: 1
@@ -188,7 +172,6 @@ const SellerProfile = () => {
     ]
   };
 
-  // Chart options
   const barChartOptions = {
     responsive: true,
     plugins: { legend: { position: 'top' }, title: { display: true, text: 'Item Status Distribution' } },
@@ -206,62 +189,27 @@ const SellerProfile = () => {
     plugins: { legend: { position: 'top' }, title: { display: true, text: 'Starting Bid Distribution ($)' } }
   };
 
-  // Toggle chart visibility
   const toggleChart = (chart) => {
-    setVisibleCharts(prev => ({ ...prev, [chart]: !prev[chart] }));
+    setVisibleCharts((prev) => ({ ...prev, [chart]: !prev[chart] }));
   };
 
-  const handleEditProfileClick = () => navigate('/edit-profile');
   const handleAddItemClick = () => navigate('/add-item');
   const handleDashboardClick = () => navigate('/seller-dashboard');
   const handleItemRefresh = () => fetchSellerItems();
 
   return (
     <div className="seller-profile-page">
-     
-
       {/* Hero Section */}
       <section className="seller-profile-hero-section">
         <div className="seller-profile-hero-content">
           <h1 className="seller-profile-hero-title">Seller Profile</h1>
-          <p className="seller-profile-hero-subtitle">Manage your profile and listed items</p>
+          <p className="seller-profile-hero-subtitle">Manage your listed items and view analytics</p>
         </div>
-      </section>
-
-      {/* Seller Info Section */}
-      <section className="seller-info-section">
-        {loading ? (
-          <p>Loading profile...</p>
-        ) : (
-          <div className="seller-info-card">
-            <img
-              src={
-                seller.profilePicture && seller.profilePicture.startsWith('/Uploads')
-                  ? `http://localhost:5000${seller.profilePicture}`
-                  : 'https://via.placeholder.com/150?text=Profile'
-              }
-              alt="Profile"
-              className="seller-profile-picture"
-            />
-            <div className="seller-details">
-              <h2 className="seller-username">{seller.username}</h2>
-              <p className="seller-email"><i className="fas fa-envelope"></i> {seller.email}</p>
-              <p className="seller-bio">{seller.bio}</p>
-              <p className="seller-joined">
-                <i className="far fa-calendar-alt"></i> Joined: {new Date(seller.joinedDate).toLocaleDateString()}
-              </p>
-              <button className="seller-edit-profile-btn" onClick={handleEditProfileClick}>
-                <i className="fas fa-edit"></i> Edit Profile
-              </button>
-            </div>
-          </div>
-        )}
       </section>
 
       {/* Charts Section */}
       <section className="seller-charts-section">
         <h2 className="seller-profile-section-title">Analytics Overview</h2>
-        {/* Chart Controls */}
         <div className="seller-chart-controls">
           <div className="seller-chart-toggles">
             <label>
@@ -293,7 +241,7 @@ const SellerProfile = () => {
             <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}>
               <option value="all">All Statuses</option>
               <option value="pending">Pending</option>
-              <option value="accepted">Approved</option>
+              <option value="approved">Approved</option>
               <option value="rejected">Rejected</option>
             </select>
             <select value={dateRange} onChange={(e) => setDateRange(e.target.value)}>
@@ -304,7 +252,7 @@ const SellerProfile = () => {
             </select>
           </div>
         </div>
-        {/* Charts Grid */}
+
         <div className="seller-charts-grid">
           {visibleCharts.status && (
             <div className="seller-chart-card">
@@ -339,7 +287,7 @@ const SellerProfile = () => {
         </div>
       </section>
 
-      {/* Quick Actions Section */}
+      {/* Quick Actions */}
       <section className="seller-profile-actions-section">
         <h2 className="seller-profile-section-title">Quick Actions</h2>
         <div className="seller-profile-actions-grid">
@@ -364,7 +312,7 @@ const SellerProfile = () => {
         </div>
       </section>
 
-      {/* Seller's Listed Items Section */}
+      {/* Listed Items */}
       <section className="seller-items-section">
         <div className="seller-section-header">
           <h2 className="seller-profile-section-title">Your Listed Items</h2>
@@ -384,8 +332,9 @@ const SellerProfile = () => {
           )}
         </div>
       </section>
-      <br/><br/><br/>
-    
+      <br />
+      <br />
+      <br />
     </div>
   );
 };

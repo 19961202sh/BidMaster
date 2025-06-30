@@ -23,7 +23,7 @@
   padding: 40px 30px;
   text-align: center;
   animation: fadeIn 0.6s ease-out;
-  height: 700px;
+  height: 600px;
 
 }
 
@@ -91,23 +91,6 @@
 
 .input-group input::placeholder {
   color: #adb5bd;
-}
-
-.forgot-password {
-  text-align: right;
-  margin-top: -10px;
-}
-
-.forgot-password a {
-  color: #3d4b64;
-  font-size: 0.85rem;
-  text-decoration: none;
-  transition: color 0.3s;
-}
-
-.forgot-password a:hover {
-  color: #2c3e50;
-  text-decoration: underline;
 }
 
 .login-button {

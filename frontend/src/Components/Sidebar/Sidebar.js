@@ -77,7 +77,7 @@ function Sidebar() {
          {renderLink("/inspectionDashboard", FaUserShield, "Dashboard")}
 {renderLink("/add-report", FaRegClipboard, "Add Report")}
 {renderLink("/flagged-items", FaFileAlt, "Report Dashboard")}
-{renderLink("/item-form", FaPlusSquare, "Items")}                
+               
 {renderLink("/item-manager", FaTasks, "Manage Items")}          
 {renderLink("/items-gallery", FaGavel, "Bidding Items")}    
         </>

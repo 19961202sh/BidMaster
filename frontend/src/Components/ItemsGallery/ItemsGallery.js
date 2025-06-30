@@ -35,7 +35,10 @@ function ItemsGallery() {
     navigate(`/item/${item._id}`);
   };
 
-  const filteredItems = items.filter(item =>
+  // ✅ Filter only APPROVED items
+  const approvedItems = items.filter(item => item.inspectionStatus === 'Approved');
+
+  const filteredItems = approvedItems.filter(item =>
     item.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -45,13 +48,24 @@ function ItemsGallery() {
     navigate(`/item/${item._id}`);
   };
 
-  if (loading) return <div className="gallery-container"><Nav /><div className="loading">Loading items...</div></div>;
-  if (error) return <div className="gallery-container"><Nav /><div className="error">Error: {error}</div></div>;
+  if (loading) return (
+    <div className="gallery-container">
+      <Nav />
+      <div className="loading">Loading items...</div>
+    </div>
+  );
+
+  if (error) return (
+    <div className="gallery-container">
+      <Nav />
+      <div className="error">Error: {error}</div>
+    </div>
+  );
 
   return (
     <div className="gallery-container">
       <Nav />
-      <br/><br/><br/><br/>
+      <br /><br /><br /><br />
       <div className="search-container">
         <input
           type="text"
@@ -86,7 +100,7 @@ function ItemsGallery() {
           filteredItems.map(item => (
             <div key={item._id} className="gallery-item">
               {parseFloat(item.price) < 30 && <span className="sale-badge">SALE</span>}
-              <img 
+              <img
                 src={item.image.startsWith('/uploads')
                   ? `http://localhost:5000${item.image}`
                   : `https://via.placeholder.com/150?text=${encodeURIComponent(item.name)}`}
@@ -96,13 +110,11 @@ function ItemsGallery() {
               <h3 className="item-name">{item.name}</h3>
               <p className="item-description">{item.description.substring(0, 60)}...</p>
               <p className="item-price">${parseFloat(item.price).toFixed(2)}</p>
-              {item.status === 'Approved' && (
-                <p className="bidding-info">
-                  Starting bid: ${parseFloat(item.startingPrice || item.price).toFixed(2)}
-                </p>
-              )}
-              <button 
-                className="add-to-cart-btn" 
+              <p className="bidding-info">
+                Starting bid: ${parseFloat(item.startingPrice || item.price).toFixed(2)}
+              </p>
+              <button
+                className="add-to-cart-btn"
                 onClick={() => handleViewDetails(item)}
               >
                 View Details

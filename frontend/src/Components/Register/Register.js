@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
-import { FaUser, FaEnvelope, FaPhone, FaLock, FaEye, FaEyeSlash, FaCheck, FaTimes } from "react-icons/fa";
+import {
+  FaUser, FaEnvelope, FaPhone, FaEye, FaEyeSlash
+} from "react-icons/fa";
 import "./Register.css";
+
 
 function Register() {
   const navigate = useNavigate();
@@ -14,93 +17,17 @@ function Register() {
     password: "",
     confirmPassword: "",
   });
+
   const [error, setError] = useState("");
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [passwordStrength, setPasswordStrength] = useState(""); // "weak", "medium", "strong"
-  const [step, setStep] = useState(1); // For progress indicator
-  
-  // Form validation state
-  const [validation, setValidation] = useState({
-    name: { valid: false, message: "" },
-    username: { valid: false, message: "" },
-    email: { valid: false, message: "" },
-    phone: { valid: false, message: "" },
-    password: { valid: false, message: "" },
-    confirmPassword: { valid: false, message: "" }
-  });
+  const [showTermsModal, setShowTermsModal] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-    setError(""); // Clear error on input change
-    
-    // Validate field in real-time
-    validateField(name, value);
-  };
-
-  const validateField = (name, value) => {
-    let isValid = false;
-    let message = "";
-
-    switch (name) {
-      case "name":
-        isValid = value.trim().length >= 2;
-        message = isValid ? "" : "Name must be at least 2 characters";
-        break;
-      case "username":
-        isValid = /^[a-zA-Z0-9_]{3,}$/.test(value);
-        message = isValid ? "" : "Username must be at least 3 characters, no special characters except underscore";
-        break;
-      case "email":
-        isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-        message = isValid ? "" : "Please enter a valid email address";
-        break;
-      case "phone":
-        isValid = /^\d{10}$/.test(value);
-        message = isValid ? "" : "Phone number must be 10 digits";
-        break;
-      case "password":
-        // Check password strength
-        if (value.length < 8) {
-          isValid = false;
-          message = "Password must be at least 8 characters";
-          setPasswordStrength("weak");
-        } else if (/^[a-zA-Z0-9]+$/.test(value)) {
-          isValid = true;
-          message = "Consider adding special characters for stronger password";
-          setPasswordStrength("medium");
-        } else {
-          isValid = true;
-          message = "";
-          setPasswordStrength("strong");
-        }
-        
-        // Also update confirm password validation
-        if (formData.confirmPassword) {
-          const confirmValid = value === formData.confirmPassword;
-          setValidation(prev => ({
-            ...prev,
-            confirmPassword: {
-              valid: confirmValid,
-              message: confirmValid ? "" : "Passwords do not match"
-            }
-          }));
-        }
-        break;
-      case "confirmPassword":
-        isValid = value === formData.password;
-        message = isValid ? "" : "Passwords do not match";
-        break;
-      default:
-        break;
-    }
-
-    setValidation(prev => ({
-      ...prev,
-      [name]: { valid: isValid, message }
-    }));
+    setError("");
   };
 
   const handleTermsChange = (e) => {
@@ -115,186 +42,135 @@ function Register() {
     setShowConfirmPassword(!showConfirmPassword);
   };
 
-  // Calculate form completion percentage for progress bar
-  const calculateProgress = () => {
-    const fields = Object.keys(validation);
-    const validFields = fields.filter(field => validation[field].valid);
-    return Math.round((validFields.length / fields.length) * 100);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Final validation check
-    let formIsValid = true;
-    let firstInvalidField = null;
-
-    Object.keys(formData).forEach(field => {
-      validateField(field, formData[field]);
-      if (!validation[field]?.valid && formIsValid) {
-        formIsValid = false;
-        firstInvalidField = field;
-      }
-    });
-
-    // Ensure terms are accepted
     if (!acceptTerms) {
-      setError("You must accept the terms and conditions to register.");
-      return;
-    }
-
-    if (!formIsValid) {
-      setError(`Please fix the errors in the form${firstInvalidField ? `: ${validation[firstInvalidField].message}` : ''}`);
-      // Focus the first invalid field
-      if (firstInvalidField) {
-        document.getElementById(firstInvalidField)?.focus();
-      }
+      setError("Please accept Terms and Conditions.");
       return;
     }
 
     try {
       const res = await axios.post("http://localhost:5000/users", formData);
 
-      // Check if registration was successful
       if (res.data.success) {
-        // Show success state
-        setStep(3); // Complete
-        
-        // Redirect after 2 seconds
-        setTimeout(() => {
-          alert("Registration successful! Please log in.");
-          navigate("/login");
-        }, 2000);
+        alert("Registration successful!");
+        navigate("/login");
       } else {
         setError(res.data.message || "Registration failed.");
       }
     } catch (err) {
-      console.error("Error during registration:", err);
-      setError(err.response?.data?.message || "An error occurred. Please try again.");
+      setError(err.response?.data?.message || "An error occurred.");
     }
   };
 
   return (
     <section className="RF-register-container">
       <div className="RF-register-box">
-        <h2 className="RF-register-header">Create an account</h2>
-        
-        <div className="RF-form-progress">
-          
-        </div>
+        <h2>Create an account</h2>
 
         {error && <p className="RF-error-message">{error}</p>}
 
         <form className="RF-register-form" onSubmit={handleSubmit}>
+          {/* Full Name */}
           <div className="RF-input-group">
-            <label htmlFor="name">Full Name</label>
+            <label>Full Name</label>
             <input
               type="text"
               name="name"
-              id="name"
               placeholder="Full Name"
               value={formData.name}
               onChange={handleChange}
               required
             />
             <FaUser className="RF-input-icon" />
-            {validation.name.message && <span className="RF-validation-message">{validation.name.message}</span>}
           </div>
 
+          {/* Username */}
           <div className="RF-input-group">
-            <label htmlFor="username">Username</label>
+            <label>Username</label>
             <input
               type="text"
               name="username"
-              id="username"
               placeholder="Username"
               value={formData.username}
               onChange={handleChange}
               required
             />
             <FaUser className="RF-input-icon" />
-            {validation.username.message && <span className="RF-validation-message">{validation.username.message}</span>}
           </div>
 
+          {/* Email */}
           <div className="RF-input-group">
-            <label htmlFor="email">Email</label>
+            <label>Email</label>
             <input
               type="email"
               name="email"
-              id="email"
               placeholder="name@company.com"
               value={formData.email}
               onChange={handleChange}
               required
             />
             <FaEnvelope className="RF-input-icon" />
-            {validation.email.message && <span className="RF-validation-message">{validation.email.message}</span>}
           </div>
 
+          {/* Phone */}
           <div className="RF-input-group">
-            <label htmlFor="phone">Phone Number</label>
+            <label>Phone Number</label>
             <input
               type="tel"
               name="phone"
-              id="phone"
               placeholder="Phone Number"
               value={formData.phone}
               onChange={handleChange}
               required
             />
             <FaPhone className="RF-input-icon" />
-            {validation.phone.message && <span className="RF-validation-message">{validation.phone.message}</span>}
           </div>
 
+          {/* Password */}
           <div className="RF-input-group">
-            <label htmlFor="password">Password</label>
+            <label>Password</label>
             <input
               type={showPassword ? "text" : "password"}
               name="password"
-              id="password"
               placeholder="••••••••"
               value={formData.password}
               onChange={handleChange}
               required
             />
-            <FaLock className="RF-input-icon" />
-            <button 
-              type="button" 
-              className="RF-password-toggle" 
+           
+            <button
+              type="button"
+              className="RF-password-toggle"
               onClick={togglePasswordVisibility}
-              tabIndex="-1"
             >
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
-            {validation.password.message && <span className="RF-validation-message">{validation.password.message}</span>}
-            <div className={`RF-password-strength ${passwordStrength}`}>
-              <div className="RF-password-strength-meter"></div>
-            </div>
           </div>
 
+          {/* Confirm Password */}
           <div className="RF-input-group">
-            <label htmlFor="confirmPassword">Confirm Password</label>
+            <label>Confirm Password</label>
             <input
               type={showConfirmPassword ? "text" : "password"}
               name="confirmPassword"
-              id="confirmPassword"
               placeholder="••••••••"
               value={formData.confirmPassword}
               onChange={handleChange}
               required
             />
-            <FaLock className="RF-input-icon" />
-            <button 
-              type="button" 
-              className="RF-password-toggle" 
+           
+            <button
+              type="button"
+              className="RF-password-toggle"
               onClick={toggleConfirmPasswordVisibility}
-              tabIndex="-1"
             >
               {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
             </button>
-            {validation.confirmPassword.message && <span className="RF-validation-message">{validation.confirmPassword.message}</span>}
           </div>
 
+          {/* Terms */}
           <div className="RF-terms">
             <input
               type="checkbox"
@@ -305,9 +181,12 @@ function Register() {
             />
             <label htmlFor="terms">
               I accept the{" "}
-              <Link to="/terms" className="RF-terms-link">
+              <span
+                className="RF-terms-link"
+                onClick={() => setShowTermsModal(true)}
+              >
                 Terms and Conditions
-              </Link>
+              </span>
             </label>
           </div>
 
@@ -315,16 +194,68 @@ function Register() {
             Register
           </button>
 
-          <div className="RF-register-p">
+          <div className="RF-login-link">
             <p>
-              Already have an account?{" "}
-              <Link to="/login" className="RF-login-link">
-                Login here
-              </Link>
+              Already have an account? <Link to="/login">Login here</Link>
             </p>
           </div>
         </form>
       </div>
+
+      {/* Terms Modal */}
+      {showTermsModal && (
+        <div className="RF-terms-modal-overlay">
+          <div className="RF-terms-modal">
+            <h2>Terms and Conditions</h2>
+            <div className="RF-terms-content">
+              <p>
+    <b>Welcome to our platform;</b> by registering as a seller and accessing or using our services, you agree to be bound by the following terms and conditions, which govern your use of this website, its features, and all related services provided by us, including but not limited to the registration process, account management, product listings, transactions, and interactions with buyers or other users, and you acknowledge that these terms constitute a legally binding agreement between you, the seller, and us, the platform operator, so please read them carefully before proceeding; you represent that you are at least <b>18 years of age</b> or the legal age of majority in your jurisdiction, whichever is higher, and that you have the full legal capacity to enter into this agreement, and if you are registering on behalf of a business or entity, you warrant that you are duly authorized to act on its behalf; as a seller, you are responsible for providing <b>accurate, complete, and up-to-date information</b> during registration, including your full name, email address, phone number, company name (if applicable), address, and any other details requested, and you agree to maintain the confidentiality of your account credentials, 
+    such as your password, and to notify us immediately of any unauthorized use of your account, 
+    as you will be solely liable for all activities conducted through it; by using our platform, 
+    you agree to comply with all applicable local, national, and international laws, regulations,
+     and ordinances, including those related to taxation, consumer protection, data privacy, 
+     and intellectual property, and you shall not engage in any illegal, fraudulent,
+      or harmful activities, such as listing prohibited items, misrepresenting products,
+       or attempting to manipulate pricing or reviews; we reserve the right to 
+       <b>suspend or terminate your account</b> at our sole discretion, with or without notice,
+        if we suspect any violation of these terms, including failure to adhere to our policies,
+         non-payment of fees, or behavior that we deem detrimental to the platform or its users, 
+         and upon termination, your access to the platform will cease, though any outstanding obligations,
+          such as payment disputes or delivery commitments, will remain your responsibility; 
+          you acknowledge that we charge <b>fees</b> for certain services, such as listing 
+          products or processing transactions, and these fees will be clearly communicated 
+          to you, and you agree to pay them promptly as outlined in our fee schedule,
+           understanding that failure to do so may result in account restrictions;
+            all content you upload, including product descriptions, images, 
+            and other materials, must be <b>original or properly licensed</b>, and by submitting such content,
+             you grant us a <b>non-exclusive, worldwide, royalty-free license</b> to use, display,
+              and distribute it solely for the purpose of operating and promoting the platform,
+               while retaining your ownership of said content; we are not responsible for disputes 
+               between you and buyers, though we may offer tools or mediation services at our 
+               discretion, and you agree to <b>indemnify and hold us harmless</b> from any claims,
+                losses, or damages arising from your use of the platform, including those related
+                 to product quality, shipping delays, or buyer complaints; these terms may be 
+                 updated from time to time, and we will notify you of significant changes via 
+                 email or through the platform, with your continued use thereafter constituting 
+                 acceptance of the revised terms, and if any provision of this agreement is found
+                 to be unenforceable, the remaining provisions will remain in full effect; finally,
+                   this agreement is governed by the laws, 
+                   and any disputes arising hereunder shall be resolved exclusively in the courts 
+                   and by checking the box during registration to accept
+                    these terms, you confirm that you have read, understood, and agreed to be bound 
+                    by them in their entirety, so if you do not agree, please do not proceed with
+                     registration or use of our services.
+</p>
+            </div>
+            <button
+              className="RF-modal-close"
+              onClick={() => setShowTermsModal(false)}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

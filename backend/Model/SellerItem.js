@@ -1,23 +1,29 @@
 const mongoose = require('mongoose');
 
-const SellerItemSchema = new mongoose.Schema({
-    title: {
-        type: String,
-        required: [true, 'Title is required']
-    },
-    image: {
-        type: String, // This will store the path to the uploaded image
-        required: [true, 'Image is required']
-    },
-    description: {
-        type: String,
-        required: [true, 'Description is required']
-    },
-    startingBid: {
-        type: Number,
-        required: [true, 'Starting bid is required'],
-        min: [0, 'Starting bid cannot be negative']
-    },
+const itemSchema = new mongoose.Schema({
+  name: String,
+  description: String,
+  price: Number,
+  startingPrice: Number,
+  biddingEndTime: String,
+  condition: String,
+  provenance: String,
+  dimensions: String,
+  weight: String,
+  material: String,
+  maker: String,
+  year: String,
+  image: String,
+  additionalImages: [String],
+  status: {
+    type: String,
+    enum: ['pending', 'accepted', 'rejected'],
+    default: 'pending',
+  },
+  username: {    
+    type: String,  
+    required: true,
+}
 }, { timestamps: true });
 
-module.exports = mongoose.model('SellerItem', SellerItemSchema);
+module.exports = mongoose.model('SellerItem', itemSchema);

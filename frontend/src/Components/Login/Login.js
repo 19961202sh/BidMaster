@@ -31,11 +31,13 @@ function Login() {
           position: "top-right",
           autoClose: 3000,
         });
+        
 
         // Navigate to role-based dashboard
         switch (rolePrefix) {
           case "hr":
             navigate("/hrDashboard");
+            
             break;
           case "sl":
             navigate("/seller-dashboard");

@@ -3,6 +3,7 @@
   padding: 20px;
   min-height: 100vh;
   background-color: #f4f4f4;
+  
 }
 
 .SellerListing-header {
@@ -10,6 +11,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+   margin-left: 60px;
 }
 
 .SellerListing-header h1 {
@@ -38,6 +40,8 @@
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow-x: auto;
+   margin-left: 60px;
+ 
 }
 
 .SellerListing-table {

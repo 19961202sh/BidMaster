@@ -121,9 +121,7 @@ function ItemManager() {
           </button>
         </div>
         
-        <div className="add-item-btn-container">
-          <Link to="/item-form" className="add-item-btn">+ Add New Item</Link>
-        </div>
+       
         
         <div className="items-table-container">
           <table className="items-table">
