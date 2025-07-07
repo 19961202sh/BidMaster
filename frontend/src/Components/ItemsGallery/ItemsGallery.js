@@ -66,33 +66,7 @@ function ItemsGallery() {
     <div className="gallery-container">
       <Nav />
       <br /><br /><br /><br />
-      <div className="search-container">
-        <input
-          type="text"
-          placeholder="Search items..."
-          value={searchTerm}
-          onChange={e => {
-            setSearchTerm(e.target.value);
-            setShowSuggestions(true);
-          }}
-          onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-          onFocus={() => setShowSuggestions(true)}
-          className="search-input"
-        />
-        {showSuggestions && searchTerm && filteredItems.length > 0 && (
-          <ul className="suggestions-list">
-            {filteredItems.slice(0, 5).map(item => (
-              <li
-                key={item._id}
-                onMouseDown={() => handleSuggestionClick(item)}
-                className="suggestion-item"
-              >
-                {item.name}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+     
       <div className="gallery-grid">
         {filteredItems.length === 0 ? (
           <p>No items available in the gallery.</p>
