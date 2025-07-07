@@ -50,7 +50,7 @@ section {
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
   position: relative;
   overflow: hidden;
-  padding: 150px 0 100px; /* Increased from 120px 0 80px to 150px 0 100px */
+  padding: 150px 0 20px; /* Increased from 120px 0 80px to 150px 0 100px */
 }
 
 .hp-hero-section::before {
@@ -78,23 +78,25 @@ section {
   font-size: 4rem; /* Increased from 3.5rem to 4rem */
   font-weight: 800;
   margin-bottom: 1.5rem; /* Increased from 1rem to 1.5rem */
-  color: #3d4b64;
+  color: #eeeff1;
   text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   animation: fadeInDown 1s ease-out;
+  padding-left: 0px;
 }
 
 .hp-hero-subtitle {
   font-size: 1.6rem; /* Increased from 1.4rem to 1.6rem */
-  color: #6c757d;
+  color: #b5bdc4;
   margin-bottom: 4rem; /* Increased from 3rem to 4rem */
   animation: fadeInUp 1s ease-out 0.3s both;
+  padding-left: 0px;
 }
 
 /* Carousel */
 .hp-carousel {
   position: relative;
   max-width: 900px; /* Increased from 800px to 900px */
-  margin: 0 auto 4rem; /* Increased bottom margin from 3rem to 4rem */
+  margin: 0; /* Increased bottom margin from 3rem to 4rem */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -594,7 +596,7 @@ section {
   }
   
   .hp-hero-section {
-    padding: 120px 0 80px; /* Adjusted for mobile */
+    padding: 120px 0 60px; /* Adjusted for mobile */
   }
 }
 
@@ -617,3 +619,85 @@ section {
     padding: 180px 0 120px; /* Further increased padding */
   }
 }
+
+.hp-banner-section {
+  background: 
+              url('https://www.datocms-assets.com/144679/1738740938-digital-auction-coredesign_shutterstock_2499503315_banner-atlas_ohne-text.png?auto=format') no-repeat center center;
+  background-size: cover;
+  padding: 80px 20px;
+  text-align: center;
+  color: white;
+  position: relative;
+  height: 80vh;
+  padding-left: 700px;
+  padding-top: 200px;
+}
+
+
+.hp-banner-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.hp-banner-container h2 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  animation: fadeInDown 0.8s ease-out;
+}
+
+.hp-banner-container p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  animation: fadeInUp 1s ease-out;
+  opacity: 0.9;
+}
+
+.hp-banner-button {
+  background: #fff;
+  color: #3d4b64;
+  padding: 14px 32px;
+  border-radius: 50px;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.hp-banner-button:hover {
+  background: #e9ecef;
+  transform: translateY(-3px);
+}
+
+.hp-hero-title {
+  font-size: 3.2rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+}
+
+.hp-hero-subtitle {
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-bottom: 15px;
+}
+
+.hp-hero-tagline {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin-bottom: 10px;
+  color: #e0e0e0;
+  padding-left: 0px;
+}
+
+.hp-hero-description {
+  font-size: 1rem;
+  max-width: 750px;
+  margin: 0 auto 25px auto;
+  color: #dbdee0;
+  padding-left: 100px;
+  
+}
+

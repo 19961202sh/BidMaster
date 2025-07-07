@@ -15,18 +15,18 @@ const Home = () => {
   const auctionItems = [
     {
       image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80',
-      title: 'Vintage Wooden Chair',
-      currentBid: '$120',
+      title: 'Modern Villa',
+      currentBid: '$120000',
       bids: 15,
     },
     {
-      image: 'https://news.artnet.com/app/news-upload/gs://p-news-upload/2017/11/GettyImages-50947488-1024x687.jpg',
+      image: 'https://pocket-watch.net/cdn/shop/articles/pexels-photo-678248.jpg?v=1602205506',
       title: 'Antique Pocket Watch',
       currentBid: '$250',
       bids: 22,
     },
     {
-      image: 'https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&w=800&q=80',
+      image: 'https://media.cnn.com/api/v1/images/stellar/prod/220919154524-01-brad-pitt-sculpture-exhibition.jpg?q=w_2000,c_fill',
       title: 'Modern Art Sculpture',
       currentBid: '$450',
       bids: 30,
@@ -86,13 +86,26 @@ const Home = () => {
 
   return (
     <div className="home-page">
-     
+     {/* Banner Section */}
+<section className="hp-banner-section">
+  <div className="hp-banner-container">
+    <h1 className="hp-hero-title">Bid Smarter. Win Bigger.</h1>
+<p className="hp-hero-subtitle">Your Trusted Auction Platform for Unique Finds & Fair Deals</p>
+<h2 className="hp-hero-tagline">A World of Auctions at Your Fingertips</h2>
+<p className="hp-hero-description">
+  Discover a global marketplace where transparency, speed, and security drive every transaction.
+</p>
+
+    <button className="hp-banner-button" onClick={() => navigate('/register')}>Start Bidding Now</button>
+  </div>
+</section>
+
 
       {/* Hero Section */}
       <section className="hp-hero-section" id="hero">
         <div className="hp-hero-content">
-          <h1 className="hp-hero-title">Welcome to BidMaster</h1>
-          <p className="hp-hero-subtitle">Experience the Ultimate Auction Adventure</p>
+         
+          
 
           {/* Carousel */}
           <div className="hp-carousel">
