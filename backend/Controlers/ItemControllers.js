@@ -63,9 +63,14 @@ const addItem = async (req, res) => {
     status,
   } = req.body;
 
+  //const image = req.files?.image?.[0]?.filename
+   // ? `/uploads/${req.files.image[0].filename}`
+   // : "/uploads/placeholder.png";
+
   const image = req.files?.image?.[0]?.filename
-    ? `/uploads/${req.files.image[0].filename}`
-    : "/uploads/placeholder.png";
+  ? `/uploads/${req.files.image[0].filename}`
+  : null;
+
 
   const additionalImages = req.files?.additionalImages
     ? req.files.additionalImages.map((file) => `/uploads/${file.filename}`)

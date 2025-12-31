@@ -40,6 +40,33 @@ function ItemManager() {
 
   
 
+  const handleDelete = (id) => {
+  const confirmDelete = window.confirm(
+    'Are you sure you want to delete this item? This action cannot be undone.'
+  );
+
+  if (!confirmDelete) return;
+
+  fetch(`http://localhost:5000/items/${id}`, {
+    method: 'DELETE',
+  })
+    .then(res => {
+      if (!res.ok) {
+        throw new Error('Failed to delete item');
+      }
+      return res.json();
+    })
+    .then(() => {
+      alert('Item deleted successfully');
+      fetchItems(); // refresh list
+    })
+    .catch(err => {
+      console.error('Error deleting item:', err);
+      alert('Failed to delete item');
+    });
+};
+
+
   
 
   const handleUpdateStatus = (id, newStatus) => {
@@ -72,6 +99,10 @@ function ItemManager() {
 
   if (loading) return <div className="item-manager-container"><Nav /><div className="loading">Loading items...</div></div>;
   if (error) return <div className="item-manager-container"><Nav /><div className="error">Error: {error}</div></div>;
+
+
+
+
 
   return (
     <div className="item-manager-container">
@@ -143,37 +174,55 @@ function ItemManager() {
                     </td>
                     <td className="actions-cell">
                       {/* Hide Edit button if Approved */}
-                      {item.inspectionStatus !== 'Approved' && (
-                        <button 
-                          onClick={() => handleEdit(item)} 
-                          className="action-btn edit-btn" 
-                          title="Edit Item"
-                        >
-                          Edit
-                        </button>
-                      )}
+                    
 
-                      
-                     
-                      {/* Show Approve/Reject buttons only if Pending */}
-                      {item.inspectionStatus === 'Pending' && (
-                        <>
-                          <button 
-                            onClick={() => handleUpdateStatus(item._id, 'Approved')} 
-                            className="action-btn approve-btn" 
-                            title="Approve Item"
-                          >
-                            Approve
-                          </button>
-                          <button 
-                            onClick={() => handleUpdateStatus(item._id, 'Rejected')} 
-                            className="action-btn reject-btn" 
-                            title="Reject Item"
-                          >
-                            Reject
-                          </button>
-                        </>
-                      )}
+
+
+                      <td className="actions-cell">
+  {/* Hide Edit & Delete if Approved */}
+  {item.inspectionStatus !== 'Approved' && (
+    <>
+      <button 
+        onClick={() => handleEdit(item)} 
+        className="action-btn edit-btn" 
+        title="Edit Item"
+      >
+        Edit
+      </button>
+
+      {/*<button 
+        onClick={() => handleDelete(item._id)} 
+        className="action-btn delete-btn" 
+        title="Delete Item"
+      >
+        Delete
+      </button>*/}
+    </>
+  )}
+
+  {/* Show Approve/Reject buttons only if Pending */}
+  {item.inspectionStatus === 'Pending' && (
+    <>
+      <button 
+        onClick={() => handleUpdateStatus(item._id, 'Approved')} 
+        className="action-btn approve-btn" 
+        title="Approve Item"
+      >
+        Approve
+      </button>
+      <button 
+        onClick={() => handleUpdateStatus(item._id, 'Rejected')} 
+        className="action-btn reject-btn" 
+        title="Reject Item"
+      >
+        Reject
+      </button>
+    </>
+  )}
+</td>
+
+
+                    
                     </td>
                   </tr>
                 ))
