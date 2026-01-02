@@ -1,5 +1,5 @@
 .PayCheckoutWrapper {
-    background-image: url("F:\Online_Auction_System\Online_Auction_system\frontend\public\BidImages\cardbackglod.jpg"); /* Corrected path for the image in the public folder */
+    background-image: url("/public/BidImages/cardbackglod.jpg"); /* Corrected path for the image in the public folder */
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
