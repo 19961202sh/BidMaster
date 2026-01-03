@@ -10,10 +10,14 @@ exports.createItem = async (req, res) => {
             condition, provenance, dimensions, weight, material, maker, year, username
         } = req.body;
 
-        const image = req.files['image'] ? req.files['image'][0].filename : null;
-        const additionalImages = req.files['additionalImages']
-            ? req.files['additionalImages'].map(file => file.filename)
-            : [];
+        const image = req.files['image']
+  ? `/uploads/${req.files['image'][0].filename}`
+  : null;
+
+       const additionalImages = req.files['additionalImages']
+  ? req.files['additionalImages'].map(file => `/uploads/${file.filename}`)
+  : [];
+
 
         if (!name || !description || !price || !image || !username) {
             return res.status(400).json({ message: 'Missing required fields' });
