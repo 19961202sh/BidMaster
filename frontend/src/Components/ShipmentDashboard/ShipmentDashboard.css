@@ -2,7 +2,7 @@
 
 /* ======= Shipment Dashboard Container ======= */
 .shipment-dashboard {
-  max-width: 1600px;
+  max-width: 90%;
   margin: 0 auto 4rem;
   padding: 2rem;
   font-family: 'Poppins', sans-serif;
@@ -147,7 +147,7 @@
 }
 
 .shipment-table tbody td {
-  padding: 1rem 1.5rem;
+  padding: 1rem 0.5rem;
   vertical-align: middle;
   border: none;
   color: #334155;
@@ -158,7 +158,7 @@
 /* Inline Inputs & Selects in Table */
 .shipment-table input,
 .shipment-table select {
-  width: 100%;
+
   padding: 0.5rem 1rem;
   font-size: 1rem;
   border-radius: 16px;
@@ -184,7 +184,7 @@
   background-repeat: no-repeat;
   background-position: right 1rem center;
   background-size: 1rem 1rem;
-  padding-right: 2.5rem;
+  padding-right: 1.5rem;
   cursor: pointer;
 }
 
